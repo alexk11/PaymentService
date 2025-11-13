@@ -63,7 +63,7 @@ public class HttpServer {
         if (arr.length >= 2) {
             return arr[arr.length-1];
         }
-        return "unknown";
+        return "";
     }
 
     private static long fileSizeAtPath(String filename) {
