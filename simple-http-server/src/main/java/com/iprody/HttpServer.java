@@ -30,7 +30,7 @@ public class HttpServer {
                             out.write("Content-Type: " + fileExtension + "; charset=UTF-8\r\n");
                             out.write("Content-Length: " + fileSize + "\r\n");
                         }
-                    } else { // file does not exist
+                    } else { // file has no extension or does not exist
                         out.write("HTTP/1.1 404 Not Found\r\n");
                     }
                     out.write("\r\n");
@@ -44,7 +44,7 @@ public class HttpServer {
     /**
      * Extract filename from the URL.
      * @param line: in format 'GET /index.html HTTP/1.1'
-     * @return the name of the file
+     * @return the name of the file or an empty string
      */
     private static String extractFilename(String line) {
         if (!line.isEmpty()) {
@@ -57,7 +57,7 @@ public class HttpServer {
     }
 
     /**
-     * Extract filename from the URL.
+     * Extract file extension from the filename.
      * @param filename: the name of the file in format '/index.html'
      * @return the file extension, here 'html', or an empty string if there is no extension
      */
