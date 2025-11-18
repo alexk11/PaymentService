@@ -16,12 +16,12 @@ public class HttpServer {
             BufferedWriter out = new BufferedWriter(new
                     OutputStreamWriter(clientSocket.getOutputStream()));
 
-// Чтение запроса
+        // Чтение запроса
             String line;
             while ((line = in.readLine()) != null && !line.isEmpty()) {
                 System.out.println(line);
             }
-// Простой ответ
+        // Простой ответ
             String response = "<h1>Hello from server!</h1>";
             out.write("HTTP/1.1 200 OK\r\n");
             out.write("Content-Type: text/html; charset=UTF-8\r\n");
