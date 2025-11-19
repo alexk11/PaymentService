@@ -10,22 +10,19 @@ public class HttpServer {
     private final static String sourceDir = "static";
 
     public static void main(String[] args) throws IOException {
-        // create and open server socket
         try(ServerSocket serverSocket = new ServerSocket(8088)) {
             System.out.println("Server started at http://localhost:8088");
-            // listen for client requests
             while (true) {
-                Socket clientSocket = serverSocket.accept();
-                serveRequests(clientSocket);
+                serveRequest(serverSocket.accept());
             }
         }
     }
 
     /**
-     * Handle incoming GET requests
+     * Handle incoming GET request
      * @param socket client socket
      */
-    private static void serveRequests(Socket socket) {
+    private static void serveRequest(Socket socket) {
         try(BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
             OutputStream out = socket.getOutputStream()) {
 
@@ -44,7 +41,6 @@ public class HttpServer {
                             out.write(("Content-Type: " + fileExtension + "; charset=UTF-8\r\n").getBytes());
                             out.write(("Content-Length: " + content.length + "\r\n").getBytes());
                             out.write(content);
-                            out.flush();
                         } else {
                             out.write(("HTTP/1.1 400 Wrong file name format\r\n").getBytes());
                         }
@@ -54,9 +50,16 @@ public class HttpServer {
                 } else {
                     out.write(("HTTP/1.1 400 Bad request\r\n").getBytes());
                 }
+                out.flush();
             }
         } catch (IOException e) {
             System.out.println(e.getMessage());
+        } finally {
+            try {
+                socket.close();
+            } catch (IOException e) {
+                System.out.println("Error closing socket: " + e.getMessage());
+            }
         }
     }
 
