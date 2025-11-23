@@ -2,34 +2,112 @@ package com.iprody;
 
 import java.io.*;
 import java.net.*;
+import java.nio.file.Files;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 
 public class HttpServer {
 
-    public static void main(String[] args) throws IOException {
-        ServerSocket serverSocket = new ServerSocket(8080);
-        System.out.println("Server started at http://localhost:8080");
-        while (true) {
-            Socket clientSocket = serverSocket.accept();
-            BufferedReader in = new BufferedReader(new
-                    InputStreamReader(clientSocket.getInputStream()));
-            BufferedWriter out = new BufferedWriter(new
-                    OutputStreamWriter(clientSocket.getOutputStream()));
+    private final static String sourceDir = "static";
 
-        // Чтение запроса
-            String line;
-            while ((line = in.readLine()) != null && !line.isEmpty()) {
-                System.out.println(line);
+    public static void main(String[] args) throws IOException {
+        try (ServerSocket serverSocket = new ServerSocket(8088)) {
+            System.out.println("Server started at http://localhost:8088");
+            while (true) {
+                serveRequest(serverSocket.accept());
             }
-        // Простой ответ
-            String response = "<h1>Hello from server!</h1>";
-            out.write("HTTP/1.1 200 OK\r\n");
-            out.write("Content-Type: text/html; charset=UTF-8\r\n");
-            out.write("Content-Length: " + response.length() + "\r\n");
-            out.write("\r\n");
-            out.write(response);
-            out.flush();
-            clientSocket.close();
         }
     }
+
+    /**
+     * Handle incoming GET request
+     *
+     * @param socket client socket
+     */
+    private static void serveRequest(Socket socket) {
+        try (BufferedReader in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+             BufferedWriter out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()))
+        ) {
+            while (!in.ready()) ;
+            while (in.ready()) {
+                String line = in.readLine();
+                if (line != null && !line.isEmpty()) {
+                    String fileName = extractFileName(line);
+                    if (!fileName.isEmpty()) {
+                        File file = getFileAtPath(fileName);
+                        if (file != null) {
+                            String fileExtension = extractFileExtension(fileName);
+                            if (!fileExtension.isEmpty()) {
+                                String content = Files.readString(file.toPath(), UTF_8);
+                                out.write(("HTTP/1.1 200 OK\r\n"));
+                                out.write(("Content-Type: " + fileExtension + "; charset=UTF-8\r\n"));
+                                out.write(("Content-Length: " + content.length() + "\r\n"));
+                                out.write(content);
+                            } else {
+                                out.write(("HTTP/1.1 400 Wrong file name format\r\n"));
+                            }
+                        } else {
+                            out.write(("HTTP/1.1 404 File not found\r\n"));
+                        }
+                    } else {
+                        out.write(("HTTP/1.1 400 Bad request\r\n"));
+                    }
+                }
+                out.flush();
+            }
+
+        } catch (IOException e) {
+            System.err.println(e.getMessage());
+        } finally {
+            try {
+                socket.close();
+            } catch (Exception e) {
+                System.err.println("Error closing socket: " + e.getMessage());
+            }
+        }
+    }
+
+    /**
+     * Extract filename from the URL.
+     *
+     * @param line: in format 'GET /index.html HTTP/1.1'
+     * @return the name of the file or an empty string
+     */
+    private static String extractFileName(String line) {
+        String[] arr = line.split("\\s+");
+        return arr.length >= 2 ? arr[1] : "";
+    }
+
+    /**
+     * Extract file extension from the filename.
+     *
+     * @param filename: the name of the file in format '/index.html'
+     * @return the file extension, here 'html', or an empty string if there is no extension
+     */
+    private static String extractFileExtension(String filename) {
+        int dotInx = filename.lastIndexOf(".");
+        if (dotInx > 0 && dotInx < filename.length() - 1) {
+            return filename.substring(dotInx + 1);
+        }
+        return "";
+    }
+
+    /**
+     * Check if file exists in the /resources/static folder
+     *
+     * @param fileName the name of the file, for example /index.html
+     * @return the file or null if the file was not found
+     */
+    private static File getFileAtPath(String fileName) {
+        URL resourceUrl = HttpServer.class.getClassLoader().getResource(sourceDir + fileName);
+        if (resourceUrl != null) {
+            File file = new File(resourceUrl.getFile());
+            if (file.exists()) {
+                return file;
+            }
+        }
+        return null;
+    }
+
 }
