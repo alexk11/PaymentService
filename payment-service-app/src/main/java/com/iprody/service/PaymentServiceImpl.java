@@ -1,45 +1,45 @@
 package com.iprody.service;
 
+import com.iprody.converter.PaymentConverter;
 import com.iprody.model.PaymentDto;
-import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final Logger LOGGER = LoggerFactory.getLogger(this.getClass());
-
+    private final PaymentConverter paymentConverter;
     private final PaymentRepository paymentRepository;
 
     @Override
     public List<PaymentDto> fetchAllPayments() {
-        LOGGER.info("Start fetch all payments");
+        log.info("Start fetch all payments");
         try {
             List<PaymentDto> result = new ArrayList<>();
-            paymentRepository.findAll().forEach(p -> result.add(convertToPaymentDto(p)));
+            paymentRepository.findAll().forEach(p ->
+                    result.add(paymentConverter.convertToPaymentDto(p)));
             return result;
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         }
         return null;
     }
 
     @Override
     public PaymentDto fetchSinglePayment(long paymentId) {
-        LOGGER.info("Start fetch payment method");
+        log.info("Start fetch payment method");
         try {
             var entity = paymentRepository.findByPaymentId(paymentId);
-            return convertToPaymentDto(entity);
+            return paymentConverter.convertToPaymentDto(entity);
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         }
         return null;
     }
@@ -47,28 +47,15 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     //@Transactional
     public PaymentDto processPayment(PaymentDto paymentDto) {
-        LOGGER.info("Start payment processing");
+        log.info("Start payment processing");
         try {
-            var savedEntity = paymentRepository.save(convertToPaymentEntity(paymentDto));
-            return convertToPaymentDto(savedEntity);
+            var savedEntity = paymentRepository.save(
+                    paymentConverter.convertToPaymentEntity(paymentDto));
+            return paymentConverter.convertToPaymentDto(savedEntity);
         } catch (Exception ex) {
-            LOGGER.error(ex.getMessage(), ex);
+            log.error(ex.getMessage(), ex);
         }
         return null;
-    }
-
-    private PaymentEntity convertToPaymentEntity(PaymentDto paymentDto) {
-        return PaymentEntity.builder()
-                //.paymentId(paymentDto.getPaymentId())
-                .amount(paymentDto.getAmount())
-                .build();
-    }
-
-    private PaymentDto convertToPaymentDto(PaymentEntity paymentEntity) {
-        return PaymentDto.builder()
-                .paymentId(paymentEntity.getPaymentId())
-                .amount(paymentEntity.getAmount())
-                .build();
     }
 
 }
