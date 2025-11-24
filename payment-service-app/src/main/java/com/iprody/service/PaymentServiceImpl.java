@@ -1,7 +1,9 @@
 package com.iprody.service;
 
 import com.iprody.converter.PaymentConverter;
+import com.iprody.exception.NoSuchPaymentException;
 import com.iprody.model.PaymentDto;
+import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -34,14 +37,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto fetchSinglePayment(long paymentId) {
-        log.info("Start fetch payment method");
-        try {
-            var entity = paymentRepository.findByPaymentId(paymentId);
-            return paymentConverter.convertToPaymentDto(entity);
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
-        }
-        return null;
+       log.info("Start fetching one payment");
+       Optional<PaymentEntity> entityOptional = paymentRepository.findByPaymentId(paymentId);
+       if (entityOptional.isPresent()) {
+           return paymentConverter.convertToPaymentDto(entityOptional.get());
+       } else {
+           throw new NoSuchPaymentException("Payment with the id " + paymentId + " not found");
+       }
     }
 
     @Override
