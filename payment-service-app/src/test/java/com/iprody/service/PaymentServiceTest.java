@@ -30,8 +30,19 @@ public class PaymentServiceTest {
     @Mock
     private PaymentRepository paymentRepository;
 
+    @BeforeEach
+    void initPayments() {
+        var payment_1 = PaymentEntity.builder().paymentId(1L).amount("100").build();
+        var payment_2 = PaymentEntity.builder().paymentId(2L).amount("200").build();
+
+        this.payments.addAll(Arrays.asList(payment_1, payment_2));
+    }
+
     @Test
     void fetchAllPayments() {
+
+        initPayments();
+
         when(paymentRepository.findAll()).thenReturn(new ArrayList<>(payments));
 
         List<PaymentDto> payments = paymentService.fetchAllPayments();
@@ -54,15 +65,6 @@ public class PaymentServiceTest {
     void processPayment() {
         paymentService.processPayment(PaymentDto.builder().paymentId(3L).amount("300").build());
         verify(paymentRepository, times(1)).save(any());
-    }
-
-
-    @BeforeEach
-    void initPayments() {
-        var payment_1 = PaymentEntity.builder().paymentId(1L).amount("100").build();
-        var payment_2 = PaymentEntity.builder().paymentId(2L).amount("200").build();
-
-        this.payments.addAll(Arrays.asList(payment_1, payment_2));
     }
 
 }
