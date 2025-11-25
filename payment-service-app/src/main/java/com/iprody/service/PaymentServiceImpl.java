@@ -47,7 +47,6 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    //@Transactional
     public PaymentDto processPayment(PaymentDto paymentDto) {
         log.info("Start payment processing");
         try {
