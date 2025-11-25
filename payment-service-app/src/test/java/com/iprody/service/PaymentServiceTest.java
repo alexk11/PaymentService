@@ -14,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
@@ -41,7 +42,7 @@ public class PaymentServiceTest {
 
     @Test
     void fetchSinglePayment() {
-        when(paymentRepository.findByPaymentId(anyLong())).thenReturn(payments.getFirst());
+        when(paymentRepository.findByPaymentId(anyLong())).thenReturn(Optional.ofNullable(payments.getFirst()));
 
         PaymentDto paymentDto = paymentService.fetchSinglePayment(1L);
 
