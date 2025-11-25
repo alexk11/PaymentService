@@ -9,7 +9,6 @@ public class PaymentConverter {
 
     public PaymentEntity convertToPaymentEntity(PaymentDto paymentDto) {
         return PaymentEntity.builder()
-                //.paymentId(paymentDto.getPaymentId())
                 .amount(paymentDto.getAmount())
                 .build();
     }

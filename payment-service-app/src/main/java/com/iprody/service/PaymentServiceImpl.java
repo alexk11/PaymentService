@@ -23,7 +23,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentDto> fetchAllPayments() {
-        log.info("Start fetch all payments");
         try {
             List<PaymentDto> result = new ArrayList<>();
             paymentRepository.findAll().forEach(p ->
@@ -37,7 +36,6 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto fetchSinglePayment(long paymentId) {
-       log.info("Start fetching one payment");
        Optional<PaymentEntity> entityOptional = paymentRepository.findByPaymentId(paymentId);
        if (entityOptional.isPresent()) {
            return paymentConverter.convertToPaymentDto(entityOptional.get());
@@ -47,9 +45,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    //@Transactional
     public PaymentDto processPayment(PaymentDto paymentDto) {
-        log.info("Start payment processing");
         try {
             var savedEntity = paymentRepository.save(
                     paymentConverter.convertToPaymentEntity(paymentDto));
