@@ -21,14 +21,14 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentDto> fetchAllPayments() {
+        final List<PaymentDto> result = new ArrayList<>();
         try {
-            final List<PaymentDto> result = new ArrayList<>();
             paymentRepository.findAll().forEach(p -> result.add(paymentConverter.convertToPaymentDto(p)));
             return result;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
         }
-        return null;
+        return result;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto processPayment(PaymentDto paymentDto) {
-        var paymentEntity = paymentConverter.convertToPaymentEntity(paymentDto);
+        final var paymentEntity = paymentConverter.convertToPaymentEntity(paymentDto);
         return paymentConverter.convertToPaymentDto(paymentRepository.save(paymentEntity));
     }
 
