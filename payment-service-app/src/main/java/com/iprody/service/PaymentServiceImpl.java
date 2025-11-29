@@ -3,7 +3,6 @@ package com.iprody.service;
 import com.iprody.converter.PaymentConverter;
 import com.iprody.exception.NoSuchPaymentException;
 import com.iprody.model.PaymentDto;
-import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -35,23 +33,16 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto fetchSinglePayment(long paymentId) {
-        final Optional<PaymentEntity> entityOptional = paymentRepository.findByPaymentId(paymentId);
-        if (entityOptional.isPresent()) {
-            return paymentConverter.convertToPaymentDto(entityOptional.get());
-        } else {
-            throw new NoSuchPaymentException("Payment with the id " + paymentId + " not found");
-        }
+        return paymentConverter
+                .convertToPaymentDto(paymentRepository
+                        .findByPaymentId(paymentId)
+                        .orElseThrow(NoSuchPaymentException::new));
     }
 
     @Override
     public PaymentDto processPayment(PaymentDto paymentDto) {
-        try {
-            final var savedEntity = paymentRepository.save(paymentConverter.convertToPaymentEntity(paymentDto));
-            return paymentConverter.convertToPaymentDto(savedEntity);
-        } catch (Exception ex) {
-            log.error(ex.getMessage(), ex);
-        }
-        return null;
+        var paymentEntity = paymentConverter.convertToPaymentEntity(paymentDto);
+        return paymentConverter.convertToPaymentDto(paymentRepository.save(paymentEntity));
     }
 
 }

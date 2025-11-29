@@ -5,6 +5,7 @@ public class NoSuchPaymentException extends RuntimeException {
     private String message;
 
     public NoSuchPaymentException() {
+        this.message = "There is no such payment";
     }
 
     public NoSuchPaymentException(String msg) {
