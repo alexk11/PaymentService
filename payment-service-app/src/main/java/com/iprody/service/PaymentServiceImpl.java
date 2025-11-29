@@ -24,9 +24,8 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<PaymentDto> fetchAllPayments() {
         try {
-            List<PaymentDto> result = new ArrayList<>();
-            paymentRepository.findAll().forEach(p ->
-                    result.add(paymentConverter.convertToPaymentDto(p)));
+            final List<PaymentDto> result = new ArrayList<>();
+            paymentRepository.findAll().forEach(p -> result.add(paymentConverter.convertToPaymentDto(p)));
             return result;
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);
@@ -36,19 +35,18 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto fetchSinglePayment(long paymentId) {
-       Optional<PaymentEntity> entityOptional = paymentRepository.findByPaymentId(paymentId);
-       if (entityOptional.isPresent()) {
-           return paymentConverter.convertToPaymentDto(entityOptional.get());
-       } else {
-           throw new NoSuchPaymentException("Payment with the id " + paymentId + " not found");
-       }
+        final Optional<PaymentEntity> entityOptional = paymentRepository.findByPaymentId(paymentId);
+        if (entityOptional.isPresent()) {
+            return paymentConverter.convertToPaymentDto(entityOptional.get());
+        } else {
+            throw new NoSuchPaymentException("Payment with the id " + paymentId + " not found");
+        }
     }
 
     @Override
     public PaymentDto processPayment(PaymentDto paymentDto) {
         try {
-            var savedEntity = paymentRepository.save(
-                    paymentConverter.convertToPaymentEntity(paymentDto));
+            final var savedEntity = paymentRepository.save(paymentConverter.convertToPaymentEntity(paymentDto));
             return paymentConverter.convertToPaymentDto(savedEntity);
         } catch (Exception ex) {
             log.error(ex.getMessage(), ex);

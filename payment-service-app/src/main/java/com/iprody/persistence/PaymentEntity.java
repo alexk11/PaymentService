@@ -11,13 +11,13 @@ import java.io.Serializable;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name="payments")
+@Table(name = "payments")
 public class PaymentEntity implements Serializable {
 
     private static final long serialVersionID = -356475859686990L;
 
     @Id
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(nullable = false)
     private Long paymentId;
 
