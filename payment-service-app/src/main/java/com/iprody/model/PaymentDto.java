@@ -8,6 +8,6 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class PaymentDto {
-    private Long paymentId;
+    private Long id;
     private String amount;
 }

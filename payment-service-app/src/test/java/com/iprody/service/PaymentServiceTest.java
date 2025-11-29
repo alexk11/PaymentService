@@ -32,8 +32,8 @@
 //
 //    @BeforeEach
 //    void initPayments() {
-//        var payment_1 = PaymentEntity.builder().paymentId(1L).amount("100").build();
-//        var payment_2 = PaymentEntity.builder().paymentId(2L).amount("200").build();
+//        var payment_1 = PaymentEntity.builder().id(1L).amount("100").build();
+//        var payment_2 = PaymentEntity.builder().id(2L).amount("200").build();
 //
 //        this.payments.addAll(Arrays.asList(payment_1, payment_2));
 //    }
@@ -51,17 +51,17 @@
 //
 //    @Test
 //    void fetchSinglePayment() {
-//        when(paymentRepository.findByPaymentId(anyLong())).thenReturn(Optional.ofNullable(payments.getFirst()));
+//        when(paymentRepository.findById(anyLong())).thenReturn(Optional.ofNullable(payments.getFirst()));
 //
 //        PaymentDto paymentDto = paymentService.fetchSinglePayment(1L);
 //
-//        verify(paymentRepository, times(1)).findByPaymentId(1L);
+//        verify(paymentRepository, times(1)).findById(1L);
 //        assertEquals("100", paymentDto.getAmount());
 //    }
 //
 //    @Test
 //    void processPayment() {
-//        paymentService.processPayment(PaymentDto.builder().paymentId(3L).amount("300").build());
+//        paymentService.processPayment(PaymentDto.builder().id(3L).amount("300").build());
 //        verify(paymentRepository, times(1)).save(any());
 //    }
 //

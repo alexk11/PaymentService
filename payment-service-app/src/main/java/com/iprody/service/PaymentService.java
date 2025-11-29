@@ -7,6 +7,6 @@ import java.util.List;
 public interface PaymentService {
 
     List<PaymentDto> fetchAllPayments();
-    PaymentDto fetchSinglePayment(long paymentId);
+    PaymentDto fetchSinglePayment(long id);
     PaymentDto processPayment(PaymentDto paymentDto);
 }
