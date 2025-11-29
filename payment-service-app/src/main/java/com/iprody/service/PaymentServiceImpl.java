@@ -32,10 +32,10 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDto fetchSinglePayment(long paymentId) {
+    public PaymentDto fetchSinglePayment(long id) {
         return paymentConverter
                 .convertToPaymentDto(paymentRepository
-                        .findByPaymentId(paymentId)
+                        .findById(id)
                         .orElseThrow(NoSuchPaymentException::new));
     }
 

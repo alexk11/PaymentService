@@ -15,7 +15,7 @@ public class PaymentConverter {
 
     public PaymentDto convertToPaymentDto(PaymentEntity paymentEntity) {
         return PaymentDto.builder()
-                .paymentId(paymentEntity.getPaymentId())
+                .id(paymentEntity.getId())
                 .amount(paymentEntity.getAmount())
                 .build();
     }
