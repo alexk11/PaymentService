@@ -27,7 +27,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto fetchSinglePayment(long id) {
         return paymentRepository.findById(id)
                 .map(paymentConverter::convertToPaymentDto)
-                .orElseThrow(NoSuchPaymentException::new);
+                .orElseThrow(() -> new NoSuchPaymentException("Payment with the id '" + id + "' was not found!"));
     }
 
     @Override
