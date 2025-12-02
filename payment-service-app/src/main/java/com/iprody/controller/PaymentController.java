@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.UUID;
 
 
 @RestController
@@ -23,7 +24,7 @@ public class PaymentController {
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<PaymentDto> fetchPayment(@PathVariable String id) {
-        return ResponseEntity.ok().body(this.paymentService.fetchSinglePayment(Long.parseLong(id)));
+        return ResponseEntity.ok().body(this.paymentService.fetchSinglePayment(UUID.fromString(id)));
     }
 
     @PostMapping(path = "/addPayment")

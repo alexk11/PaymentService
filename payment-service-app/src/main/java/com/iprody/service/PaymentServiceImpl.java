@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.UUID;
+
 
 @Service
 @RequiredArgsConstructor
@@ -24,7 +26,7 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public PaymentDto fetchSinglePayment(long id) {
+    public PaymentDto fetchSinglePayment(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentConverter::convertToPaymentDto)
                 .orElseThrow(NoSuchPaymentException::new);
