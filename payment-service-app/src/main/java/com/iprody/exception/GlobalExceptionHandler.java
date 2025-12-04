@@ -8,10 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(ApplicationException.class)
-    public ResponseEntity<CustomErrorResponse> handleApplicationException(ApplicationException ex) {
+    public ResponseEntity<String> handleApplicationException(ApplicationException ex) {
         return ResponseEntity
                 .status(ex.getStatusCode())
-                .body(new CustomErrorResponse(ex.getMessage()));
+                .body(ex.getMessage());
     }
 
 }
