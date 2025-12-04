@@ -9,14 +9,29 @@ public class PaymentConverter {
 
     public PaymentEntity convertToPaymentEntity(PaymentDto paymentDto) {
         return PaymentEntity.builder()
+                .guid(paymentDto.getGuid())
+                .inquiryRefId(paymentDto.getInquiryRefId())
                 .amount(paymentDto.getAmount())
+                .currency(paymentDto.getCurrency())
+                .transactionRefId(paymentDto.getTransactionRefId())
+                .status(paymentDto.getStatus())
+                .note(paymentDto.getNote())
+                .createdAt(paymentDto.getCreatedAt())
+                .updatedAt(paymentDto.getUpdatedAt())
                 .build();
     }
 
     public PaymentDto convertToPaymentDto(PaymentEntity paymentEntity) {
         return PaymentDto.builder()
-                .id(paymentEntity.getId())
+                .guid(paymentEntity.getGuid())
+                .inquiryRefId(paymentEntity.getInquiryRefId())
                 .amount(paymentEntity.getAmount())
+                .currency(paymentEntity.getCurrency())
+                .transactionRefId(paymentEntity.getTransactionRefId())
+                .status(paymentEntity.getStatus())
+                .note(paymentEntity.getNote())
+                .createdAt(paymentEntity.getCreatedAt())
+                .updatedAt(paymentEntity.getUpdatedAt())
                 .build();
     }
 

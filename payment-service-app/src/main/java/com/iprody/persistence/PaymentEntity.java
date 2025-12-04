@@ -1,27 +1,51 @@
 package com.iprody.persistence;
 
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
-import java.io.Serializable;
+import java.math.BigDecimal;
+import java.time.OffsetDateTime;
+import java.util.UUID;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+
 @Entity
-@Table(name = "payments")
-public class PaymentEntity implements Serializable {
-
-    private static final long serialVersionID = -356475859686990L;
+@Getter
+@Builder
+@AllArgsConstructor
+@RequiredArgsConstructor
+@Table(name = "payment")
+public class PaymentEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
-    private Long id;
+    @Column(nullable = false, unique = true)
+    private UUID guid;
 
+    @Column(nullable = false, name = "inquiry_ref_id")
+    private UUID inquiryRefId;
+
+    @Column(nullable = false, precision = 5, scale = 2)
+    private BigDecimal amount;
+
+    @Column(nullable = false, length = 3)
+    private String currency;
+
+    @Column(name = "transaction_ref_id")
+    private UUID transactionRefId;
+
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private String amount;
+    private PaymentStatus status;
+
+    @Column(columnDefinition = "text")
+    private String note;
+
+    @Column(name = "created_at", nullable = false)
+    private OffsetDateTime createdAt;
+
+    @Column(name = "updated_at", nullable = false)
+    private OffsetDateTime updatedAt;
 
 }
