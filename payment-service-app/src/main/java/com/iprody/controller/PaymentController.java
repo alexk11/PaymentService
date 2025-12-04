@@ -23,8 +23,8 @@ public class PaymentController {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<PaymentDto> fetchPayment(@PathVariable String id) {
-        return ResponseEntity.ok().body(this.paymentService.fetchSinglePayment(UUID.fromString(id)));
+    public ResponseEntity<PaymentDto> fetchPayment(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(this.paymentService.fetchSinglePayment(id));
     }
 
     @PostMapping(path = "/addPayment")

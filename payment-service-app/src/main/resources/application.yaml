@@ -6,7 +6,6 @@ spring:
     #url: jdbc:postgresql://localhost:5432/payment-db
     username: user # Имя пользователя
     password: secret # Пароль
-    driver-class-name: org.postgresql.Driver # класс jdbc драйвера
   jpa:
     hibernate:
       ddl-auto: update
@@ -14,7 +13,6 @@ spring:
     properties:
       hibernate:
         format_sql: true # Форматировать SQL для читаемости
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 #  datasource:
 #    username: test
