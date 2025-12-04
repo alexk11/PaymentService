@@ -1,7 +1,7 @@
 package com.iprody.service;
 
 import com.iprody.converter.PaymentConverter;
-import com.iprody.exception.NoSuchPaymentException;
+import com.iprody.exception.ApplicationException;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
@@ -166,10 +166,8 @@ class PaymentServiceTest {
         // Given
         when(paymentRepository.findById(testUuid1)).thenReturn(Optional.of(paymentEntity1));
         when(paymentConverter.convertToPaymentDto(paymentEntity1)).thenReturn(paymentDto1);
-
         // When
         PaymentDto result = paymentService.fetchSinglePayment(testUuid1);
-
         // Then
         assertNotNull(result);
         assertEquals(testUuid1, result.getGuid());
@@ -187,10 +185,10 @@ class PaymentServiceTest {
     void fetchSinglePayment_shouldThrowException_whenPaymentDoesNotExist() {
         // Given
         UUID nonExistentId = UUID.randomUUID();
+        // When
         when(paymentRepository.findById(nonExistentId)).thenReturn(Optional.empty());
-
-        // When & Then
-        assertThrows(NoSuchPaymentException.class,
+        // Then
+        assertThrows(ApplicationException.class,
                 () -> paymentService.fetchSinglePayment(nonExistentId));
 
         verify(paymentRepository, times(1)).findById(nonExistentId);
