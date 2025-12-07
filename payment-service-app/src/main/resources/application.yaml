@@ -1,20 +1,31 @@
+server:
+  port: 8088
+
 spring:
   application:
     name: payment-service-app
   datasource: # объединяет в себе параметры подключения к БД
-    url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
-    #url: jdbc:postgresql://localhost:5432/payment-db
+    #url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
+    url: jdbc:postgresql://localhost:5432/payment-db
     username: user # Имя пользователя
     password: secret # Пароль
     driver-class-name: org.postgresql.Driver # класс jdbc драйвера
+    changeLogFile: db/changelog/db.changelog-master.yaml
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true # Показывать SQL-запросы в консоли
     properties:
       hibernate:
         format_sql: true # Форматировать SQL для читаемости
     database-platform: org.hibernate.dialect.PostgreSQLDialect
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml
+
+logging:
+  level:
+    liquibase: DEBUG
 
 #  datasource:
 #    username: test
@@ -32,6 +43,3 @@ spring:
 #  h2:
 #    console:
 #      enabled: true
-
-server:
-  port: 8080
