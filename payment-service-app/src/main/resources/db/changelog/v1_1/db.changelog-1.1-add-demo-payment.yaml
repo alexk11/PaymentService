@@ -5,7 +5,7 @@ databaseChangeLog:
       comment: "Insert demo payment row for development/testing"
       changes:
         - insert:
-            tableName: payments
+            tableName: payment
             columns:
               - column:
                   name: guid
@@ -30,7 +30,7 @@ databaseChangeLog:
                   value: "Initial test payment"
               - column:
                   name: created_at
-                  valueDate: "2025-01-01T12:00:00Z"
+                  valueDate: "2025-01-01"
               - column:
                   name: updated_at
-                  valueDate: "2025-01-01T12:00:00Z"
+                  valueDate: "2025-01-01"
