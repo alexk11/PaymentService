@@ -27,3 +27,16 @@ databaseChangeLog:
       changes:
         - tagDatabase:
             tag: v1.1
+
+  - changeSet:
+      id: tag-1.2
+      author: mentor
+      changes:
+        - tagDatabase:
+            tag: v1.2
+  - include:
+      file: v1_2/db.changelog-1.2-add-another-payment_1.yaml
+      relativeToChangelogFile: true
+  - include:
+      file: v1_2/db.changelog-1.2-add-another-payment_2.yaml
+      relativeToChangelogFile: true
