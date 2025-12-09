@@ -22,14 +22,14 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public List<PaymentDto> fetchAllPayments() {
         return paymentRepository.findAll().stream()
-                .map(paymentConverter::convertToPaymentDto)
+                .map(paymentConverter::toPaymentDto)
                 .toList();
     }
 
     @Override
     public PaymentDto fetchSinglePayment(UUID id) {
         return paymentRepository.findById(id)
-                .map(paymentConverter::convertToPaymentDto)
+                .map(paymentConverter::toPaymentDto)
                 .orElseThrow(() -> new ApplicationException(
                         HttpStatus.NOT_FOUND.value(), "Payment with the id '" + id + "' was not found"));
     }
@@ -39,8 +39,8 @@ public class PaymentServiceImpl implements PaymentService {
         if (paymentDto.getAmount().doubleValue() <= 0) {
             throw new ApplicationException(HttpStatus.BAD_REQUEST.value(), "Payment is not valid");
         }
-        final var paymentEntity = paymentConverter.convertToPaymentEntity(paymentDto);
-        return paymentConverter.convertToPaymentDto(paymentRepository.save(paymentEntity));
+        final var paymentEntity = paymentConverter.toPaymentEntity(paymentDto);
+        return paymentConverter.toPaymentDto(paymentRepository.save(paymentEntity));
     }
 
 }

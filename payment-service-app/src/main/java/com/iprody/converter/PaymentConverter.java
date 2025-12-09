@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class PaymentConverter {
 
-    public PaymentEntity convertToPaymentEntity(PaymentDto paymentDto) {
+    public PaymentEntity toPaymentEntity(PaymentDto paymentDto) {
         return PaymentEntity.builder()
                 .guid(paymentDto.getGuid())
                 .inquiryRefId(paymentDto.getInquiryRefId())
@@ -21,7 +21,7 @@ public class PaymentConverter {
                 .build();
     }
 
-    public PaymentDto convertToPaymentDto(PaymentEntity paymentEntity) {
+    public PaymentDto toPaymentDto(PaymentEntity paymentEntity) {
         return PaymentDto.builder()
                 .guid(paymentEntity.getGuid())
                 .inquiryRefId(paymentEntity.getInquiryRefId())
