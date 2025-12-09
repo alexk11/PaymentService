@@ -49,3 +49,10 @@ databaseChangeLog:
                   type: timestamp with time zone
                   constraints:
                     nullable: false
+        - sql:
+            sql: ALTER TABLE payment
+              ADD CONSTRAINT check_payment_status
+              CHECK (status IN ('RECEIVED', 'PENDING', 'DECLINED', 'APPROVED', 'NOT_SENT'));
+            rollback:
+              - dropTable:
+                  tableName: payment
