@@ -106,8 +106,8 @@ class PaymentServiceTest {
         // Given
         List<PaymentEntity> entities = Arrays.asList(paymentEntity1, paymentEntity2);
         when(paymentRepository.findAll()).thenReturn(entities);
-        when(paymentConverter.convertToPaymentDto(paymentEntity1)).thenReturn(paymentDto1);
-        when(paymentConverter.convertToPaymentDto(paymentEntity2)).thenReturn(paymentDto2);
+        when(paymentConverter.toPaymentDto(paymentEntity1)).thenReturn(paymentDto1);
+        when(paymentConverter.toPaymentDto(paymentEntity2)).thenReturn(paymentDto2);
 
         // When
         List<PaymentDto> result = paymentService.fetchAllPayments();
@@ -123,7 +123,7 @@ class PaymentServiceTest {
         assertEquals("EUR", result.get(1).getCurrency());
 
         verify(paymentRepository, times(1)).findAll();
-        verify(paymentConverter, times(2)).convertToPaymentDto(any(PaymentEntity.class));
+        verify(paymentConverter, times(2)).toPaymentDto(any(PaymentEntity.class));
     }
 
     @Test
@@ -140,7 +140,7 @@ class PaymentServiceTest {
         assertTrue(result.isEmpty());
 
         verify(paymentRepository, times(1)).findAll();
-        verify(paymentConverter, never()).convertToPaymentDto(any(PaymentEntity.class));
+        verify(paymentConverter, never()).toPaymentDto(any(PaymentEntity.class));
     }
 
     @Test
@@ -149,7 +149,7 @@ class PaymentServiceTest {
         // Given
         List<PaymentEntity> entities = Arrays.asList(paymentEntity1, paymentEntity2);
         when(paymentRepository.findAll()).thenReturn(entities);
-        when(paymentConverter.convertToPaymentDto(any(PaymentEntity.class)))
+        when(paymentConverter.toPaymentDto(any(PaymentEntity.class)))
                 .thenReturn(paymentDto1, paymentDto2);
 
         // When
@@ -157,7 +157,7 @@ class PaymentServiceTest {
 
         // Then
         assertEquals(2, result.size());
-        verify(paymentConverter, times(2)).convertToPaymentDto(any(PaymentEntity.class));
+        verify(paymentConverter, times(2)).toPaymentDto(any(PaymentEntity.class));
     }
 
     @Test
@@ -165,7 +165,7 @@ class PaymentServiceTest {
     void fetchSinglePayment_shouldReturnPayment_whenPaymentExists() {
         // Given
         when(paymentRepository.findById(testUuid1)).thenReturn(Optional.of(paymentEntity1));
-        when(paymentConverter.convertToPaymentDto(paymentEntity1)).thenReturn(paymentDto1);
+        when(paymentConverter.toPaymentDto(paymentEntity1)).thenReturn(paymentDto1);
         // When
         PaymentDto result = paymentService.fetchSinglePayment(testUuid1);
         // Then
@@ -177,7 +177,7 @@ class PaymentServiceTest {
         assertEquals("Test payment 1", result.getNote());
 
         verify(paymentRepository, times(1)).findById(testUuid1);
-        verify(paymentConverter, times(1)).convertToPaymentDto(paymentEntity1);
+        verify(paymentConverter, times(1)).toPaymentDto(paymentEntity1);
     }
 
     @Test
@@ -192,7 +192,7 @@ class PaymentServiceTest {
                 () -> paymentService.fetchSinglePayment(nonExistentId));
 
         verify(paymentRepository, times(1)).findById(nonExistentId);
-        verify(paymentConverter, never()).convertToPaymentDto(any(PaymentEntity.class));
+        verify(paymentConverter, never()).toPaymentDto(any(PaymentEntity.class));
     }
 
     @Test
@@ -215,7 +215,7 @@ class PaymentServiceTest {
                 .build();
 
         when(paymentRepository.findById(testUuid1)).thenReturn(Optional.of(pendingEntity));
-        when(paymentConverter.convertToPaymentDto(pendingEntity)).thenReturn(pendingDto);
+        when(paymentConverter.toPaymentDto(pendingEntity)).thenReturn(pendingDto);
 
         // When
         PaymentDto result = paymentService.fetchSinglePayment(testUuid1);
@@ -269,9 +269,9 @@ class PaymentServiceTest {
                 .updatedAt(savedEntity.getUpdatedAt())
                 .build();
 
-        when(paymentConverter.convertToPaymentEntity(inputDto)).thenReturn(entityToSave);
+        when(paymentConverter.toPaymentEntity(inputDto)).thenReturn(entityToSave);
         when(paymentRepository.save(entityToSave)).thenReturn(savedEntity);
-        when(paymentConverter.convertToPaymentDto(savedEntity)).thenReturn(expectedDto);
+        when(paymentConverter.toPaymentDto(savedEntity)).thenReturn(expectedDto);
 
         // When
         PaymentDto result = paymentService.processPayment(inputDto);
@@ -283,9 +283,9 @@ class PaymentServiceTest {
         assertEquals("GBP", result.getCurrency());
         assertEquals(PaymentStatus.RECEIVED, result.getStatus());
 
-        verify(paymentConverter, times(1)).convertToPaymentEntity(inputDto);
+        verify(paymentConverter, times(1)).toPaymentEntity(inputDto);
         verify(paymentRepository, times(1)).save(entityToSave);
-        verify(paymentConverter, times(1)).convertToPaymentDto(savedEntity);
+        verify(paymentConverter, times(1)).toPaymentDto(savedEntity);
     }
 
     @Test
@@ -321,9 +321,9 @@ class PaymentServiceTest {
                 .updatedAt(now)
                 .build();
 
-        when(paymentConverter.convertToPaymentEntity(inputDto)).thenReturn(entityToSave);
+        when(paymentConverter.toPaymentEntity(inputDto)).thenReturn(entityToSave);
         when(paymentRepository.save(entityToSave)).thenReturn(entityToSave);
-        when(paymentConverter.convertToPaymentDto(entityToSave)).thenReturn(inputDto);
+        when(paymentConverter.toPaymentDto(entityToSave)).thenReturn(inputDto);
 
         // When
         PaymentDto result = paymentService.processPayment(inputDto);
@@ -379,9 +379,9 @@ class PaymentServiceTest {
                 .updatedAt(savedEntity.getUpdatedAt())
                 .build();
 
-        when(paymentConverter.convertToPaymentEntity(inputDto)).thenReturn(entityToSave);
+        when(paymentConverter.toPaymentEntity(inputDto)).thenReturn(entityToSave);
         when(paymentRepository.save(entityToSave)).thenReturn(savedEntity);
-        when(paymentConverter.convertToPaymentDto(savedEntity)).thenReturn(savedDto);
+        when(paymentConverter.toPaymentDto(savedEntity)).thenReturn(savedDto);
 
         // When
         PaymentDto result = paymentService.processPayment(inputDto);

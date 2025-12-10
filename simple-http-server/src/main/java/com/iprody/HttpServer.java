@@ -83,8 +83,11 @@ public class HttpServer {
         }
     }
 
-    private static void sendResponse(BufferedWriter out, int statusCode, String statusText,
-                                      String contentType, String body) throws IOException {
+    private static void sendResponse(BufferedWriter out,
+                                     int statusCode,
+                                     String statusText,
+                                     String contentType,
+                                     String body) throws IOException {
         out.write(HTTP_VERSION + " " + statusCode + " " + statusText + "\r\n");
         out.write("Content-Type: " + contentType + "; charset=UTF-8" + "\r\n");
         out.write("Content-Length: " + body.length() + "\r\n");
