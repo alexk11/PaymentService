@@ -25,17 +25,17 @@ public class PaymentController {
 
     @GetMapping("/search")
     public Page<PaymentEntity> searchPayments(
-            @ModelAttribute PaymentFilter filter,
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "20") int size,
-            @RequestParam(defaultValue = "amount") String sortBy,
-            @RequestParam(defaultValue = "desc") String direction
+        @ModelAttribute PaymentFilter filter,
+        @RequestParam(defaultValue = "0") int page,
+        @RequestParam(defaultValue = "20") int size,
+        @RequestParam(defaultValue = "amount") String sortBy,
+        @RequestParam(defaultValue = "desc") String direction
     ) {
-        Sort sort = direction.equalsIgnoreCase("desc")
-                ? Sort.by(sortBy).descending()
-                : Sort.by(sortBy).ascending();
+        final Sort sort = direction.equalsIgnoreCase("desc")
+            ? Sort.by(sortBy).descending()
+            : Sort.by(sortBy).ascending();
 
-        Pageable pageable = PageRequest.of(page, size, sort);
+        final Pageable pageable = PageRequest.of(page, size, sort);
         return paymentService.searchPaged(filter, pageable);
     }
 

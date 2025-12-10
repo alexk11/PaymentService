@@ -27,13 +27,13 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public List<PaymentEntity> search(PaymentFilter filter) {
-        Specification<PaymentEntity> spec = PaymentFilterFactory.fromFilter(filter);
+        final Specification<PaymentEntity> spec = PaymentFilterFactory.fromFilter(filter);
         return paymentRepository.findAll(spec);
     }
 
     @Override
     public Page<PaymentEntity> searchPaged(PaymentFilter filter, Pageable pageable) {
-        Specification<PaymentEntity> spec = PaymentFilterFactory.fromFilter(filter);
+        final Specification<PaymentEntity> spec = PaymentFilterFactory.fromFilter(filter);
         return paymentRepository.findAll(spec, pageable);
     }
 
