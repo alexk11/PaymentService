@@ -23,6 +23,10 @@ spring:
     enabled: true
     change-log: classpath:db/changelog/db.changelog-master.yaml
 
+#logging:
+#  level:
+#    liquibase: DEBUG
+
 #  datasource:
 #    username: test
 #    password: test
