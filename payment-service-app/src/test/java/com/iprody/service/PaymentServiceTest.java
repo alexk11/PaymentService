@@ -1,7 +1,7 @@
 package com.iprody.service;
 
 import com.iprody.converter.PaymentConverter;
-import com.iprody.exception.ApplicationException;
+import com.iprody.exception.AppException;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
@@ -188,8 +188,7 @@ class PaymentServiceTest {
         // When
         when(paymentRepository.findById(nonExistentId)).thenReturn(Optional.empty());
         // Then
-        assertThrows(ApplicationException.class,
-                () -> paymentService.fetchSinglePayment(nonExistentId));
+        assertThrows(AppException.class, () -> paymentService.fetchSinglePayment(nonExistentId));
 
         verify(paymentRepository, times(1)).findById(nonExistentId);
         verify(paymentConverter, never()).toPaymentDto(any(PaymentEntity.class));
