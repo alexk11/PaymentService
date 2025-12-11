@@ -1,7 +1,6 @@
 package com.iprody.controller;
 
 import com.iprody.model.PaymentDto;
-import com.iprody.persistence.PaymentEntity;
 import com.iprody.service.PaymentService;
 import com.iprody.specification.PaymentFilter;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +23,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     @GetMapping("/search")
-    public Page<PaymentEntity> searchPayments(
+    public Page<PaymentDto> searchPayments(
         @ModelAttribute PaymentFilter filter,
         @RequestParam(defaultValue = "0") int page,
         @RequestParam(defaultValue = "20") int size,

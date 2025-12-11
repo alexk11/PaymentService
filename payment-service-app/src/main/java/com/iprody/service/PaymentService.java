@@ -1,7 +1,6 @@
 package com.iprody.service;
 
 import com.iprody.model.PaymentDto;
-import com.iprody.persistence.PaymentEntity;
 import com.iprody.specification.PaymentFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -13,6 +12,6 @@ public interface PaymentService {
     List<PaymentDto> fetchAllPayments();
     PaymentDto fetchSinglePayment(UUID id);
     PaymentDto processPayment(PaymentDto paymentDto);
-    List<PaymentEntity> search(PaymentFilter filter);
-    Page<PaymentEntity> searchPaged(PaymentFilter filter, Pageable pageable);
+    List<PaymentDto> search(PaymentFilter filter);
+    Page<PaymentDto> searchPaged(PaymentFilter filter, Pageable pageable);
 }

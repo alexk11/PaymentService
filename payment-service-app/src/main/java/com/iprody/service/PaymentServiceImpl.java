@@ -1,7 +1,7 @@
 package com.iprody.service;
 
 import com.iprody.converter.PaymentConverter;
-import com.iprody.exception.ApplicationException;
+import com.iprody.exception.AppException;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
@@ -26,15 +26,20 @@ public class PaymentServiceImpl implements PaymentService {
     private final PaymentRepository paymentRepository;
 
     @Override
-    public List<PaymentEntity> search(PaymentFilter filter) {
+    public List<PaymentDto> search(PaymentFilter filter) {
         final Specification<PaymentEntity> spec = PaymentFilterFactory.fromFilter(filter);
-        return paymentRepository.findAll(spec);
+        return paymentRepository
+                .findAll(spec).stream()
+                .map(paymentConverter::toPaymentDto)
+                .toList();
     }
 
     @Override
-    public Page<PaymentEntity> searchPaged(PaymentFilter filter, Pageable pageable) {
+    public Page<PaymentDto> searchPaged(PaymentFilter filter, Pageable pageable) {
         final Specification<PaymentEntity> spec = PaymentFilterFactory.fromFilter(filter);
-        return paymentRepository.findAll(spec, pageable);
+        return paymentRepository
+                .findAll(spec, pageable)
+                .map(paymentConverter::toPaymentDto);
     }
 
     @Override
@@ -48,14 +53,14 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto fetchSinglePayment(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentConverter::toPaymentDto)
-                .orElseThrow(() -> new ApplicationException(
+                .orElseThrow(() -> new AppException(
                         HttpStatus.NOT_FOUND.value(), "Payment with the id '" + id + "' was not found"));
     }
 
     @Override
     public PaymentDto processPayment(PaymentDto paymentDto) {
         if (paymentDto.getAmount().doubleValue() <= 0) {
-            throw new ApplicationException(HttpStatus.BAD_REQUEST.value(), "Payment is not valid");
+            throw new AppException(HttpStatus.BAD_REQUEST.value(), "Payment is not valid");
         }
         final var paymentEntity = paymentConverter.toPaymentEntity(paymentDto);
         return paymentConverter.toPaymentDto(paymentRepository.save(paymentEntity));
