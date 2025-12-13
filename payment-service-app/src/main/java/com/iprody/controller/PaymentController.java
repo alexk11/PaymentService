@@ -22,8 +22,12 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
+    /**
+     * To inject the PaymentConverter service replace "withMapper" with "withConverter"
+     * @param paymentService
+     */
     @Autowired
-    public PaymentController(@Qualifier("withConverter") PaymentService paymentService) {
+    public PaymentController(@Qualifier("withMapper") PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
