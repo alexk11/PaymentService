@@ -23,7 +23,7 @@ public class PaymentController {
     private final PaymentService paymentService;
 
     /**
-     * To inject the PaymentConverter service replace "withMapper" with "withConverter"
+     * Use either "withMapper" or "withConverter"
      * @param paymentService
      */
     @Autowired
