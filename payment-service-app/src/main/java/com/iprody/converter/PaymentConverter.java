@@ -4,7 +4,7 @@ import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
 import org.springframework.stereotype.Component;
 
-@Component("converter")
+@Component
 public class PaymentConverter {
 
     public PaymentEntity toPaymentEntity(PaymentDto paymentDto) {
