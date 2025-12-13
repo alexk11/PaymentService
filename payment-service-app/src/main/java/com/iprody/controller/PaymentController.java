@@ -3,7 +3,8 @@ package com.iprody.controller;
 import com.iprody.model.PaymentDto;
 import com.iprody.service.PaymentService;
 import com.iprody.specification.PaymentFilter;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,15 @@ import java.util.UUID;
 
 
 @RestController
-@RequiredArgsConstructor
 @RequestMapping("/payments")
 public class PaymentController {
 
     private final PaymentService paymentService;
+
+    @Autowired
+    public PaymentController(@Qualifier("withConverter") PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
 
     @GetMapping("/search")
     public Page<PaymentDto> searchPayments(

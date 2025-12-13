@@ -18,9 +18,9 @@ import java.util.List;
 import java.util.UUID;
 
 
-@Service
+@Service("withConverter")
 @RequiredArgsConstructor
-public class PaymentServiceImpl implements PaymentService {
+public class PaymentServiceImpl_withConverter implements PaymentService {
 
     private final PaymentConverter paymentConverter;
     private final PaymentRepository paymentRepository;
