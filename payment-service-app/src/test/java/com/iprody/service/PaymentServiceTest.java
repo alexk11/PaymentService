@@ -31,7 +31,7 @@ import static org.mockito.Mockito.*;
 class PaymentServiceTest {
 
     @InjectMocks
-    private PaymentServiceImpl paymentService;
+    private PaymentServiceImpl_withConverter paymentService;
 
     @Mock
     private PaymentRepository paymentRepository;
