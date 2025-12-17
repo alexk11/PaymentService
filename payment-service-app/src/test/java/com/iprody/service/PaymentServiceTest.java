@@ -53,8 +53,8 @@ class PaymentServiceTest {
 
     @BeforeEach
     void setUp() {
-        testUuid1 = UUID.fromString("5735305d-448e-47f9-ac9a-6ad296721dd7");
-        testUuid2 = UUID.fromString("57cfaaee-f445-45ab-9ab8-1f3a912a3ec5");
+        testUuid1 = UUID.randomUUID();
+        testUuid2 = UUID.randomUUID();
 
         paymentEntity1 = PaymentEntity.builder()
                 .guid(testUuid1)
