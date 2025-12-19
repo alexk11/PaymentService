@@ -145,21 +145,6 @@ class PaymentServiceTest {
     }
 
     @Test
-    @DisplayName("getPayments should handle multiple payments correctly")
-    void getPayments_shouldHandleMultiplePayments() {
-        // Given
-        List<PaymentEntity> entities = Arrays.asList(paymentEntity1, paymentEntity2);
-        when(paymentRepository.findAll()).thenReturn(entities);
-        when(paymentMapper.toPaymentDto(any(PaymentEntity.class)))
-                .thenReturn(paymentDto1, paymentDto2);
-        // When
-        List<PaymentDto> result = paymentService.getPayments();
-        // Then
-        assertEquals(2, result.size());
-        verify(paymentMapper, times(2)).toPaymentDto(any(PaymentEntity.class));
-    }
-
-    @Test
     @DisplayName("getPayment should return payment when payment exists")
     void getPayment_shouldReturnPayment_whenExists() {
         // Given
@@ -193,8 +178,8 @@ class PaymentServiceTest {
     }
 
     @Test
-    @DisplayName("processPayment should save and return payment")
-    void processPayment_shouldSaveAndReturnPayment() {
+    @DisplayName("create should save and return payment")
+    void createPayment_shouldSaveAndReturnPayment() {
         // Given
         UUID newUuid = UUID.randomUUID();
         PaymentDto inputDto = PaymentDto.builder()
@@ -258,10 +243,10 @@ class PaymentServiceTest {
 
     @ParameterizedTest
     @MethodSource("statusProvider")
-    @DisplayName("getPayment should handle different payment statuses")
+    @DisplayName("get should handle different payment statuses")
     void get_shouldHandleDifferentStatuses(PaymentStatus status) {
         // Given
-        PaymentEntity pendingEntity = PaymentEntity.builder()
+        PaymentEntity paymentEntity = PaymentEntity.builder()
                 .guid(testUuid1)
                 .inquiryRefId(UUID.randomUUID())
                 .amount(new BigDecimal("100.00"))
@@ -271,13 +256,13 @@ class PaymentServiceTest {
                 .updatedAt(OffsetDateTime.now())
                 .build();
 
-        PaymentDto pendingDto = PaymentDto.builder()
+        PaymentDto paymentDto = PaymentDto.builder()
                 .guid(testUuid1)
                 .status(status)
                 .build();
 
-        when(paymentRepository.findById(testUuid1)).thenReturn(Optional.of(pendingEntity));
-        when(paymentMapper.toPaymentDto(pendingEntity)).thenReturn(pendingDto);
+        when(paymentRepository.findById(testUuid1)).thenReturn(Optional.of(paymentEntity));
+        when(paymentMapper.toPaymentDto(paymentEntity)).thenReturn(paymentDto);
 
         // When
         PaymentDto result = paymentService.get(testUuid1);

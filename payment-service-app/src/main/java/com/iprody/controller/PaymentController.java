@@ -43,14 +43,14 @@ public class PaymentController {
         return ResponseEntity.ok().body(this.paymentService.getPayments());
     }
 
-    @GetMapping(path = "/{id}")
-    public ResponseEntity<PaymentDto> fetchPayment(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(this.paymentService.get(id));
-    }
-
     @PostMapping(path = "/add")
     public ResponseEntity<PaymentDto> addPayment(@RequestBody PaymentDto paymentDto) {
         return ResponseEntity.ok().body(this.paymentService.create(paymentDto));
+    }
+
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<PaymentDto> getPayment(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(this.paymentService.get(id));
     }
 
     @PutMapping(path = "/update/{id}")
