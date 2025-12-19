@@ -3,8 +3,7 @@ package com.iprody.controller;
 import com.iprody.model.PaymentDto;
 import com.iprody.service.PaymentService;
 import com.iprody.specification.PaymentFilter;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -17,19 +16,11 @@ import java.util.UUID;
 
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/payments")
 public class PaymentController {
 
     private final PaymentService paymentService;
-
-    /**
-     * Use either "withMapper" or "withConverter"
-     * @param paymentService
-     */
-    @Autowired
-    public PaymentController(@Qualifier("withMapper") PaymentService paymentService) {
-        this.paymentService = paymentService;
-    }
 
     @GetMapping("/search")
     public Page<PaymentDto> searchPayments(
@@ -49,17 +40,17 @@ public class PaymentController {
 
     @GetMapping
     public ResponseEntity<List<PaymentDto>> fetchAll() {
-        return ResponseEntity.ok().body(this.paymentService.fetchAllPayments());
+        return ResponseEntity.ok().body(this.paymentService.getPayments());
     }
 
     @GetMapping(path = "/{id}")
     public ResponseEntity<PaymentDto> fetchPayment(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(this.paymentService.fetchSinglePayment(id));
+        return ResponseEntity.ok().body(this.paymentService.get(id));
     }
 
     @PostMapping(path = "/addPayment")
     public ResponseEntity<PaymentDto> addPayment(@RequestBody PaymentDto paymentDto) {
-        return ResponseEntity.ok().body(this.paymentService.processPayment(paymentDto));
+        return ResponseEntity.ok().body(this.paymentService.create(paymentDto));
     }
 
 }

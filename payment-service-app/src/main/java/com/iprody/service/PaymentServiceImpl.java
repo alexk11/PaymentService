@@ -14,13 +14,14 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
 
-@Service("withMapper")
+@Service
 @RequiredArgsConstructor
-public class PaymentServiceImpl_withMapper implements PaymentService {
+public class PaymentServiceImpl implements PaymentService {
 
     private final PaymentMapper paymentMapper;
     private final PaymentRepository paymentRepository;
@@ -43,14 +44,14 @@ public class PaymentServiceImpl_withMapper implements PaymentService {
     }
 
     @Override
-    public List<PaymentDto> fetchAllPayments() {
+    public List<PaymentDto> getPayments() {
         return paymentRepository.findAll().stream()
                 .map(paymentMapper::toPaymentDto)
                 .toList();
     }
 
     @Override
-    public PaymentDto fetchSinglePayment(UUID id) {
+    public PaymentDto get(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentMapper::toPaymentDto)
                 .orElseThrow(() -> new AppException(
@@ -58,12 +59,41 @@ public class PaymentServiceImpl_withMapper implements PaymentService {
     }
 
     @Override
-    public PaymentDto processPayment(PaymentDto paymentDto) {
+    public PaymentDto create(PaymentDto paymentDto) {
         if (paymentDto.getAmount().doubleValue() <= 0) {
             throw new AppException(HttpStatus.BAD_REQUEST.value(), "Payment is not valid");
         }
         final var paymentEntity = paymentMapper.toPaymentEntity(paymentDto);
         return paymentMapper.toPaymentDto(paymentRepository.save(paymentEntity));
+    }
+
+    @Override
+    public PaymentDto update(UUID id, PaymentDto dto) {
+        return paymentRepository.findById(id)
+                .map(p -> {
+                    p.setInquiryRefId(dto.getInquiryRefId());
+                    p.setAmount(dto.getAmount());
+                    p.setCurrency(dto.getCurrency());
+                    p.setTransactionRefId(dto.getTransactionRefId());
+                    p.setStatus(dto.getStatus());
+                    p.setNote(dto.getNote());
+                    p.setCreatedAt(dto.getCreatedAt());
+                    p.setUpdatedAt(OffsetDateTime.now());
+                    return paymentMapper.toPaymentDto(paymentRepository.save(p));
+                })
+                .orElseThrow(() -> new AppException(
+                        HttpStatus.NOT_FOUND.value(), "Update failed. Payment with id '" + id + "' does not exist."));
+    }
+
+    @Override
+    public UUID delete(UUID id) {
+        return paymentRepository.findById(id)
+                .map(p -> {
+                    paymentRepository.delete(p);
+                    return id;
+                })
+                .orElseThrow(() -> new AppException(
+                        HttpStatus.NOT_FOUND.value(), "Failed to delete the payment with id '" + id + "'"));
     }
 
 }
