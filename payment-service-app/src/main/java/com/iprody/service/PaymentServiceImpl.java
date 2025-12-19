@@ -93,7 +93,7 @@ public class PaymentServiceImpl implements PaymentService {
                     return id;
                 })
                 .orElseThrow(() -> new AppException(
-                        HttpStatus.NOT_FOUND.value(), "Failed to delete the payment with id '" + id + "'"));
+                        HttpStatus.NOT_FOUND.value(), "Delete failed. Payment with id '" + id + "' does not exist."));
     }
 
 }
