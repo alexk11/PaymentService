@@ -48,9 +48,19 @@ public class PaymentController {
         return ResponseEntity.ok().body(this.paymentService.get(id));
     }
 
-    @PostMapping(path = "/addPayment")
+    @PostMapping(path = "/add")
     public ResponseEntity<PaymentDto> addPayment(@RequestBody PaymentDto paymentDto) {
         return ResponseEntity.ok().body(this.paymentService.create(paymentDto));
+    }
+
+    @PutMapping(path = "/update/{id}")
+    public ResponseEntity<PaymentDto> updatePayment(@PathVariable UUID id, @RequestBody PaymentDto paymentDto) {
+        return ResponseEntity.ok().body(this.paymentService.update(id, paymentDto));
+    }
+
+    @DeleteMapping(path = "/delete/{id}")
+    public ResponseEntity<UUID> deletePayment(@PathVariable UUID id) {
+        return ResponseEntity.ok().body(this.paymentService.delete(id));
     }
 
 }
