@@ -49,9 +49,9 @@ public class PaymentController {
     public ResponseEntity<PaymentDto> addPayment(@RequestBody PaymentDto paymentDto) {
         final PaymentDto savedPayment = this.paymentService.create(paymentDto);
         final URI location = ServletUriComponentsBuilder.fromCurrentRequest()
-                .path("/{id}")
-                .buildAndExpand(savedPayment.getGuid())
-                .toUri();
+            .path("/{id}")
+            .buildAndExpand(savedPayment.getGuid())
+            .toUri();
         return ResponseEntity.created(location).body(savedPayment);
     }
 
