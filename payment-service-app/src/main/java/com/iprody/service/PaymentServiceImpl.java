@@ -104,13 +104,13 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public void delete(UUID id) {
         paymentRepository.findById(id)
-                .map(p -> {
-                    paymentRepository.delete(p);
-                    return id;
-                })
-                .orElseThrow(() -> new AppException(
-                        HttpStatus.NOT_FOUND.value(),
-                        "Delete failed. Payment with id '" + id + "' does not exist."));
+            .map(p -> {
+                paymentRepository.delete(p);
+                return id;
+            })
+            .orElseThrow(() -> new AppException(
+                HttpStatus.NOT_FOUND.value(),
+                "Delete failed. Payment with id '" + id + "' does not exist."));
     }
 
 }
