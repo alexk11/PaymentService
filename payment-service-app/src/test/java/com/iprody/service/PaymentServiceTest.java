@@ -10,6 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -21,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
@@ -41,8 +44,10 @@ class PaymentServiceTest {
 
     private PaymentEntity paymentEntity1;
     private PaymentEntity paymentEntity2;
+
     private PaymentDto paymentDto1;
     private PaymentDto paymentDto2;
+
     private UUID testUuid1;
     private UUID testUuid2;
 
@@ -108,10 +113,8 @@ class PaymentServiceTest {
         when(paymentRepository.findAll()).thenReturn(entities);
         when(paymentConverter.toPaymentDto(paymentEntity1)).thenReturn(paymentDto1);
         when(paymentConverter.toPaymentDto(paymentEntity2)).thenReturn(paymentDto2);
-
         // When
         List<PaymentDto> result = paymentService.fetchAllPayments();
-
         // Then
         assertNotNull(result);
         assertEquals(2, result.size());
@@ -131,10 +134,8 @@ class PaymentServiceTest {
     void fetchAllPayments_shouldReturnEmptyList_whenNoPaymentsExist() {
         // Given
         when(paymentRepository.findAll()).thenReturn(Collections.emptyList());
-
         // When
         List<PaymentDto> result = paymentService.fetchAllPayments();
-
         // Then
         assertNotNull(result);
         assertTrue(result.isEmpty());
@@ -151,10 +152,8 @@ class PaymentServiceTest {
         when(paymentRepository.findAll()).thenReturn(entities);
         when(paymentConverter.toPaymentDto(any(PaymentEntity.class)))
                 .thenReturn(paymentDto1, paymentDto2);
-
         // When
         List<PaymentDto> result = paymentService.fetchAllPayments();
-
         // Then
         assertEquals(2, result.size());
         verify(paymentConverter, times(2)).toPaymentDto(any(PaymentEntity.class));
@@ -185,11 +184,10 @@ class PaymentServiceTest {
     void fetchSinglePayment_shouldThrowException_whenPaymentDoesNotExist() {
         // Given
         UUID nonExistentId = UUID.randomUUID();
-        // When
         when(paymentRepository.findById(nonExistentId)).thenReturn(Optional.empty());
-        // Then
+        // When
         assertThrows(AppException.class, () -> paymentService.fetchSinglePayment(nonExistentId));
-
+        // Then
         verify(paymentRepository, times(1)).findById(nonExistentId);
         verify(paymentConverter, never()).toPaymentDto(any(PaymentEntity.class));
     }
@@ -392,4 +390,45 @@ class PaymentServiceTest {
         assertEquals("USD", result.getCurrency());
         assertEquals(PaymentStatus.RECEIVED, result.getStatus());
     }
+
+    static Stream<PaymentStatus> statusProvider() {
+        return Stream.of(
+                PaymentStatus.RECEIVED,
+                PaymentStatus.PENDING,
+                PaymentStatus.APPROVED,
+                PaymentStatus.DECLINED,
+                PaymentStatus.NOT_SENT
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("statusProvider")
+    @DisplayName("fetchSinglePayment should handle different payment statuses")
+    void fetchSinglePayment_shouldHandleDifferentStatuses_1(PaymentStatus status) {
+        // Given
+        PaymentEntity pendingEntity = PaymentEntity.builder()
+                .guid(testUuid1)
+                .inquiryRefId(UUID.randomUUID())
+                .amount(new BigDecimal("100.00"))
+                .currency("USD")
+                .status(status)
+                .createdAt(OffsetDateTime.now())
+                .updatedAt(OffsetDateTime.now())
+                .build();
+
+        PaymentDto pendingDto = PaymentDto.builder()
+                .guid(testUuid1)
+                .status(status)
+                .build();
+
+        when(paymentRepository.findById(testUuid1)).thenReturn(Optional.of(pendingEntity));
+        when(paymentConverter.toPaymentDto(pendingEntity)).thenReturn(pendingDto);
+
+        // When
+        PaymentDto result = paymentService.fetchSinglePayment(testUuid1);
+
+        // Then
+        assertEquals(status, result.getStatus());
+    }
+
 }
