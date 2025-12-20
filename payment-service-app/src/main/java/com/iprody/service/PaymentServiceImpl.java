@@ -55,9 +55,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto get(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentMapper::toPaymentDto)
-                .orElseThrow(() -> new AppException(
-                        HttpStatus.NOT_FOUND.value(),
-                        "Payment with the id '" + id + "' was not found"));
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Payment with the id '" + id + "' was not found"));
     }
 
     @Override
@@ -83,9 +81,7 @@ public class PaymentServiceImpl implements PaymentService {
                 p.setUpdatedAt(OffsetDateTime.now());
                 return paymentMapper.toPaymentDto(paymentRepository.save(p));
             })
-            .orElseThrow(() -> new AppException(
-                    HttpStatus.NOT_FOUND.value(),
-                    "Update failed. Payment with id '" + id + "' does not exist."));
+            .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Update failed. Payment with id '" + id + "' does not exist."));
     }
 
     @Override
@@ -96,9 +92,7 @@ public class PaymentServiceImpl implements PaymentService {
                 p.setUpdatedAt(OffsetDateTime.now());
                 return paymentMapper.toPaymentDto(paymentRepository.save(p));
             })
-            .orElseThrow(() -> new AppException(
-                    HttpStatus.NOT_FOUND.value(),
-                    "Note update failed. Payment with id '" + id + "' does not exist."));
+            .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Note update failed. Payment with id '" + id + "' does not exist."));
     }
 
     @Override
@@ -108,9 +102,7 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentRepository.delete(p);
                 return id;
             })
-            .orElseThrow(() -> new AppException(
-                    HttpStatus.NOT_FOUND.value(),
-                    "Delete failed. Payment with id '" + id + "' does not exist."));
+            .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Delete failed. Payment with id '" + id + "' does not exist."));
     }
 
 }
