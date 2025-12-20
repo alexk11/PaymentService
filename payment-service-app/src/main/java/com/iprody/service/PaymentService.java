@@ -15,5 +15,6 @@ public interface PaymentService {
     Page<PaymentDto> searchPaged(PaymentFilter filter, Pageable pageable);
     List<PaymentDto> getPayments();
     PaymentDto update(UUID id, PaymentDto dto);
-    UUID delete(UUID id);
+    PaymentDto updateNote(UUID id, String updatedNote);
+    void delete(UUID id);
 }

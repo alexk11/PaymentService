@@ -86,8 +86,20 @@ public class PaymentServiceImpl implements PaymentService {
     }
 
     @Override
-    public UUID delete(UUID id) {
+    public PaymentDto updateNote(UUID id, String updatedNote) {
         return paymentRepository.findById(id)
+                .map(p -> {
+                    p.setNote(updatedNote);
+                    p.setUpdatedAt(OffsetDateTime.now());
+                    return paymentMapper.toPaymentDto(paymentRepository.save(p));
+                })
+                .orElseThrow(() -> new AppException(
+                        HttpStatus.NOT_FOUND.value(), "Note update failed. Payment with id '" + id + "' does not exist."));
+    }
+
+    @Override
+    public void delete(UUID id) {
+         paymentRepository.findById(id)
                 .map(p -> {
                     paymentRepository.delete(p);
                     return id;

@@ -8,6 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -65,9 +66,15 @@ public class PaymentController {
         return ResponseEntity.ok().body(this.paymentService.update(id, paymentDto));
     }
 
+    @PutMapping(path = "/update/{id}/{note}")
+    public ResponseEntity<PaymentDto> updatePaymentNote(@PathVariable UUID id, @PathVariable String note) {
+        return ResponseEntity.ok().body(this.paymentService.updateNote(id, note));
+    }
+
     @DeleteMapping(path = "/delete/{id}")
-    public ResponseEntity<UUID> deletePayment(@PathVariable UUID id) {
-        return ResponseEntity.ok().body(this.paymentService.delete(id));
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletePayment(@PathVariable UUID id) {
+        this.paymentService.delete(id);
     }
 
 }
