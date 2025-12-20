@@ -72,33 +72,33 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto update(UUID id, PaymentDto dto) {
         return paymentRepository.findById(id)
-                .map(p -> {
-                    p.setInquiryRefId(dto.getInquiryRefId());
-                    p.setAmount(dto.getAmount());
-                    p.setCurrency(dto.getCurrency());
-                    p.setTransactionRefId(dto.getTransactionRefId());
-                    p.setStatus(dto.getStatus());
-                    p.setNote(dto.getNote());
-                    p.setCreatedAt(dto.getCreatedAt());
-                    p.setUpdatedAt(OffsetDateTime.now());
-                    return paymentMapper.toPaymentDto(paymentRepository.save(p));
-                })
-                .orElseThrow(() -> new AppException(
-                        HttpStatus.NOT_FOUND.value(),
-                        "Update failed. Payment with id '" + id + "' does not exist."));
+            .map(p -> {
+                p.setInquiryRefId(dto.getInquiryRefId());
+                p.setAmount(dto.getAmount());
+                p.setCurrency(dto.getCurrency());
+                p.setTransactionRefId(dto.getTransactionRefId());
+                p.setStatus(dto.getStatus());
+                p.setNote(dto.getNote());
+                p.setCreatedAt(dto.getCreatedAt());
+                p.setUpdatedAt(OffsetDateTime.now());
+                return paymentMapper.toPaymentDto(paymentRepository.save(p));
+            })
+            .orElseThrow(() -> new AppException(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Update failed. Payment with id '" + id + "' does not exist."));
     }
 
     @Override
     public PaymentDto updateNote(UUID id, String updatedNote) {
         return paymentRepository.findById(id)
-                .map(p -> {
-                    p.setNote(updatedNote);
-                    p.setUpdatedAt(OffsetDateTime.now());
-                    return paymentMapper.toPaymentDto(paymentRepository.save(p));
-                })
-                .orElseThrow(() -> new AppException(
-                        HttpStatus.NOT_FOUND.value(),
-                        "Note update failed. Payment with id '" + id + "' does not exist."));
+            .map(p -> {
+                p.setNote(updatedNote);
+                p.setUpdatedAt(OffsetDateTime.now());
+                return paymentMapper.toPaymentDto(paymentRepository.save(p));
+            })
+            .orElseThrow(() -> new AppException(
+                    HttpStatus.NOT_FOUND.value(),
+                    "Note update failed. Payment with id '" + id + "' does not exist."));
     }
 
     @Override
@@ -109,8 +109,8 @@ public class PaymentServiceImpl implements PaymentService {
                 return id;
             })
             .orElseThrow(() -> new AppException(
-                HttpStatus.NOT_FOUND.value(),
-                "Delete failed. Payment with id '" + id + "' does not exist."));
+                    HttpStatus.NOT_FOUND.value(),
+                    "Delete failed. Payment with id '" + id + "' does not exist."));
     }
 
 }
