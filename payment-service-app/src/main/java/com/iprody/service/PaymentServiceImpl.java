@@ -76,9 +76,9 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto update(UUID id, PaymentDto dto) {
         paymentRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException(
-                    "Платеж не найден",
-                    "update",
-                    id
+                "Платеж не найден",
+                "update",
+                id
             ));
         PaymentEntity updated = paymentMapper.toPaymentEntity(dto);
         updated.setGuid(id);
@@ -94,9 +94,9 @@ public class PaymentServiceImpl implements PaymentService {
                 return paymentMapper.toPaymentDto(paymentRepository.save(p));
             })
             .orElseThrow(() -> new EntityNotFoundException(
-                    "Платеж не найден",
-                    "updateNote",
-                    id
+                "Платеж не найден",
+                "updateNote",
+                id
             ));
     }
 
@@ -108,9 +108,9 @@ public class PaymentServiceImpl implements PaymentService {
                 return id;
             })
             .orElseThrow(() -> new EntityNotFoundException(
-                    "Платеж не найден",
-                    "delete",
-                    id
+                "Платеж не найден",
+                "delete",
+                id
             ));
     }
 
