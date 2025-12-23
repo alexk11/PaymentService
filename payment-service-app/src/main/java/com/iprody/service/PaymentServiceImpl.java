@@ -1,6 +1,7 @@
 package com.iprody.service;
 
 import com.iprody.exception.AppException;
+import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
@@ -55,7 +56,11 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto get(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentMapper::toPaymentDto)
-                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Payment with the id '" + id + "' was not found"));
+                .orElseThrow(() -> new EntityNotFoundException(
+                        "Платеж не найден",
+                        "get",
+                        id
+                ));
     }
 
     @Override
@@ -69,19 +74,15 @@ public class PaymentServiceImpl implements PaymentService {
 
     @Override
     public PaymentDto update(UUID id, PaymentDto dto) {
-        return paymentRepository.findById(id)
-            .map(p -> {
-                p.setInquiryRefId(dto.getInquiryRefId());
-                p.setAmount(dto.getAmount());
-                p.setCurrency(dto.getCurrency());
-                p.setTransactionRefId(dto.getTransactionRefId());
-                p.setStatus(dto.getStatus());
-                p.setNote(dto.getNote());
-                p.setCreatedAt(dto.getCreatedAt());
-                p.setUpdatedAt(OffsetDateTime.now());
-                return paymentMapper.toPaymentDto(paymentRepository.save(p));
-            })
-            .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Update failed. Payment with id '" + id + "' does not exist."));
+        paymentRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException(
+                    "Платеж не найден",
+                    "update",
+                    id
+            ));
+        PaymentEntity updated = paymentMapper.toPaymentEntity(dto);
+        updated.setGuid(id);
+        return paymentMapper.toPaymentDto(paymentRepository.save(updated));
     }
 
     @Override
@@ -92,7 +93,11 @@ public class PaymentServiceImpl implements PaymentService {
                 p.setUpdatedAt(OffsetDateTime.now());
                 return paymentMapper.toPaymentDto(paymentRepository.save(p));
             })
-            .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Note update failed. Payment with id '" + id + "' does not exist."));
+            .orElseThrow(() -> new EntityNotFoundException(
+                    "Платеж не найден",
+                    "updateNote",
+                    id
+            ));
     }
 
     @Override
@@ -102,7 +107,11 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentRepository.delete(p);
                 return id;
             })
-            .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND.value(), "Delete failed. Payment with id '" + id + "' does not exist."));
+            .orElseThrow(() -> new EntityNotFoundException(
+                    "Платеж не найден",
+                    "delete",
+                    id
+            ));
     }
 
 }
