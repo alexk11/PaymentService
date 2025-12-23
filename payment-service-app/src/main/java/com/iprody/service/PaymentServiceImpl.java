@@ -72,7 +72,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto update(UUID id, PaymentDto dto) {
         paymentRepository.findById(id)
             .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "update", id));
-        PaymentEntity updated = paymentMapper.toPaymentEntity(dto);
+        final PaymentEntity updated = paymentMapper.toPaymentEntity(dto);
         updated.setGuid(id);
         return paymentMapper.toPaymentDto(paymentRepository.save(updated));
     }
