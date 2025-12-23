@@ -1,6 +1,6 @@
 package com.iprody.service;
 
-import com.iprody.exception.AppException;
+import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
@@ -171,7 +171,7 @@ class PaymentServiceTest {
         UUID nonExistentId = UUID.randomUUID();
         when(paymentRepository.findById(nonExistentId)).thenReturn(Optional.empty());
         // When
-        assertThrows(AppException.class, () -> paymentService.get(nonExistentId));
+        assertThrows(EntityNotFoundException.class, () -> paymentService.get(nonExistentId));
         // Then
         verify(paymentRepository, times(1)).findById(nonExistentId);
         verify(paymentMapper, never()).toPaymentDto(any(PaymentEntity.class));
