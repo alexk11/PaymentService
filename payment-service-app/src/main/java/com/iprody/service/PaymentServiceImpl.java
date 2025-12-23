@@ -56,11 +56,7 @@ public class PaymentServiceImpl implements PaymentService {
     public PaymentDto get(UUID id) {
         return paymentRepository.findById(id)
                 .map(paymentMapper::toPaymentDto)
-                .orElseThrow(() -> new EntityNotFoundException(
-                        "Платеж не найден",
-                        "get",
-                        id
-                ));
+                .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "get", id));
     }
 
     @Override
@@ -75,11 +71,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto update(UUID id, PaymentDto dto) {
         paymentRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Платеж не найден",
-                "update",
-                id
-            ));
+            .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "update", id));
         PaymentEntity updated = paymentMapper.toPaymentEntity(dto);
         updated.setGuid(id);
         return paymentMapper.toPaymentDto(paymentRepository.save(updated));
@@ -93,11 +85,7 @@ public class PaymentServiceImpl implements PaymentService {
                 p.setUpdatedAt(OffsetDateTime.now());
                 return paymentMapper.toPaymentDto(paymentRepository.save(p));
             })
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Платеж не найден",
-                "updateNote",
-                id
-            ));
+            .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "updateNote", id));
     }
 
     @Override
@@ -107,11 +95,7 @@ public class PaymentServiceImpl implements PaymentService {
                 paymentRepository.delete(p);
                 return id;
             })
-            .orElseThrow(() -> new EntityNotFoundException(
-                "Платеж не найден",
-                "delete",
-                id
-            ));
+            .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "delete", id));
     }
 
 }
