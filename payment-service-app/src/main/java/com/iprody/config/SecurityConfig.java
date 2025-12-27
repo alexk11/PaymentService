@@ -27,21 +27,20 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 
-        JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
+        final JwtAuthenticationConverter jwtConverter = new JwtAuthenticationConverter();
         jwtConverter.setJwtGrantedAuthoritiesConverter(new KeycloakRealmRoleConverter());
         http
             // отключаем создание HTTP-сессии
             .csrf(AbstractHttpConfigurer::disable)
-            .sessionManagement(sm ->
-                    sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             // настраиваем security-фильтры
             .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/payments/**").hasAnyRole("ADMIN", "USER", "READER")
-                    .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**").permitAll()
-                    .anyRequest().authenticated()
+                .requestMatchers("/payments/**").hasAnyRole("ADMIN", "USER", "READER")
+                .requestMatchers("/swagger-ui.html", "/swagger-ui/**", "/api-docs/**", "/v3/api-docs/**").permitAll()
+                .anyRequest().authenticated()
             )
             .oauth2ResourceServer(oauth2 ->
-                    oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()).jwtAuthenticationConverter(jwtConverter))
+                oauth2.jwt(jwt -> jwt.decoder(jwtDecoder()).jwtAuthenticationConverter(jwtConverter))
             );
         return http.build();
     }
@@ -52,7 +51,7 @@ public class SecurityConfig {
             // Определяем JWKS URI для получения публичных ключей
             // Если запущено в Docker, используем имя сервиса keycloak
             String jwksUri;
-            String keycloakHost = System.getenv("KEYCLOAK_HOST");
+            final String keycloakHost = System.getenv("KEYCLOAK_HOST");
             if (keycloakHost != null && !keycloakHost.isEmpty()) {
                 // В Docker: используем имя сервиса для подключения
                 jwksUri = "http://" + keycloakHost + "/realms/iprody-lms/protocol/openid-connect/certs";
@@ -61,10 +60,10 @@ public class SecurityConfig {
                 jwksUri = issuerUri + "/protocol/openid-connect/certs";
             }
 
-            NimbusJwtDecoder decoder = NimbusJwtDecoder.withJwkSetUri(jwksUri).build();
+            final NimbusJwtDecoder decoder = NimbusJwtDecoder.withJwkSetUri(jwksUri).build();
 
             // Валидируем issuer из токена (токены всегда имеют issuer с localhost:8085)
-            OAuth2TokenValidator<Jwt> issuerValidator = JwtValidators.createDefaultWithIssuer(issuerUri);
+            final OAuth2TokenValidator<Jwt> issuerValidator = JwtValidators.createDefaultWithIssuer(issuerUri);
             decoder.setJwtValidator(new DelegatingOAuth2TokenValidator<>(issuerValidator));
 
             return decoder;
