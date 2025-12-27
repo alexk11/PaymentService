@@ -9,9 +9,12 @@ import java.util.List;
 import java.util.UUID;
 
 public interface PaymentService {
-    List<PaymentDto> fetchAllPayments();
-    PaymentDto fetchSinglePayment(UUID id);
-    PaymentDto processPayment(PaymentDto paymentDto);
+    PaymentDto create(PaymentDto paymentDto);
+    PaymentDto get(UUID id);
     List<PaymentDto> search(PaymentFilter filter);
     Page<PaymentDto> searchPaged(PaymentFilter filter, Pageable pageable);
+    List<PaymentDto> getPayments();
+    PaymentDto update(UUID id, PaymentDto dto);
+    PaymentDto updateNote(UUID id, String updatedNote);
+    void delete(UUID id);
 }

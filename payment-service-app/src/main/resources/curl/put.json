@@ -1,0 +1,11 @@
+{
+  "guid": "01deac78-8673-4062-bc33-bdec273b553b",
+  "inquiryRefId": "01deac78-8673-4062-bc33-bdec273b553b",
+  "amount": "345",
+  "currency": "EUR",
+  "transactionRefId": "01deac78-8673-4062-bc33-bdec273b553b",
+  "status": "RECEIVED",
+  "note": "updated",
+  "createdAt": "2025-12-20T10:07:21.841Z",
+  "updatedAt": "2025-12-20T11:07:00.000Z"
+}

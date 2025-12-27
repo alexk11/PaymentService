@@ -45,11 +45,37 @@ class PaymentControllerTest {
         initData();
     }
 
+    private void initData() {
+        LocalDateTime now = LocalDateTime.now();
+        dto_1 = new PaymentDto(
+                UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
+                UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa7"),
+                BigDecimal.valueOf(100.89),
+                "EUR",
+                UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa8"),
+                PaymentStatus.RECEIVED,
+                "Some info 1",
+                OffsetDateTime.of(now, ZoneOffset.UTC),
+                OffsetDateTime.of(now, ZoneOffset.UTC)
+        );
+        dto_2 = new PaymentDto(
+                UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afb6"),
+                UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afb7"),
+                BigDecimal.valueOf(200.51),
+                "USD",
+                UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afb8"),
+                PaymentStatus.APPROVED,
+                "Some info 2",
+                OffsetDateTime.of(now, ZoneOffset.UTC),
+                OffsetDateTime.of(now, ZoneOffset.UTC)
+        );
+    }
+
     @Test
     @DisplayName("GET /payments should return list of two PaymentDto")
     void findAll_ReturnsListOfTwoPayments() throws Exception {
         // when
-        when(paymentService.fetchAllPayments()).thenReturn(List.of(dto_1, dto_2));
+        when(paymentService.getPayments()).thenReturn(List.of(dto_1, dto_2));
         // then
         mockMvc.perform(get("/payments").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
@@ -67,7 +93,7 @@ class PaymentControllerTest {
     @DisplayName("GET /payments should return empty list when there is no payments")
     void findAll_ReturnsEmptyList() throws Exception {
         // when
-        when(paymentService.fetchAllPayments()).thenReturn(List.of());
+        when(paymentService.getPayments()).thenReturn(List.of());
         // then
         mockMvc.perform(get("/payments")
                         .accept(MediaType.APPLICATION_JSON))
@@ -81,42 +107,15 @@ class PaymentControllerTest {
     void getById_ReturnsPayment_WhenFound() throws Exception {
         // given
         UUID id = dto_1.getGuid();
-        String expectedUuid = "3fa85f64-5717-4562-b3fc-2c963f66afa6";
         // when
-        when(paymentService.fetchSinglePayment(id)).thenReturn(dto_1);
+        when(paymentService.get(id)).thenReturn(dto_1);
         // then
         mockMvc.perform(get("/payments/{id}", id).accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                //.andExpect(jsonPath("$.guid").value(UUID.fromString(expectedUuid)))
+                .andExpect(jsonPath("$.guid").value("3fa85f64-5717-4562-b3fc-2c963f66afa6"))
                 .andExpect(jsonPath("$.amount").value(100.89))
                 .andExpect(jsonPath("$.note").value("Some info 1"));
-    }
-
-    private void initData() {
-        LocalDateTime now = LocalDateTime.now();
-        dto_1 = new PaymentDto(
-                    UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
-                    UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa7"),
-                    BigDecimal.valueOf(100.89),
-                    "EUR",
-                    UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afa8"),
-                    PaymentStatus.RECEIVED,
-                    "Some info 1",
-                    OffsetDateTime.of(now, ZoneOffset.UTC),
-                    OffsetDateTime.of(now, ZoneOffset.UTC)
-        );
-        dto_2 = new PaymentDto(
-                    UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afb6"),
-                    UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afb7"),
-                    BigDecimal.valueOf(200.51),
-                    "USD",
-                    UUID.fromString("3fa85f64-5717-4562-b3fc-2c963f66afb8"),
-                    PaymentStatus.APPROVED,
-                    "Some info 2",
-                    OffsetDateTime.of(now, ZoneOffset.UTC),
-                    OffsetDateTime.of(now, ZoneOffset.UTC)
-        );
     }
 
 }
