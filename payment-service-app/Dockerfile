@@ -1,10 +1,8 @@
 # Используем минимальный runtime-образ с JDK 21
 FROM eclipse-temurin:21-jre-alpine
+RUN echo "Current PWD:" && pwd
+RUN echo "Listing files in current directory:" && ls -lR
 # Задаем переменную окружения с названием jar-файла, можно переопределить при сборке
-
-RUN echo "Current PWD 1:" && pwd
-RUN echo "Listing files in current directory 1:" && ls -lR
-
 ARG JAR_FILE=target/payment-service-app-0.0.1-SNAPSHOT.jar
 # Создаём рабочую директорию приложения
 WORKDIR /app
