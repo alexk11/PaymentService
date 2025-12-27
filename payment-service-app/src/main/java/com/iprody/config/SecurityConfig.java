@@ -50,7 +50,7 @@ public class SecurityConfig {
         try {
             // Определяем JWKS URI для получения публичных ключей
             // Если запущено в Docker, используем имя сервиса keycloak
-            String jwksUri;
+            final String jwksUri;
             final String keycloakHost = System.getenv("KEYCLOAK_HOST");
             if (keycloakHost != null && !keycloakHost.isEmpty()) {
                 // В Docker: используем имя сервиса для подключения
