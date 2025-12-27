@@ -1,0 +1,63 @@
+{
+  "realm": "iprody-lms",
+  "enabled": true,
+  "clients": [
+    {
+      "clientId": "basic_client",
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "secret": "client-secret",
+      "redirectUris": [
+        "http://localhost:8085/*"
+      ],
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": true
+    }
+  ],
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "email": "admin@example.local",
+      "firstName": "Test",
+      "lastName": "Admin",
+      "createdTimestamp": 1723468800000,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "admin_password", "temporary": false }
+      ],
+      "realmRoles": ["ADMIN","USER"],
+      "requiredActions": []
+    },
+    {
+      "username": "user",
+      "enabled": true,
+      "email": "user@example.local",
+      "firstName": "Test",
+      "lastName": "User",
+      "createdTimestamp": 1723468800000,
+      "emailVerified": true,
+      "credentials": [
+        { "type": "password", "value": "user_password", "temporary": false }
+      ],
+      "realmRoles": ["USER"],
+      "requiredActions": []
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "USER",
+        "description": "Basic user role"
+      },
+      {
+        "name": "READER",
+        "description": "Reader user role"
+      },
+      {
+        "name": "ADMIN",
+        "description": "Admin user role"
+      }
+    ]
+  }
+}

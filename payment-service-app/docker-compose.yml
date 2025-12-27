@@ -1,9 +1,21 @@
-version: '3.8'
 services:
+
   payment-service-app:
-    image: payment-service-app
+    #image: payment-service-app
+    build:
+      context: .
+      dockerfile: Dockerfile
     ports:
-      - "8080:8080"
+      - "8082:8082"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/payment-db
+      SPRING_DATASOURCE_USERNAME: user
+      SPRING_DATASOURCE_PASSWORD: secret
+      KEYCLOAK_HOST: keycloak:8080
+    restart: unless-stopped
 
   postgres:
     image: postgres:16
@@ -18,6 +30,11 @@ services:
     volumes:
       - /var/lib/postgresql/data
     restart: unless-stopped
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U testuser -d payment-db" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   pgadmin:
     image: dpage/pgadmin4:latest
@@ -29,4 +46,20 @@ services:
       - "8081:80" # UI будет доступен по localhost:8081
     depends_on:
       - postgres
+    restart: unless-stopped
+
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
+    container_name: keycloak
+    command:
+      - start-dev
+      - --http-port=8080
+      - --import-realm
+    environment:
+      KEYCLOAK_ADMIN: admin
+      KEYCLOAK_ADMIN_PASSWORD: admin
+    ports:
+      - "8085:8080"
+    volumes:
+      - ./src/main/resources/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     restart: unless-stopped
