@@ -11,7 +11,7 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/payment-db
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/payment-db
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: secret
       KEYCLOAK_HOST: keycloak:8080
@@ -31,7 +31,7 @@ services:
       - /var/lib/postgresql/data
     restart: unless-stopped
     healthcheck:
-      test: [ "CMD-SHELL", "pg_isready -U testuser -d payment-db" ]
+      test: [ "CMD-SHELL", "pg_isready -U user -d payment-db" ]
       interval: 10s
       timeout: 5s
       retries: 5
