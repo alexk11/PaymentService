@@ -1,0 +1,167 @@
+{
+	"info": {
+		"_postman_id": "fa557fa1-845e-4a5c-b5b6-b3ae627b1a99",
+		"name": "PaymentService",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "7045689",
+		"_collection_link": "https://grey-astronaut-203026.postman.co/workspace/CCoE~e4c17199-dfc4-42d0-aef4-cb05a856d81f/collection/7045689-fa557fa1-845e-4a5c-b5b6-b3ae627b1a99?action=share&source=collection_link&creator=7045689"
+	},
+	"item": [
+		{
+			"name": "addOne_admin",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Prepare a request to Keycloak for getting access token\r",
+							"const request = {\r",
+							"    url: \"http://localhost:8085/realms/iprody-lms/protocol/openid-connect/token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Accept': '*/*',\r",
+							"        'Content-Type': 'application/x-www-form-urlencoded',\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded: [\r",
+							"            { key: 'client_id', value: 'basic_client' },\r",
+							"            { key: 'grant_type', value: 'password' },\r",
+							"            { key: 'username', value: 'admin' },\r",
+							"            { key: 'password', value: 'admin_password' },\r",
+							"            { key: 'client_secret', value: 'client-secret' }\r",
+							"        ]\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// Send the request and store access_token and expiration time in the environment variables\r",
+							"pm.sendRequest(request,  function (err, response) {\r",
+							"\r",
+							"    const body = response.json();\r",
+							"    \r",
+							"    console.info(body.access_token);\r",
+							"\r",
+							"    pm.environment.set(\"adminAccessToken\", body.access_token);\r",
+							"    pm.environment.set(\"adminRefreshToken\", body.refresh_token);\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{adminAccessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"guid\": \"01deac78-8673-4062-bc33-bdec273b553b\",\r\n  \"inquiryRefId\": \"01deac78-8673-4062-bc33-bdec273b553b\",\r\n  \"amount\": \"123\",\r\n  \"currency\": \"RUB\",\r\n  \"transactionRefId\": \"01deac78-8673-4062-bc33-bdec273b553b\",\r\n  \"status\": \"RECEIVED\",\r\n  \"note\": \"remark\",\r\n  \"createdAt\": \"2025-12-20T10:07:21.841Z\",\r\n  \"updatedAt\": \"2025-12-20T10:07:21.841Z\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8082/payments/add",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"payments",
+						"add"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "getAll_user",
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"exec": [
+							"// Prepare a request to Keycloak for getting access token\r",
+							"const request = {\r",
+							"    url: \"http://localhost:8085/realms/iprody-lms/protocol/openid-connect/token\",\r",
+							"    method: 'POST',\r",
+							"    header: {\r",
+							"        'Accept': '*/*',\r",
+							"        'Content-Type': 'application/x-www-form-urlencoded',\r",
+							"    },\r",
+							"    body: {\r",
+							"        mode: 'urlencoded',\r",
+							"        urlencoded: [\r",
+							"            { key: 'client_id', value: 'basic_client' },\r",
+							"            { key: 'grant_type', value: 'password' },\r",
+							"            { key: 'username', value: 'user' },\r",
+							"            { key: 'password', value: 'user_password' },\r",
+							"            { key: 'client_secret', value: 'client-secret' }\r",
+							"        ]\r",
+							"    }\r",
+							"};\r",
+							"\r",
+							"// Send the request and store access_token and expiration time in the environment variables\r",
+							"pm.sendRequest(request,  function (err, response) {\r",
+							"\r",
+							"    const body = response.json();\r",
+							"\r",
+							"    console.info(body.access_token);\r",
+							"\r",
+							"    pm.environment.set(\"userAccessToken\", body.access_token);\r",
+							"    pm.environment.set(\"userRefreshToken\", body.refresh_token);\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript",
+						"packages": {},
+						"requests": {}
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{userAccessToken}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8082/payments",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8082",
+					"path": [
+						"payments"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
