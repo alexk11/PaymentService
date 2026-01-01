@@ -1,4 +1,4 @@
-INSERT INTO payment (guid,
+INSERT INTO payments (guid,
                      inquiry_ref_id,
                      transaction_ref_id,
                      amount,

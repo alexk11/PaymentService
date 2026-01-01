@@ -1,6 +1,5 @@
 package com.iprody.service;
 
-
 import com.iprody.controller.PaymentController;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentStatus;
@@ -26,6 +25,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 
 @ExtendWith(MockitoExtension.class)
 class PaymentControllerTest {

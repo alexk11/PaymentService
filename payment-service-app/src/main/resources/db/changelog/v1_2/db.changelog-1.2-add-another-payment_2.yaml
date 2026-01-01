@@ -8,5 +8,5 @@ databaseChangeLog:
             relativeToChangelogFile: false
       rollback:
         - delete:
-            tableName: payment
+            tableName: payments
             where: note = 'Test payment 4 - sql file generated'
