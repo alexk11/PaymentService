@@ -1,10 +1,10 @@
 databaseChangeLog:
   - changeSet:
       id: 1.0-create-payment-table
-      author: mentor
+      author: me
       changes:
         - createTable:
-            tableName: payment
+            tableName: payments
             columns:
               - column:
                   name: guid
@@ -50,9 +50,9 @@ databaseChangeLog:
                   constraints:
                     nullable: false
         - sql:
-            sql: ALTER TABLE payment
+            sql: ALTER TABLE payments
               ADD CONSTRAINT check_payment_status
               CHECK (status IN ('RECEIVED', 'PENDING', 'DECLINED', 'APPROVED', 'NOT_SENT'));
             rollback:
               - dropTable:
-                  tableName: payment
+                  tableName: payments

@@ -10,7 +10,7 @@
         <!-- Проверка пробелов вокруг операторов -->
         <module name="WhitespaceAround"/>
         <!-- Проверка на финальные локальные переменные -->
-        <!--module name="FinalLocalVariable"/-->
+        <module name="FinalLocalVariable"/>
         <!-- Проверка на неиспользуемые импорты -->
         <module name="UnusedImports"/>
         <!-- Проверка отступов -->

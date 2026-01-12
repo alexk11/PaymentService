@@ -1,10 +1,7 @@
 package com.iprody.model;
 
 import com.iprody.persistence.PaymentStatus;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -13,6 +10,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@RequiredArgsConstructor
 @AllArgsConstructor
 public class PaymentDto {
     private UUID guid;
