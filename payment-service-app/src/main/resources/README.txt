@@ -2,7 +2,7 @@
 
 1. cd C:\Projects\iPrody\PaymentService\payment-service-app
 
-2. docker build --build-arg JAR_FILE=payment-service-app-0.0.1-SNAPSHOT.jar -t payment-service-app .
+2. docker build --build-arg JAR_FILE=target\payment-service-app-0.0.1-SNAPSHOT.jar -t payment-service-app .
 
 3. docker-compose up -d
 
@@ -11,8 +11,10 @@
 
 http://localhost:8081/browser/     "admin@email.com / admin"
 
-In servers connect to payment-db with creds  "user / secret"
-
+Right click Servers -> Register -> Connection:
+  hostname "postgres-db"
+  username "user"
+  password "secret"
 
 #### Security
 

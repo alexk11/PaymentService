@@ -1,7 +1,7 @@
 services:
 
   payment-service-app:
-    #image: payment-service-app
+    image: payment-service-app
     build:
       context: .
       dockerfile: Dockerfile

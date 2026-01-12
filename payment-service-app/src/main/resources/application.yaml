@@ -5,14 +5,14 @@ spring:
   application:
     name: payment-service-app
   datasource: # объединяет в себе параметры подключения к БД
-    #url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
-    url: jdbc:postgresql://localhost:5432/payment-db
+    url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
+    #url: jdbc:postgresql://localhost:5432/payment-db
     username: user # Имя пользователя
     password: secret # Пароль
     driver-class-name: org.postgresql.Driver # класс jdbc драйвера
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: create
     show-sql: true # Показывать SQL-запросы в консоли
     properties:
       hibernate:
@@ -26,6 +26,19 @@ spring:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8085/realms/iprody-lms
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,env,loggers
+
+logging:
+  level:
+    com.iprody: DEBUG
+    org.springframework.web: INFO
+    org.springframework.data: INFO
+    org.springframework.security: INFO
 
 #logging:
 #  level:
