@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: test-data-1
-      author: me
+      author: mentor
       comment: "Insert test payments"
       changes:
         - insert:

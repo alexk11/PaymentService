@@ -1,7 +1,7 @@
 databaseChangeLog:
   - changeSet:
       id: 1.2-insert-demo-payment-sql
-      author: me
+      author: mentor
       comment: "Insert 3 demo payments for manual testing"
       changes:
         - sql:
