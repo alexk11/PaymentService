@@ -1,14 +1,18 @@
 package com.iprody.service;
 
+import com.iprody.async.AsyncSender;
+import com.iprody.async.XPaymentAdapterRequestMessage;
 import com.iprody.exception.AppException;
 import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
+import com.iprody.mapper.XPaymentAdapterMapper;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
 import com.iprody.specification.PaymentFilter;
 import com.iprody.specification.PaymentFilterFactory;
-import lombok.RequiredArgsConstructor;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -21,11 +25,14 @@ import java.util.UUID;
 
 
 @Service
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentMapper paymentMapper;
-    private final PaymentRepository paymentRepository;
+    private PaymentMapper paymentMapper;
+    private PaymentRepository paymentRepository;
+    private XPaymentAdapterMapper xPaymentAdapterMapper;
+    private AsyncSender<XPaymentAdapterRequestMessage> sender;
 
     @Override
     public List<PaymentDto> search(PaymentFilter filter) {
@@ -71,7 +78,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto update(UUID id, PaymentDto dto) {
         paymentRepository.findById(id)
-            .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "update", id));
+                .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "update", id));
         final PaymentEntity updated = paymentMapper.toPaymentEntity(dto);
         updated.setGuid(id);
         return paymentMapper.toPaymentDto(paymentRepository.save(updated));
@@ -80,22 +87,22 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public PaymentDto updateNote(UUID id, String updatedNote) {
         return paymentRepository.findById(id)
-            .map(p -> {
-                p.setNote(updatedNote);
-                p.setUpdatedAt(OffsetDateTime.now());
-                return paymentMapper.toPaymentDto(paymentRepository.save(p));
-            })
-            .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "updateNote", id));
+                .map(p -> {
+                    p.setNote(updatedNote);
+                    p.setUpdatedAt(OffsetDateTime.now());
+                    return paymentMapper.toPaymentDto(paymentRepository.save(p));
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "updateNote", id));
     }
 
     @Override
     public void delete(UUID id) {
         paymentRepository.findById(id)
-            .map(p -> {
-                paymentRepository.delete(p);
-                return id;
-            })
-            .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "delete", id));
+                .map(p -> {
+                    paymentRepository.delete(p);
+                    return id;
+                })
+                .orElseThrow(() -> new EntityNotFoundException("Платеж не найден", "delete", id));
     }
 
 }
