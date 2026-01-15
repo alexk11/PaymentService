@@ -5,10 +5,13 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class MessageHandlerImpl implements MessageHandler<XPaymentAdapterResponseMessage> {
 
     private static final Logger log =
@@ -16,8 +19,13 @@ public class MessageHandlerImpl implements MessageHandler<XPaymentAdapterRespons
 
     private PaymentService paymentService;
 
-    public MessageHandlerImpl() {
+    @Autowired
+    public void setPaymentService(PaymentService paymentService) {
+        this.paymentService = paymentService;
     }
+
+//    public MessageHandlerImpl() {
+//    }
 
 //    public MessageHandlerImpl(PaymentService paymentService) {
 //        this.paymentService = paymentService;
