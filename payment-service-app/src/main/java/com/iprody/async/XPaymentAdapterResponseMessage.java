@@ -5,6 +5,7 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -68,6 +69,16 @@ public class XPaymentAdapterResponseMessage implements Message {
     @Override
     public UUID getMessageId() {
         return messageGuid;
+    }
+
+    @Override
+    public String toString() {
+        return "XPaymentAdapterResponseMessage [ " +
+                "paymentGuid: " + paymentGuid + ", " +
+                "amount: " + amount + ", " +
+                "currency: " + currency + ", " +
+                "status: " + status.name() + ", " +
+                "occurredAt: " + occurredAt.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " ]";
     }
 
 }

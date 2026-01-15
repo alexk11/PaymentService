@@ -22,4 +22,14 @@ public class PaymentDto {
     private String note;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("[ guid: ").append(guid).append(", ");
+        sb.append("amount: ").append(amount).append(", ");
+        sb.append("currency: ").append(currency).append(", ");
+        sb.append("note: ").append(note).append(" ]");
+        return sb.toString();
+    }
 }

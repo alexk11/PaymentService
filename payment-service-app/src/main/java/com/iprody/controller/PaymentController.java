@@ -59,8 +59,9 @@ public class PaymentController {
     @PostMapping(path = "/add")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentDto> addPayment(@RequestBody PaymentDto paymentDto) {
-        log.info("POST: save one payment {}", paymentDto);
-        final PaymentDto savedPayment = this.paymentService.create(paymentDto);
+        log.info("POST: save one payment: \n\n {} \n", paymentDto.toString());
+        //final PaymentDto savedPayment = this.paymentService.create(paymentDto);
+        final PaymentDto savedPayment = this.paymentService.createAsync(paymentDto);
         final URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")
             .buildAndExpand(savedPayment.getGuid())

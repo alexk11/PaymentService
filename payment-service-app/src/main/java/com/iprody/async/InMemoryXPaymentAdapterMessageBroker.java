@@ -1,5 +1,7 @@
 package com.iprody.async;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.time.OffsetDateTime;
@@ -12,6 +14,8 @@ import jakarta.annotation.PreDestroy;
 @Service
 public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymentAdapterRequestMessage> {
 
+    private static final Logger log = LoggerFactory.getLogger(InMemoryXPaymentAdapterMessageBroker.class);
+
     private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
     private final AsyncListener<XPaymentAdapterResponseMessage> resultListener;
@@ -23,6 +27,8 @@ public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymen
 
     @Override
     public void send(XPaymentAdapterRequestMessage request) {
+        log.info("In send method. Got incoming request {}", request.toString());
+
         UUID txId = UUID.randomUUID();
 
         scheduler.schedule(() -> emit(request, txId,
@@ -36,6 +42,7 @@ public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymen
     }
 
     private void emit(XPaymentAdapterRequestMessage request, UUID txId, XPaymentAdapterStatus status) {
+        log.info("In emit, status = {}", status.name());
         XPaymentAdapterResponseMessage result = new XPaymentAdapterResponseMessage();
         result.setPaymentGuid(request.getPaymentGuid());
         result.setAmount(request.getAmount());
@@ -43,6 +50,7 @@ public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymen
         result.setTransactionRefId(txId);
         result.setStatus(status);
         result.setOccurredAt(OffsetDateTime.now());
+        log.info("In emit, sending result {}", result);
         resultListener.onMessage(result);
     }
 
