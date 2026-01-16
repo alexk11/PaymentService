@@ -77,12 +77,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentDto createAsync(PaymentDto dto) {
         log.info("Adding payment asynchronously");
-        PaymentEntity entity = paymentMapper.toPaymentEntity(dto);
-        PaymentEntity saved = paymentRepository.save(paymentMapper.toPaymentEntity(dto));
-        PaymentDto resultDto = paymentMapper.toPaymentDto(saved);
+        final PaymentEntity entity = paymentMapper.toPaymentEntity(dto);
+        final PaymentEntity saved = paymentRepository.save(paymentMapper.toPaymentEntity(dto));
+        final PaymentDto resultDto = paymentMapper.toPaymentDto(saved);
         log.info("Payment saved to DB:\n {}", resultDto.toString());
         // Добавляем отправку сообщения
-        XPaymentAdapterRequestMessage requestMessage =
+        final XPaymentAdapterRequestMessage requestMessage =
                 xPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
         log.info("Request message created: {}", requestMessage.toString());
         sender.send(requestMessage);
