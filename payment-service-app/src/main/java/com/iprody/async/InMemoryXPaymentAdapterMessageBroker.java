@@ -32,7 +32,7 @@ public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymen
     public void send(XPaymentAdapterRequestMessage request) {
         log.info("In send method. Got incoming request {}", request.toString());
 
-        UUID txId = UUID.randomUUID();
+        final UUID txId = UUID.randomUUID();
 
         if (request.getAmount().remainder(BigDecimal.valueOf(2)).compareTo(BigDecimal.ZERO) == 0) {
             scheduler.schedule(() -> emit(request, txId,
@@ -51,7 +51,7 @@ public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymen
 
     private void emit(XPaymentAdapterRequestMessage request, UUID txId, XPaymentAdapterStatus status) {
         log.info("In emit, status = {}", status.name());
-        XPaymentAdapterResponseMessage result = new XPaymentAdapterResponseMessage();
+        final XPaymentAdapterResponseMessage result = new XPaymentAdapterResponseMessage();
         result.setPaymentGuid(request.getPaymentGuid());
         result.setAmount(request.getAmount());
         result.setCurrency(request.getCurrency());
