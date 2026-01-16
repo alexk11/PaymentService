@@ -1,23 +1,18 @@
-package com.iprody.async;
+package com.iprody.async.adapter;
 
-import com.iprody.service.PaymentService;
-import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.iprody.async.AsyncListener;
+import com.iprody.async.message.MessageHandler;
+import com.iprody.async.message.XPaymentAdapterResponseMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
-//@AllArgsConstructor
 public class InMemoryXPaymentAdapterResultListenerAdapter
         implements AsyncListener<XPaymentAdapterResponseMessage> {
 
-    private static final Logger log =
-            LoggerFactory.getLogger(InMemoryXPaymentAdapterResultListenerAdapter.class);
-
     private final MessageHandler<XPaymentAdapterResponseMessage> handler;
-    //private final MessageHandlerImpl handler;
-    //private final PaymentService paymentService;
 
     public InMemoryXPaymentAdapterResultListenerAdapter(@Lazy MessageHandler<XPaymentAdapterResponseMessage> handler) {
         this.handler = handler;
@@ -26,8 +21,7 @@ public class InMemoryXPaymentAdapterResultListenerAdapter
     @Override
     public void onMessage(XPaymentAdapterResponseMessage msg) {
         log.info("In onMessage, msg = {}", msg.toString());
-        //new MessageHandlerImpl().handle(msg);
-        handler.handle(msg); // handle method implementation ??
+        handler.handle(msg);
     }
 
 }

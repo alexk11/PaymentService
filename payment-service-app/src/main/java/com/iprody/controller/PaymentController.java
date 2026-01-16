@@ -4,8 +4,7 @@ import com.iprody.model.PaymentDto;
 import com.iprody.service.PaymentService;
 import com.iprody.specification.PaymentFilter;
 import lombok.RequiredArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -21,13 +20,11 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payments")
 public class PaymentController {
-
-    private static final Logger log =
-            LoggerFactory.getLogger(PaymentController.class);
 
     private final PaymentService paymentService;
 
@@ -60,7 +57,6 @@ public class PaymentController {
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<PaymentDto> addPayment(@RequestBody PaymentDto paymentDto) {
         log.info("POST: save one payment: \n\n {} \n", paymentDto.toString());
-        //final PaymentDto savedPayment = this.paymentService.create(paymentDto);
         final PaymentDto savedPayment = this.paymentService.createAsync(paymentDto);
         final URI location = ServletUriComponentsBuilder.fromCurrentRequest()
             .path("/{id}")

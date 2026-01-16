@@ -1,9 +1,10 @@
-package com.iprody.async;
+package com.iprody.async.adapter;
 
 import com.iprody.persistence.PaymentStatus;
 
 /**
- * Статусы в которых может пребывать платежная транзакция X Payment Adapter.
+ * Статусы в которых может пребывать платежная транзакция X Payment Adapter
+ * с методами преобразования в статус {@link PaymentStatus}
  */
 public enum XPaymentAdapterStatus {
     PROCESSING {

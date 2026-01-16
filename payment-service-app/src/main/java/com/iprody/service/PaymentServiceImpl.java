@@ -1,9 +1,7 @@
 package com.iprody.service;
 
 import com.iprody.async.AsyncSender;
-import com.iprody.async.XPaymentAdapterRequestMessage;
-import com.iprody.async.XPaymentAdapterStatus;
-import com.iprody.controller.PaymentController;
+import com.iprody.async.message.XPaymentAdapterRequestMessage;
 import com.iprody.exception.AppException;
 import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
@@ -15,9 +13,7 @@ import com.iprody.persistence.PaymentStatus;
 import com.iprody.specification.PaymentFilter;
 import com.iprody.specification.PaymentFilterFactory;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -28,13 +24,10 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 
-
+@Slf4j
 @Service
 @AllArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-
-    private static final Logger log =
-            LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     private final PaymentMapper paymentMapper;
     private final PaymentRepository paymentRepository;

@@ -1,10 +1,11 @@
-package com.iprody.async;
+package com.iprody.async.adapter;
 
-import lombok.AllArgsConstructor;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import com.iprody.async.AsyncListener;
+import com.iprody.async.AsyncSender;
+import com.iprody.async.message.XPaymentAdapterRequestMessage;
+import com.iprody.async.message.XPaymentAdapterResponseMessage;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -15,16 +16,11 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 import jakarta.annotation.PreDestroy;
 
-
+@Slf4j
 @Service
-//@AllArgsConstructor
 public class InMemoryXPaymentAdapterMessageBroker implements AsyncSender<XPaymentAdapterRequestMessage> {
 
-    private static final Logger log
-            = LoggerFactory.getLogger(InMemoryXPaymentAdapterMessageBroker.class);
-
-    private final ScheduledExecutorService scheduler
-            = Executors.newScheduledThreadPool(2);
+    private final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
 
     private final AsyncListener<XPaymentAdapterResponseMessage> resultListener;
 

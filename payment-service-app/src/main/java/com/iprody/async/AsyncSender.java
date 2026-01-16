@@ -1,5 +1,7 @@
 package com.iprody.async;
 
+import com.iprody.async.message.Message;
+
 public interface AsyncSender<T extends Message> {
     /**
      * Отправляет сообщение.

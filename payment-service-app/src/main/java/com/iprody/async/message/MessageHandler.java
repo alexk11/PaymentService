@@ -1,4 +1,4 @@
-package com.iprody.async;
+package com.iprody.async.message;
 
 /**
  * Интерфейс обработчика входящих сообщений.

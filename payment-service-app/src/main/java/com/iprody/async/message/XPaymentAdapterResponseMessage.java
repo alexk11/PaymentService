@@ -1,5 +1,6 @@
-package com.iprody.async;
+package com.iprody.async.message;
 
+import com.iprody.async.adapter.XPaymentAdapterStatus;
 import lombok.Getter;
 import lombok.Setter;
 

@@ -1,4 +1,4 @@
-package com.iprody.async;
+package com.iprody.async.message;
 
 import lombok.Getter;
 import lombok.Setter;
