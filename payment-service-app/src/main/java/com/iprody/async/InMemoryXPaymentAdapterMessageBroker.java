@@ -1,7 +1,6 @@
-package com.iprody.async.adapter;
+package com.iprody.async;
 
-import com.iprody.async.AsyncListener;
-import com.iprody.async.AsyncSender;
+import com.iprody.async.adapter.XPaymentAdapterStatus;
 import com.iprody.async.message.XPaymentAdapterRequestMessage;
 import com.iprody.async.message.XPaymentAdapterResponseMessage;
 import lombok.extern.slf4j.Slf4j;
