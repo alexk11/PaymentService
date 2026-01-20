@@ -25,7 +25,7 @@ public class PaymentDto {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
+        final StringBuilder sb = new StringBuilder();
         sb.append("[ guid: ").append(guid).append(", ");
         sb.append("amount: ").append(amount).append(", ");
         sb.append("currency: ").append(currency).append(", ");
