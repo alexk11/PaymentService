@@ -5,8 +5,8 @@ spring:
   application:
     name: payment-service-app
   datasource: # объединяет в себе параметры подключения к БД
-    url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
-    #url: jdbc:postgresql://localhost:5432/payment-db
+    #url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
+    url: jdbc:postgresql://localhost:5432/payment-db
     username: user # Имя пользователя
     password: secret # Пароль
     driver-class-name: org.postgresql.Driver # класс jdbc драйвера
@@ -39,6 +39,37 @@ logging:
     org.springframework.web: INFO
     org.springframework.data: INFO
     org.springframework.security: INFO
+
+kafka:
+  bootstrap-servers: localhost:9093
+  producer:
+    key-serializer:
+      org.apache.kafka.common.serialization.StringSerializer
+  value-serializer:
+    org.springframework.kafka.support.serializer.JsonSerializer
+  consumer:
+    group-id: xpayment-adapter-result-consumers
+    key-deserializer:
+      org.apache.kafka.common.serialization.StringDeserializer
+    value-deserializer:
+      org.springframework.kafka.support.serializer.JsonDeserializer
+  auto-offset-reset: earliest
+  enable-auto-commit: false
+  properties:
+    spring.json.trusted.packages:
+      "com.iprody.payment.service.app.async"
+  spring.json.value.default.type:
+    "com.iprody.payment.service.app.async.XPaymentAdapterResponseMessage"
+  listener:
+    ack-mode: manual
+    concurrency: 1
+
+app:
+  kafka:
+    topics:
+      xpayment-adapter:
+        request: xpayment-adapter.requests
+        response: xpayment-adapter.responses
 
 #logging:
 #  level:
