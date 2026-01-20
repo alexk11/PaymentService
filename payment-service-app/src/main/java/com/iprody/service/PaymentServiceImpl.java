@@ -2,8 +2,6 @@ package com.iprody.service;
 
 import com.iprody.async.AsyncSender;
 import com.iprody.async.XPaymentAdapterRequestMessage;
-import com.iprody.async.XPaymentAdapterStatus;
-import com.iprody.controller.PaymentController;
 import com.iprody.exception.AppException;
 import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
@@ -15,7 +13,6 @@ import com.iprody.persistence.PaymentStatus;
 import com.iprody.specification.PaymentFilter;
 import com.iprody.specification.PaymentFilterFactory;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -84,12 +81,12 @@ public class PaymentServiceImpl implements PaymentService {
 
     public PaymentDto createAsync(PaymentDto dto) {
         log.info("Adding payment asynchronously");
-        PaymentEntity entity = paymentMapper.toPaymentEntity(dto);
-        PaymentEntity saved = paymentRepository.save(paymentMapper.toPaymentEntity(dto));
-        PaymentDto resultDto = paymentMapper.toPaymentDto(saved);
+        final PaymentEntity entity = paymentMapper.toPaymentEntity(dto);
+        final PaymentEntity saved = paymentRepository.save(paymentMapper.toPaymentEntity(dto));
+        final PaymentDto resultDto = paymentMapper.toPaymentDto(saved);
         log.info("Payment saved to DB:\n {}", resultDto.toString());
         // Добавляем отправку сообщения
-        XPaymentAdapterRequestMessage requestMessage =
+        final XPaymentAdapterRequestMessage requestMessage =
                 xPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
         log.info("Request message created: {}", requestMessage.toString());
         sender.send(requestMessage);
