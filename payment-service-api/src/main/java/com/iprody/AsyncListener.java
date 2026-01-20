@@ -1,4 +1,4 @@
-package com.iprody.async;
+package com.iprody;
 
 public interface AsyncListener<T extends Message> {
     /**

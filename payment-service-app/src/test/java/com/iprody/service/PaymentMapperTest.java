@@ -1,9 +1,9 @@
 package com.iprody.service;
 
+import com.iprody.PaymentStatus;
 import com.iprody.mapper.PaymentMapper;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
-import com.iprody.persistence.PaymentStatus;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
 package com.iprody.specification;
 
+import com.iprody.PaymentStatus;
 import com.iprody.persistence.PaymentEntity;
-import com.iprody.persistence.PaymentStatus;
 import org.springframework.data.jpa.domain.Specification;
 import java.math.BigDecimal;
 import java.time.Instant;

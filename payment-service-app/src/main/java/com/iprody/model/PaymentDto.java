@@ -1,11 +1,12 @@
 package com.iprody.model;
 
-import com.iprody.persistence.PaymentStatus;
+import com.iprody.PaymentStatus;
 import lombok.*;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+
 
 @Getter
 @Setter
@@ -25,11 +26,9 @@ public class PaymentDto {
 
     @Override
     public String toString() {
-        final StringBuilder sb = new StringBuilder();
-        sb.append("[ guid: ").append(guid).append(", ");
-        sb.append("amount: ").append(amount).append(", ");
-        sb.append("currency: ").append(currency).append(", ");
-        sb.append("note: ").append(note).append(" ]");
-        return sb.toString();
+        return "{ guid: " + guid + ", " +
+                "amount: " + amount + ", " +
+                "currency: " + currency + ", " +
+                "note: " + note + " }";
     }
 }

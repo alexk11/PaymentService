@@ -1,7 +1,8 @@
 package com.iprody.service;
 
-import com.iprody.async.AsyncSender;
-import com.iprody.async.XPaymentAdapterRequestMessage;
+import com.iprody.AsyncSender;
+import com.iprody.PaymentStatus;
+import com.iprody.dto.XPaymentAdapterRequestMessage;
 import com.iprody.exception.AppException;
 import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
@@ -9,7 +10,6 @@ import com.iprody.mapper.XPaymentAdapterMapper;
 import com.iprody.model.PaymentDto;
 import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
-import com.iprody.persistence.PaymentStatus;
 import com.iprody.specification.PaymentFilter;
 import com.iprody.specification.PaymentFilterFactory;
 import lombok.AllArgsConstructor;

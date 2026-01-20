@@ -1,4 +1,4 @@
-package com.iprody.async;
+package com.iprody;
 
 import java.time.OffsetDateTime;
 import java.util.UUID;

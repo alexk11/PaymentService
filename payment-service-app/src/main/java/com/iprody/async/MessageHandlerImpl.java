@@ -1,17 +1,15 @@
 package com.iprody.async;
 
+import com.iprody.dto.XPaymentAdapterResponseMessage;
 import com.iprody.service.PaymentService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+@Slf4j
 @Service
 public class MessageHandlerImpl implements MessageHandler<XPaymentAdapterResponseMessage> {
-
-    private static final Logger log =
-            LoggerFactory.getLogger(MessageHandlerImpl.class);
 
     private PaymentService paymentService;
 

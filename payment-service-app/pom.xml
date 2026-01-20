@@ -12,7 +12,7 @@
 	<artifactId>payment-service-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
     <name>Payment Service App</name>
-    <description>Payment service web application</description>
+    <description>Payment service application</description>
     <packaging>jar</packaging>
 	<url/>
 	<properties>
@@ -85,6 +85,11 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>payment-service-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
         </dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>

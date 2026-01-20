@@ -1,5 +1,7 @@
 package com.iprody.async;
 
+import com.iprody.Message;
+
 /**
  * Интерфейс обработчика входящих сообщений.
  *

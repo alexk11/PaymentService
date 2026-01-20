@@ -1,8 +1,8 @@
 package com.iprody.service;
 
+import com.iprody.PaymentStatus;
 import com.iprody.controller.PaymentController;
 import com.iprody.model.PaymentDto;
-import com.iprody.persistence.PaymentStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
