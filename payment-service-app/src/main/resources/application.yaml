@@ -5,8 +5,8 @@ spring:
   application:
     name: payment-service-app
   datasource: # объединяет в себе параметры подключения к БД
-    #url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
-    url: jdbc:postgresql://localhost:5432/payment-db
+    url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
+    #url: jdbc:postgresql://localhost:5432/payment-db
     username: user # Имя пользователя
     password: secret # Пароль
     driver-class-name: org.postgresql.Driver # класс jdbc драйвера
@@ -56,10 +56,10 @@ kafka:
   auto-offset-reset: earliest
   enable-auto-commit: false
   properties:
-    spring.json.trusted.packages:
-      "com.iprody.payment.service.app.async"
-  spring.json.value.default.type:
-    "com.iprody.payment.service.app.async.XPaymentAdapterResponseMessage"
+    spring.json.use.type.headers: false
+    spring.json.trusted.packages: "*"
+    spring.json.value.default.type:
+      "com.iprody.XPaymentAdapterRequestMessage"
   listener:
     ack-mode: manual
     concurrency: 1
