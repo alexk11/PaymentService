@@ -13,6 +13,7 @@ import com.iprody.persistence.PaymentRepository;
 import com.iprody.specification.PaymentFilter;
 import com.iprody.specification.PaymentFilterFactory;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -26,12 +27,10 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 @AllArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
-
-    private static final Logger log =
-            LoggerFactory.getLogger(PaymentServiceImpl.class);
 
     private final PaymentMapper paymentMapper;
     private final PaymentRepository paymentRepository;

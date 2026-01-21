@@ -4,6 +4,7 @@ import com.iprody.model.PaymentDto;
 import com.iprody.service.PaymentService;
 import com.iprody.specification.PaymentFilter;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -21,13 +22,11 @@ import java.util.List;
 import java.util.UUID;
 
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/payments")
 public class PaymentController {
-
-    private static final Logger log =
-            LoggerFactory.getLogger(PaymentController.class);
 
     private final PaymentService paymentService;
 
