@@ -1,6 +1,6 @@
 package com.iprody.specification;
 
-import com.iprody.PaymentStatus;
+import com.iprody.api.PaymentStatus;
 import com.iprody.persistence.PaymentEntity;
 import org.springframework.data.jpa.domain.Specification;
 import java.math.BigDecimal;

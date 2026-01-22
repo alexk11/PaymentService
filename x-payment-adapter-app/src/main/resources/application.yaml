@@ -1,0 +1,17 @@
+server:
+  port: 8088
+
+spring:
+  application:
+    name: x-payment-adapter-app
+  profiles:
+    active: kafka
+
+logging:
+  level:
+    root: INFO
+    org.hibernate: ERROR
+    com.iprody.adapter: INFO
+    org.springframework.web: WARN
+    org.springframework.data: WARN
+    org.springframework.security: WARN

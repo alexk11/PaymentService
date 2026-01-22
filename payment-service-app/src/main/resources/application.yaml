@@ -4,90 +4,25 @@ server:
 spring:
   application:
     name: payment-service-app
-  datasource: # объединяет в себе параметры подключения к БД
-    url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
-    #url: jdbc:postgresql://localhost:5432/payment-db
-    username: user # Имя пользователя
-    password: secret # Пароль
-    driver-class-name: org.postgresql.Driver # класс jdbc драйвера
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true # Показывать SQL-запросы в консоли
-    properties:
-      hibernate:
-        format_sql: true # Форматировать SQL для читаемости
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+  profiles:
+    active: db,kafka
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8085/realms/iprody-lms
 
+logging:
+  level:
+    root: INFO
+    org.hibernate: ERROR
+    com.iprody: INFO
+    org.springframework.web: WARN
+    org.springframework.data: WARN
+    org.springframework.security: WARN
+
 management:
   endpoints:
     web:
       exposure:
-        include: health,info,metrics,env,loggers
-
-logging:
-  level:
-    com.iprody: DEBUG
-    org.springframework.web: INFO
-    org.springframework.data: INFO
-    org.springframework.security: INFO
-
-kafka:
-  bootstrap-servers: localhost:9093
-  producer:
-    key-serializer:
-      org.apache.kafka.common.serialization.StringSerializer
-  value-serializer:
-    org.springframework.kafka.support.serializer.JsonSerializer
-  consumer:
-    group-id: xpayment-adapter-result-consumers
-    key-deserializer:
-      org.apache.kafka.common.serialization.StringDeserializer
-    value-deserializer:
-      org.springframework.kafka.support.serializer.JsonDeserializer
-  auto-offset-reset: earliest
-  enable-auto-commit: false
-  properties:
-    spring.json.use.type.headers: false
-    spring.json.trusted.packages: "*"
-    spring.json.value.default.type:
-      "com.iprody.XPaymentAdapterRequestMessage"
-  listener:
-    ack-mode: manual
-    concurrency: 1
-
-app:
-  kafka:
-    topics:
-      xpayment-adapter:
-        request: xpayment-adapter.requests
-        response: xpayment-adapter.responses
-
-#logging:
-#  level:
-#    liquibase: DEBUG
-
-#  datasource:
-#    username: test
-#    password: test
-#    url: jdbc:h2:mem:testdb
-#    driver-class-name: org.h2.Driver
-#
-#  jpa:
-#    database:
-#      platform: org.hibernate.dialect.H2Dialect
-#    hibernate:
-#      ddl:
-#        auto: update
-#
-#  h2:
-#    console:
-#      enabled: true
+        include: health,info,liquibase,beans,metrics,env,loggers

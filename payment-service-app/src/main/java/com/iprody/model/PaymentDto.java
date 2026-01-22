@@ -1,6 +1,6 @@
 package com.iprody.model;
 
-import com.iprody.PaymentStatus;
+import com.iprody.api.PaymentStatus;
 import lombok.*;
 
 import java.math.BigDecimal;

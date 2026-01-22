@@ -1,5 +1,6 @@
 package com.iprody.async.kafka;
 
+import com.iprody.api.dto.XPaymentAdapterRequestMessage;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.springframework.context.annotation.Bean;
@@ -14,10 +15,10 @@ import java.util.Map;
 
 
 @Configuration
-public class KafkaConfig<T> {
+public class KafkaConfig {
 
     @Bean
-    public ProducerFactory<String, T> producerFactory() {
+    public ProducerFactory<String, XPaymentAdapterRequestMessage> producerFactory() {
         final Map<String, Object> config = new HashMap<>();
         config.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, "kafka:9092");
         config.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
@@ -26,7 +27,7 @@ public class KafkaConfig<T> {
     }
 
     @Bean
-    public KafkaTemplate<String, T> kafkaTemplate() {
+    public KafkaTemplate<String, XPaymentAdapterRequestMessage> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 

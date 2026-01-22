@@ -8,13 +8,15 @@
 		<version>4.0.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.iprody</groupId>
+
+    <groupId>com.iprody</groupId>
 	<artifactId>payment-service-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
     <name>Payment Service App</name>
     <description>Payment service application</description>
+
     <packaging>jar</packaging>
-	<url/>
+
 	<properties>
 		<java.version>21</java.version>
         <springdoc.version>3.0.0</springdoc.version>
@@ -27,6 +29,7 @@
         <liquibase-maven-plugin.version>4.32.0</liquibase-maven-plugin.version>
         <test-containers-version>1.21.4</test-containers-version>
 	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -87,7 +90,7 @@
             <version>${lombok.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.example</groupId>
+            <groupId>com.iprody</groupId>
             <artifactId>payment-service-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
@@ -132,7 +135,8 @@
             <artifactId>jackson-datatype-jsr310</artifactId>
         </dependency>
     </dependencies>
-	<build>
+
+    <build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -194,4 +198,5 @@
             </plugin>
 		</plugins>
 	</build>
+
 </project>

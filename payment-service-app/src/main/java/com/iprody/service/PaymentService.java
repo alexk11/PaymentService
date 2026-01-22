@@ -1,6 +1,6 @@
 package com.iprody.service;
 
-import com.iprody.PaymentStatus;
+import com.iprody.api.PaymentStatus;
 import com.iprody.model.PaymentDto;
 import com.iprody.specification.PaymentFilter;
 import org.springframework.data.domain.Page;

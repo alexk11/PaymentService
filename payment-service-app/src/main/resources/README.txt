@@ -9,10 +9,10 @@
 ## External dependency
 
 1. Build jar in separate module payment-service-api, install the jar into maven repo:
-   mvn install:install-file -Dfile=C://Temp//payment-service-api-0.0.1-SNAPSHOT.jar -DgroupId=org.example -DartifactId=payment-service-api -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
+   mvn install:install-file -Dfile=C://Temp//payment-service-api-0.0.1-SNAPSHOT.jar -DgroupId=com.iprody -DartifactId=payment-service-api -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
 2. Set the dependency in the pom.xml:
         <dependency>
-            <groupId>org.example</groupId>
+            <groupId>com.iprody</groupId>
             <artifactId>payment-service-api</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>

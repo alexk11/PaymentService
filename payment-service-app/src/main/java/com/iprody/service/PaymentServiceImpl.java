@@ -1,8 +1,8 @@
 package com.iprody.service;
 
-import com.iprody.AsyncSender;
-import com.iprody.PaymentStatus;
-import com.iprody.dto.XPaymentAdapterRequestMessage;
+import com.iprody.api.AsyncSender;
+import com.iprody.api.PaymentStatus;
+import com.iprody.api.dto.XPaymentAdapterRequestMessage;
 import com.iprody.exception.AppException;
 import com.iprody.exception.EntityNotFoundException;
 import com.iprody.mapper.PaymentMapper;
@@ -12,10 +12,8 @@ import com.iprody.persistence.PaymentEntity;
 import com.iprody.persistence.PaymentRepository;
 import com.iprody.specification.PaymentFilter;
 import com.iprody.specification.PaymentFilterFactory;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
@@ -29,12 +27,12 @@ import java.util.UUID;
 
 @Slf4j
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class PaymentServiceImpl implements PaymentService {
 
-    private final PaymentMapper paymentMapper;
-    private final PaymentRepository paymentRepository;
     private final XPaymentAdapterMapper xPaymentAdapterMapper;
+    private final PaymentRepository paymentRepository;
+    private final PaymentMapper paymentMapper;
     private final AsyncSender<XPaymentAdapterRequestMessage> sender;
 
     @Override
@@ -85,11 +83,16 @@ public class PaymentServiceImpl implements PaymentService {
         final PaymentDto resultDto = paymentMapper.toPaymentDto(saved);
         log.info("Payment saved to DB:\n {}", resultDto.toString());
         // Добавляем отправку сообщения
-        final XPaymentAdapterRequestMessage requestMessage =
-                xPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
-        log.info("Request message created: {}", requestMessage.toString());
-        sender.send(requestMessage);
-        log.info("Request message sent...");
+        try {
+            final XPaymentAdapterRequestMessage requestMessage =
+                    xPaymentAdapterMapper.toXPaymentAdapterRequestMessage(entity);
+            log.info("Request message created: {}", requestMessage.toString());
+            sender.send(requestMessage);
+            log.info("Request message sent...");
+        } catch (Exception ex) {
+            log.warn("Payment '{}' not sent", dto.getGuid());
+            updateStatus(dto.getGuid(), PaymentStatus.NOT_SENT);
+        }
         return resultDto;
     }
 
