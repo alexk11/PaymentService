@@ -1,7 +1,7 @@
 package com.iprody.async.kafka;
 
 import com.iprody.api.AsyncListener;
-import com.iprody.api.dto.XPaymentAdapterResponseMessage;
+import com.iprody.api.dto.XPaymentAdapterRequestMessage;
 import com.iprody.async.handler.MessageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -14,31 +14,31 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KafkaXPaymentAdapterMessageListener implements AsyncListener<XPaymentAdapterResponseMessage> {
+public class KafkaXPaymentAdapterRequestMessageListener implements AsyncListener<XPaymentAdapterRequestMessage> {
 
-    private final MessageHandler<XPaymentAdapterResponseMessage> handler;
+    //private final MessageHandler<XPaymentAdapterRequestMessage> handler;
 
     @Override
-    public void onMessage(XPaymentAdapterResponseMessage message) {
-        handler.handle(message);
+    public void onMessage(XPaymentAdapterRequestMessage message) {
+        log.info("In request onMessage");
+        //handler.handle(message);
     }
 
     @KafkaListener(
-            topics = "${app.kafka.topics.x-payment-adapter.response-topic}",
+            topics = "${spring.app.kafka.topics.x-payment-adapter.request-topic}",
             groupId = "${spring.kafka.consumer.group-id}")
-    public void consume(XPaymentAdapterResponseMessage message,
-                        ConsumerRecord<String, XPaymentAdapterResponseMessage> record,
+    public void consume(XPaymentAdapterRequestMessage message,
+                        ConsumerRecord<String, XPaymentAdapterRequestMessage> record,
                         Acknowledgment acknowledgment) {
         try {
-            log.info("Received XPayment Adapter response: paymentGuid = {}, status = {}, partition = {}, offset = {}",
+            log.info("Received XPayment Adapter request: paymentGuid = {}, partition = {}, offset = {}",
                     message.getPaymentGuid(),
-                    message.getStatus(),
                     record.partition(),
                     record.offset());
             onMessage(message);
             acknowledgment.acknowledge();
         } catch (Exception e) {
-            log.error("Error handling XPayment Adapter response for paymentGuid = {}", message.getPaymentGuid(), e);
+            log.error("Error handling XPayment Adapter request for paymentGuid = {}", message.getPaymentGuid(), e);
             throw e;
         }
     }
