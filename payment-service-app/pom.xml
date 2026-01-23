@@ -28,6 +28,7 @@
         <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
         <liquibase-maven-plugin.version>4.32.0</liquibase-maven-plugin.version>
         <test-containers-version>1.21.4</test-containers-version>
+        <payment-service-api.version>0.0.1-SNAPSHOT</payment-service-api.version>
 	</properties>
 
 	<dependencies>
@@ -92,7 +93,7 @@
         <dependency>
             <groupId>com.iprody</groupId>
             <artifactId>payment-service-api</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
+            <version>${payment-service-api.version}</version>
         </dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>

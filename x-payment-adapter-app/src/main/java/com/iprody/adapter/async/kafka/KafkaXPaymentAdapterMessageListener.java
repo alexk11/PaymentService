@@ -30,7 +30,7 @@ public class KafkaXPaymentAdapterMessageListener implements AsyncListener<XPayme
                         ConsumerRecord<String, XPaymentAdapterRequestMessage> record,
                         Acknowledgment acknowledgment) {
         try {
-            log.warn("Received XPayment Adapter request: paymentGuid={}, partition={}, offset={}",
+            log.info("Received XPayment Adapter request: paymentGuid={}, partition={}, offset={}",
                     message.getPaymentGuid(),
                     record.partition(),
                     record.offset());

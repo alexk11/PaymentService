@@ -20,7 +20,7 @@ public class KafkaXPaymentAdapterMessageProducer implements AsyncSender<XPayment
     @Override
     public void send(XPaymentAdapterResponseMessage msg) {
         String key = msg.getPaymentGuid().toString();
-        log.warn("Sending XPayment Adapter response: guid={}, amount={}, currency={} -> topic={}",
+        log.info("Sending XPayment Adapter response: guid={}, amount={}, currency={} -> topic={}",
                 msg.getPaymentGuid(),
                 msg.getAmount(),
                 msg.getCurrency(),

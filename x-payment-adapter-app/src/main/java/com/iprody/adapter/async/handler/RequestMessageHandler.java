@@ -4,6 +4,7 @@ import com.iprody.api.AsyncSender;
 import com.iprody.api.XPaymentAdapterStatus;
 import com.iprody.api.dto.XPaymentAdapterRequestMessage;
 import com.iprody.api.dto.XPaymentAdapterResponseMessage;
+
 import jakarta.annotation.PreDestroy;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +38,7 @@ public class RequestMessageHandler implements MessageHandler<XPaymentAdapterRequ
             message.setTransactionRefId(UUID.randomUUID());
             message.setOccurredAt(OffsetDateTime.from(LocalDateTime.now()));
 
-            log.warn("Sending XPayment Adapter message: {}", message.getMessageId());
+            log.info("Sending XPayment Adapter message: {}", message.getMessageId());
             sender.send(message);
 
         }, 10, TimeUnit.SECONDS);

@@ -26,9 +26,9 @@ spring:
       ack-mode: manual
       concurrency: 1
 
-app:
-  kafka:
-    topics:
-      x-payment-adapter:
-        request-topic: x-payment-adapter.requests
-        response-topic: x-payment-adapter.responses
+  app:
+    kafka:
+      topics:
+        x-payment-adapter:
+          request-topic: x-payment-adapter.requests
+          response-topic: x-payment-adapter.responses

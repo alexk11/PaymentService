@@ -17,7 +17,7 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 public class HttpServer {
 
     private static final String SOURCE_DIR = "static";
-    private static final int PORT = 8088;
+    private static final int PORT = 8084;
     private static final String HTTP_VERSION = "HTTP/1.1";
 
     private static final Map<String, String> MIME_TYPES = Map.of(
