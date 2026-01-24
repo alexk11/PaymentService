@@ -32,3 +32,10 @@ spring:
         x-payment-adapter:
           request-topic: x-payment-adapter.requests
           response-topic: x-payment-adapter.responses
+
+  x-payment-api:
+    client:
+      url: http://localhost:9999
+      username: paymentAgentIprody
+      password: iprodyTestPassword0123
+      account: paymentAgentIprodyApiToken

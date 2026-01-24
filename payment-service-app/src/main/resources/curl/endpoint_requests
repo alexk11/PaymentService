@@ -13,3 +13,29 @@ curl -v -H "Content-Type: application/json" -X PUT --data @put.json \
 
 /* Delete payment */
 curl -v -X DELETE http://localhost:8099/payments/delete/ac328a1a-1e60-4dd3-bee5-ed573d74c841
+
+/* Add payment to xpayment-api app */
+curl -X POST "http://localhost:9999/charges" -H "Authorization: Basic cGF5bWVudEFnZW50SXByb2R5Omlwcm9keVRlc3RQYXNzd29yZDAxMjM=" \
+-H "X-Pay-Account: paymentAgentIprodyApiToken" \
+-H "Content-Type: application/json" \
+-d '{
+"amount": "1090.50",
+"currency": "USD",
+"customer": "Henry Ford",
+"order": "f81d4fae-7dec-11d0-a765-00a0c91e6bf6",
+"receiptEmail": "test@email.com"
+}'
+
+{
+    "id": "0733ae35-7f37-4a05-9cec-953c5afc03eb",
+    "amount": 200,
+    "currency": "USD",
+    "amountReceived": 200,
+    "createdAt": "2026-01-24T17:19:08.786262453Z",
+    "chargedAt": null,
+    "customer": "Henry Ford",
+    "order": "f81d4fae-7dec-11d0-a765-00a0c91e6bf7",
+    "receiptEmail": "test@email.com",
+    "status": "PROCESSING",
+    "metadata": {}
+}
