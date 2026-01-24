@@ -14,18 +14,6 @@
     <name>payment-service-adapter-app</name>
     <description>x-payment-adapter-app</description>
 
-    <properties>
-        <java.version>21</java.version>
-        <springdoc.version>3.0.0</springdoc.version>
-        <lombok.version>1.18.36</lombok.version>
-        <kafka-clients.version>4.1.1</kafka-clients.version>
-        <mapstruct.version>1.6.3</mapstruct.version>
-        <mapstruct-processor.version>1.6.3</mapstruct-processor.version>
-        <maven-compiler-plugin.version>3.14.0</maven-compiler-plugin.version>
-        <maven-checkstyle-plugin.version>3.3.0</maven-checkstyle-plugin.version>
-        <payment-service-api.version>0.0.1-SNAPSHOT</payment-service-api.version>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -72,13 +60,6 @@
     <build>
         <plugins>
             <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-                <configuration>
-                    <skip>true</skip>
-                </configuration>
-            </plugin>
-            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
@@ -96,6 +77,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
+                    <skip>true</skip>
                     <excludes>
                         <exclude>
                             <groupId>org.projectlombok</groupId>

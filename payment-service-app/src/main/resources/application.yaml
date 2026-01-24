@@ -17,10 +17,11 @@ spring:
     level:
       root: INFO
       org.hibernate: ERROR
-      com.iprody: INFO
+      com.iprody: DEBUG
       org.springframework.web: WARN
       org.springframework.data: WARN
       org.springframework.security: WARN
+      org.springframework.kafka: INFO
 
   management:
     endpoints:

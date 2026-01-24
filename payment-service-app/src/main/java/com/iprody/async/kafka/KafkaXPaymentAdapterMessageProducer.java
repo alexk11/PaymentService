@@ -14,7 +14,7 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaXPaymentAdapterMessageProducer implements AsyncSender<XPaymentAdapterRequestMessage> {
 
-    private final KafkaProperties kafkaProperties;
+    //private final KafkaProperties kafkaProperties;
     private final KafkaTemplate<String, XPaymentAdapterRequestMessage> template;
 
     @Value("${spring.app.kafka.topics.x-payment-adapter.request-topic}")
@@ -22,12 +22,15 @@ public class KafkaXPaymentAdapterMessageProducer implements AsyncSender<XPayment
 
     @Override
     public void send(XPaymentAdapterRequestMessage msg) {
-        String key = msg.getPaymentGuid().toString();
+        final String key = msg.getPaymentGuid().toString();
 
-        log.info("requestTopic from config '{}'", requestTopic);
+        log.info("requestTopic from application-kafka.yaml: '{}'", requestTopic);
 
         log.info("Sending XPayment Adapter request: guid={}, amount={}, currency = {} -> topic = {} ",
-                msg.getPaymentGuid(), msg.getAmount(), msg.getCurrency(), requestTopic);
+                msg.getPaymentGuid(),
+                msg.getAmount(),
+                msg.getCurrency(),
+                requestTopic);
                 //msg.getPaymentGuid(), msg.getAmount(), msg.getCurrency(), kafkaProperties.getRequestTopic());
 
         template.send(requestTopic, key, msg);

@@ -2,7 +2,6 @@ package com.iprody.async.kafka;
 
 import com.iprody.api.AsyncListener;
 import com.iprody.api.dto.XPaymentAdapterRequestMessage;
-import com.iprody.async.handler.MessageHandler;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
@@ -14,7 +13,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class KafkaXPaymentAdapterRequestMessageListener implements AsyncListener<XPaymentAdapterRequestMessage> {
+public class KafkaXPaymentAdapterRequestMessageListener
+        implements AsyncListener<XPaymentAdapterRequestMessage> {
 
     //private final MessageHandler<XPaymentAdapterRequestMessage> handler;
 
@@ -38,7 +38,8 @@ public class KafkaXPaymentAdapterRequestMessageListener implements AsyncListener
             onMessage(message);
             acknowledgment.acknowledge();
         } catch (Exception e) {
-            log.error("Error handling XPayment Adapter request for paymentGuid = {}", message.getPaymentGuid(), e);
+            log.error("Error handling XPayment Adapter request for paymentGuid = {}",
+                    message.getPaymentGuid(), e);
             throw e;
         }
     }
