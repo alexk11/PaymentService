@@ -4,7 +4,6 @@ import com.iprody.api.AsyncSender;
 import com.iprody.api.dto.XPaymentAdapterRequestMessage;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
@@ -14,11 +13,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class KafkaXPaymentAdapterMessageProducer implements AsyncSender<XPaymentAdapterRequestMessage> {
 
-    //private final KafkaProperties kafkaProperties;
+    private final KafkaProperties kafkaProperties;
     private final KafkaTemplate<String, XPaymentAdapterRequestMessage> template;
-
-    @Value("${spring.app.kafka.topics.xpayment-adapter.request-topic}")
-    private String requestTopic;
 
     @Override
     public void send(XPaymentAdapterRequestMessage msg) {
@@ -27,10 +23,8 @@ public class KafkaXPaymentAdapterMessageProducer implements AsyncSender<XPayment
                 msg.getPaymentGuid(),
                 msg.getAmount(),
                 msg.getCurrency(),
-                requestTopic);
-                //msg.getPaymentGuid(), msg.getAmount(), msg.getCurrency(), kafkaProperties.getRequestTopic());
-
-        template.send(requestTopic, key, msg);
+                kafkaProperties.getRequestTopic());
+        template.send(kafkaProperties.getRequestTopic(), key, msg);
     }
 
 }
