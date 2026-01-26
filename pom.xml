@@ -20,7 +20,7 @@
         <module>simple-http-server</module>
         <module>payment-service-app</module>
         <module>payment-service-api</module>
-        <module>x-payment-adapter-app</module>
+        <module>xpayment-adapter-app</module>
     </modules>
 
     <properties>

@@ -9,10 +9,10 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>x-payment-service-adapter-app</artifactId>
+    <artifactId>xpayment-service-adapter-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>payment-service-adapter-app</name>
-    <description>x-payment-adapter-app</description>
+    <description>xpayment-adapter-app</description>
 
     <dependencies>
         <dependency>

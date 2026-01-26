@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 @Data
 @ToString
 @Component
-@ConfigurationProperties(prefix = "app.kafka.topics.x-payment-adapter")
+@ConfigurationProperties(prefix = "app.kafka.topics.xpayment-adapter")
 public class KafkaProperties {
 
     private String requestTopic;

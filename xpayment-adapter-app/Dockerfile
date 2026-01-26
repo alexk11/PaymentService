@@ -1,7 +1,7 @@
 # Используем минимальный runtime-образ с JDK 21
 FROM eclipse-temurin:21-jre-alpine
 # Задаем переменную окружения с названием jar-файла, можно переопределить при сборке
-ARG JAR_FILE=target/x-payment-adapter-app-0.0.1-SNAPSHOT.jar
+ARG JAR_FILE=target/xpayment-adapter-app-0.0.1-SNAPSHOT.jar
 # Создаём рабочую директорию приложения
 WORKDIR /app
 # Копируем jar-файл в контейнер

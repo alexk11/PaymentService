@@ -4,7 +4,7 @@ server:
 spring:
 
   application:
-    name: x-payment-adapter-app
+    name: xpayment-adapter-app
   profiles:
     active: kafka
   security:

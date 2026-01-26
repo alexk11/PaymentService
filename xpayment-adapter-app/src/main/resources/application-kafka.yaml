@@ -13,7 +13,7 @@ spring:
       key-serializer: org.apache.kafka.common.serialization.StringSerializer
       value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
     consumer:
-      group-id: x-payment-adapter-result-consumers
+      group-id: xpayment-adapter-result-consumers
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
       value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
       auto-offset-reset: earliest
@@ -29,11 +29,11 @@ spring:
   app:
     kafka:
       topics:
-        x-payment-adapter:
-          request-topic: x-payment-adapter.requests
-          response-topic: x-payment-adapter.responses
+        xpayment-adapter:
+          request-topic: xpayment-adapter.requests
+          response-topic: xpayment-adapter.responses
 
-  x-payment-api:
+  xpayment-api:
     client:
       url: http://localhost:9999
       username: paymentAgentIprody

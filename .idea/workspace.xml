@@ -4,17 +4,36 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1e5cea1-e4a7-4eda-93c4-6f91a082a406" name="Changes" comment="xpayment-api component added">
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_1_20_2026_6_22_PM_[Changes]/shelved.patch" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Update_at_1_20_2026_6_22_PM__Changes_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/payment-service-app/target/classes/com/iprody/async/handler/MessageHandlerImpl.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/payment-service-app/target/surefire-reports/com.iprody.api.service.PaymentMapperTest.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xpayment-api" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xpayment-api/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xpayment-api/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xpayment-api/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/xpayment-api/gradlew.bat" afterDir="false" />
+    <list default="true" id="d1e5cea1-e4a7-4eda-93c4-6f91a082a406" name="Changes" comment="added xpayment-api with openapi code autogeneration">
+      <change afterPath="$PROJECT_DIR$/xpayment-adapter-app/target/classes/com/iprody/adapter/config/KafkaProperties.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xpayment-adapter-app/target/classes/com/iprody/xpayment/app/api/ApiClient.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/xpayment-adapter-app/target/classes/com/iprody/xpayment/app/api/client/DefaultApi.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-api/src/main/java/com/iprody/api/dto/XPaymentAdapterResponseMessage.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-api/src/main/java/com/iprody/api/dto/XPaymentAdapterResponseMessage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/PaymentServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/PaymentServiceApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterMessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterMessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterMessageProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterMessageProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterRequestMessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterRequestMessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/converter/PaymentConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/converter/PaymentConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/resources/application-kafka.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/resources/application-kafka.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/payment-service-app/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/payment-service-app/target/surefire-reports/com.iprody.api.service.PaymentMapperTest.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/Dockerfile" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/XPaymentAdapterAppApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/XPaymentAdapterAppApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/async/handler/MessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/async/handler/MessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/async/handler/RequestMessageHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/async/handler/RequestMessageHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/async/kafka/KafkaXPaymentAdapterMessageListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/async/kafka/KafkaXPaymentAdapterMessageListener.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/async/kafka/KafkaXPaymentAdapterMessageProducer.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/async/kafka/KafkaXPaymentAdapterMessageProducer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/config/KafkaProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/config/KafkaProperties.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/java/com/iprody/adapter/config/XPaymentRestClientConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/config/XPaymentRestClientConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/resources/application-kafka.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/resources/application-kafka.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/resources/application.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/resources/application.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/src/main/resources/logback-spring.xml" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/src/main/resources/logback-spring.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/x-payment-adapter-app/xpayment-api.openapi.yml" beforeDir="false" afterPath="$PROJECT_DIR$/xpayment-adapter-app/xpayment-api.openapi.yml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -59,6 +78,9 @@
       </MavenGeneralSettings>
     </option>
   </component>
+  <component name="MavenRunner">
+    <option name="skipTests" value="true" />
+  </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
   </component>
@@ -75,6 +97,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "Application.Adapter.executor": "Debug",
     "Application.http-server.executor": "Run",
     "Application.main.executor": "Run",
     "Application.payment-service-app.executor": "Debug",
@@ -92,6 +115,7 @@
     "JUnit.PaymentServiceTest.fetchSinglePayment_shouldHandleDifferentStatuses_1.executor": "Run",
     "JUnit.PaymentServiceTest.shouldMapDifferentPaymentStatuses.executor": "Run",
     "JUnit.com.iprody.service in payment-service-app.executor": "Run",
+    "Maven.PaymentService [clean,install].executor": "Run",
     "Maven.PaymentService [clean].executor": "Run",
     "Maven.PaymentService [compile].executor": "Run",
     "Maven.PaymentService [install].executor": "Run",
@@ -102,6 +126,7 @@
     "Maven.payment-service-api [install].executor": "Run",
     "Maven.payment-service-api [package].executor": "Run",
     "Maven.payment-service-api [validate].executor": "Run",
+    "Maven.payment-service-app [clean,install].executor": "Run",
     "Maven.payment-service-app [clean].executor": "Run",
     "Maven.payment-service-app [compile].executor": "Run",
     "Maven.payment-service-app [package].executor": "Run",
@@ -122,7 +147,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252": "true",
     "RunOnceActivity.git.unshallow": "true",
-    "git-widget-placeholder": "homework-19",
+    "git-widget-placeholder": "#24 on homework-19",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Projects/iPrody/PaymentService",
@@ -156,6 +181,15 @@
     </key>
   </component>
   <component name="RunManager" selected="Application.payment-service-app">
+    <configuration name="Adapter" type="Application" factoryName="Application">
+      <option name="ALTERNATIVE_JRE_PATH" value="21" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="com.iprody.adapter.XPaymentAdapterAppApplication" />
+      <module name="xpayment-service-adapter-app" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="http-server" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -165,7 +199,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="payment-service-app" type="Application" factoryName="Application">
+    <configuration name="payment-service-app" type="Application" factoryName="Application" activateToolWindowBeforeRun="false">
       <option name="ALTERNATIVE_JRE_PATH" value="21" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
       <option name="MAIN_CLASS_NAME" value="com.iprody.PaymentServiceApplication" />
@@ -255,6 +289,7 @@
     <list>
       <item itemvalue="Application.http-server" />
       <item itemvalue="Application.payment-service-app" />
+      <item itemvalue="Application.Adapter" />
       <item itemvalue="JUnit.PaymentMapperTest" />
       <item itemvalue="JUnit.PaymentServiceTest" />
       <item itemvalue="JUnit.PaymentServiceTest.fetchSinglePayment_shouldHandleDifferentStatuses_1" />
@@ -278,14 +313,6 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1764439394167</updated>
-    </task>
-    <task id="LOCAL-00013" summary="use specifications">
-      <option name="closed" value="true" />
-      <created>1765395160814</created>
-      <option name="number" value="00013" />
-      <option name="presentableId" value="LOCAL-00013" />
-      <option name="project" value="LOCAL" />
-      <updated>1765395160814</updated>
     </task>
     <task id="LOCAL-00014" summary="code style fixes">
       <option name="closed" value="true" />
@@ -671,7 +698,15 @@
       <option name="project" value="LOCAL" />
       <updated>1769280370185</updated>
     </task>
-    <option name="localTasksCounter" value="62" />
+    <task id="LOCAL-00062" summary="added xpayment-api with openapi code autogeneration">
+      <option name="closed" value="true" />
+      <created>1769283181109</created>
+      <option name="number" value="00062" />
+      <option name="presentableId" value="LOCAL-00062" />
+      <option name="project" value="LOCAL" />
+      <updated>1769283181110</updated>
+    </task>
+    <option name="localTasksCounter" value="63" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -686,7 +721,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="removed unneeded annotation in the service" />
     <MESSAGE value="removed qualifier in PaymentConverter" />
     <MESSAGE value="added test for mapper, added parameterized test" />
     <MESSAGE value="resolve code review issues" />
@@ -711,7 +745,8 @@
     <MESSAGE value="split payment-service-app, move message classes to new component payment-service-api" />
     <MESSAGE value="refactoring" />
     <MESSAGE value="xpayment-api component added" />
-    <option name="LAST_COMMIT_MESSAGE" value="xpayment-api component added" />
+    <MESSAGE value="added xpayment-api with openapi code autogeneration" />
+    <option name="LAST_COMMIT_MESSAGE" value="added xpayment-api with openapi code autogeneration" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -737,44 +772,14 @@
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/x-payment-adapter-app/src/main/java/org/example/Main.java</url>
+          <url>file://$PROJECT_DIR$/xpayment-adapter-app/src/main/java/org/example/Main.java</url>
           <line>13</line>
           <option name="timeStamp" value="6" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterRequestMessageListener.java</url>
-          <line>33</line>
-          <option name="timeStamp" value="7" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterRequestMessageListener.java</url>
-          <line>22</line>
-          <option name="timeStamp" value="8" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/service/PaymentServiceImpl.java</url>
-          <line>89</line>
-          <option name="timeStamp" value="10" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterMessageProducer.java</url>
-          <line>35</line>
-          <option name="timeStamp" value="12" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>jar://$MAVEN_REPOSITORY$/org/springframework/kafka/spring-kafka/3.3.10/spring-kafka-3.3.10.jar!/org/springframework/kafka/core/KafkaTemplate.class</url>
-          <line>348</line>
-          <option name="timeStamp" value="13" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/async/kafka/KafkaXPaymentAdapterRequestMessageListener.java</url>
-          <line>40</line>
-          <option name="timeStamp" value="14" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/payment-service-app/src/main/java/com/iprody/controller/PaymentController.java</url>
-          <line>60</line>
-          <option name="timeStamp" value="15" />
+          <url>file://$PROJECT_DIR$/xpayment-adapter-app/src/main/java/com/iprody/adapter/async/kafka/KafkaXPaymentAdapterMessageListener.java</url>
+          <line>32</line>
+          <option name="timeStamp" value="17" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>

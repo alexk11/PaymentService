@@ -17,15 +17,12 @@ public class KafkaXPaymentAdapterMessageProducer implements AsyncSender<XPayment
     //private final KafkaProperties kafkaProperties;
     private final KafkaTemplate<String, XPaymentAdapterRequestMessage> template;
 
-    @Value("${spring.app.kafka.topics.x-payment-adapter.request-topic}")
+    @Value("${spring.app.kafka.topics.xpayment-adapter.request-topic}")
     private String requestTopic;
 
     @Override
     public void send(XPaymentAdapterRequestMessage msg) {
         final String key = msg.getPaymentGuid().toString();
-
-        log.info("requestTopic from application-kafka.yaml: '{}'", requestTopic);
-
         log.info("Sending XPayment Adapter request: guid={}, amount={}, currency = {} -> topic = {} ",
                 msg.getPaymentGuid(),
                 msg.getAmount(),

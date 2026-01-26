@@ -3,10 +3,10 @@ package com.iprody.api.dto;
 import com.iprody.api.Message;
 import com.iprody.api.XPaymentAdapterStatus;
 import lombok.Data;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.UUID;
 
 /**
@@ -19,6 +19,7 @@ import java.util.UUID;
  * идентификатор сообщения и метку времени его возникновения.
  */
 @Data
+@ToString
 public class XPaymentAdapterResponseMessage implements Message {
 
     /**
@@ -59,16 +60,6 @@ public class XPaymentAdapterResponseMessage implements Message {
     @Override
     public UUID getMessageId() {
         return messageGuid;
-    }
-
-    @Override
-    public String toString() {
-        return "XPaymentAdapterResponseMessage { " +
-                "paymentGuid: " + paymentGuid + ", " +
-                "amount: " + amount + ", " +
-                "currency: " + currency + ", " +
-                "status: " + status.name() + ", " +
-                "occurredAt: " + occurredAt.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " }";
     }
 
 }

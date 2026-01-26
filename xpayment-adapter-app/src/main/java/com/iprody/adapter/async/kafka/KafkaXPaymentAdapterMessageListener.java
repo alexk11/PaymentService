@@ -24,7 +24,7 @@ public class KafkaXPaymentAdapterMessageListener implements AsyncListener<XPayme
     }
 
     @KafkaListener(
-            topics = "${app.kafka.topics.x-payment-adapter.request-topic}",
+            topics = "${spring.app.kafka.topics.xpayment-adapter.request-topic}",
             groupId = "${spring.kafka.consumer.group-id}")
     public void consume(XPaymentAdapterRequestMessage message,
                         ConsumerRecord<String, XPaymentAdapterRequestMessage> record,
