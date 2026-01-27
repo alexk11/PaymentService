@@ -11,6 +11,7 @@ import java.util.UUID;
 @Getter
 @Setter
 @Builder
+@ToString
 @RequiredArgsConstructor
 @AllArgsConstructor
 public class PaymentDto {
@@ -23,12 +24,4 @@ public class PaymentDto {
     private String note;
     private OffsetDateTime createdAt;
     private OffsetDateTime updatedAt;
-
-    @Override
-    public String toString() {
-        return "{ guid: " + guid + ", " +
-                "amount: " + amount + ", " +
-                "currency: " + currency + ", " +
-                "note: " + note + " }";
-    }
 }
