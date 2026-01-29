@@ -1,7 +1,9 @@
 package com.iprody.adapter.api;
 
+import com.iprody.adapter.dto.CreateChargeRequestDto;
+import com.iprody.adapter.dto.CreateChargeResponseDto;
+import com.iprody.adapter.mapper.XPaymentMapper;
 import com.iprody.xpayment.app.api.client.DefaultApi;
-import com.iprody.xpayment.app.api.model.ChargeResponse;
 import com.iprody.xpayment.app.api.model.CreateChargeRequest;
 
 import org.springframework.stereotype.Service;
@@ -14,25 +16,28 @@ import java.util.UUID;
 class XPaymentProviderGatewayImpl implements XPaymentProviderGateway {
 
     private final DefaultApi defaultApi;
+    private final XPaymentMapper mapper;
 
-    public XPaymentProviderGatewayImpl(DefaultApi defaultApi) {
+    public XPaymentProviderGatewayImpl(DefaultApi defaultApi, XPaymentMapper mapper) {
         this.defaultApi = defaultApi;
+        this.mapper = mapper;
     }
 
     @Override
-    public ChargeResponse createCharge(CreateChargeRequest createChargeRequest)
+    public CreateChargeResponseDto createCharge(CreateChargeRequestDto dto)
             throws RestClientException {
         try {
-            return defaultApi.createCharge(createChargeRequest);
+            CreateChargeRequest chargeRequest = mapper.toCreateChargeRequest(dto);
+            return mapper.toCreateChargeResponseDto(defaultApi.createCharge(chargeRequest));
         } catch (Exception e) {
             throw toRestClientException("POST /charges failed", e);
         }
     }
 
     @Override
-    public ChargeResponse retrieveCharge(UUID id) throws RestClientException {
+    public CreateChargeResponseDto retrieveCharge(UUID id) throws RestClientException {
         try {
-            return defaultApi.retrieveCharge(id);
+            return mapper.toCreateChargeResponseDto(defaultApi.retrieveCharge(id));
         } catch (Exception e) {
             throw toRestClientException("GET /charges/{id} failed (id=" + id + ")", e);
         }
