@@ -1,0 +1,25 @@
+spring:
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/payment-db # URL подключения к БД
+    #url: jdbc:postgresql://postgres-db:5432/payment-db
+    username: user # Имя пользователя
+    password: secret # Пароль
+    driver-class-name: org.postgresql.Driver # класс jdbc драйвера
+    changeLogFile: db/changelog/db:changelog-master.yaml
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    show-sql: true # Показывать SQL-запросы в консоли
+    logging:
+      level:
+        org.hibernate.SQL: DEBUG  # SQL запросы
+        org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    properties:
+      hibernate:
+        format_sql: true # Форматировать SQL для читаемости
+
+  liquibase:
+    enabled: true
+    change-log: classpath:db/changelog/db.changelog-master.yaml

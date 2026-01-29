@@ -25,7 +25,7 @@
         </encoder>
     </appender>
     <!-- Корневой логгер (root) -->
-    <root level="${LOG_LEVEL}">
+    <root level="INFO">
         <appender-ref ref="STDOUT" />
         <appender-ref ref="FILE" />
     </root>

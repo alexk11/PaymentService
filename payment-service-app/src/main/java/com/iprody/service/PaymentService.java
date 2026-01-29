@@ -1,7 +1,7 @@
 package com.iprody.service;
 
+import com.iprody.api.PaymentStatus;
 import com.iprody.model.PaymentDto;
-import com.iprody.persistence.PaymentStatus;
 import com.iprody.specification.PaymentFilter;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

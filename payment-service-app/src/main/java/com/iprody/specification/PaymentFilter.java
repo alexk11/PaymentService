@@ -1,6 +1,6 @@
 package com.iprody.specification;
 
-import com.iprody.persistence.PaymentStatus;
+import com.iprody.api.PaymentStatus;
 import lombok.Getter;
 import lombok.Setter;
 

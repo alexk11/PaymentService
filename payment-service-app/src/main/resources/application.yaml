@@ -2,61 +2,28 @@ server:
   port: 8082
 
 spring:
+
   application:
     name: payment-service-app
-  datasource: # объединяет в себе параметры подключения к БД
-    #url: jdbc:postgresql://postgres-db:5432/payment-db # URL подключения к БД
-    url: jdbc:postgresql://localhost:5432/payment-db
-    username: user # Имя пользователя
-    password: secret # Пароль
-    driver-class-name: org.postgresql.Driver # класс jdbc драйвера
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: true # Показывать SQL-запросы в консоли
-    properties:
-      hibernate:
-        format_sql: true # Форматировать SQL для читаемости
-    database-platform: org.hibernate.dialect.PostgreSQLDialect
-  liquibase:
-    enabled: true
-    change-log: classpath:db/changelog/db.changelog-master.yaml
+  profiles:
+    active: db,kafka
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: http://localhost:8085/realms/iprody-lms
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,env,loggers
+#  logging:
+#    level:
+#      root: INFO
+#      org.hibernate: ERROR
+#      # com.iprody.payment: ERROR
+#      org.springframework.web: WARN
+#      org.springframework.data: WARN
+#      org.springframework.security: WARN
 
-logging:
-  level:
-    com.iprody: DEBUG
-    org.springframework.web: INFO
-    org.springframework.data: INFO
-    org.springframework.security: INFO
-
-#logging:
-#  level:
-#    liquibase: DEBUG
-
-#  datasource:
-#    username: test
-#    password: test
-#    url: jdbc:h2:mem:testdb
-#    driver-class-name: org.h2.Driver
-#
-#  jpa:
-#    database:
-#      platform: org.hibernate.dialect.H2Dialect
-#    hibernate:
-#      ddl:
-#        auto: update
-#
-#  h2:
-#    console:
-#      enabled: true
+  management:
+    endpoints:
+      web:
+        exposure:
+          include: health,info,liquibase,beans,metrics,env,loggers

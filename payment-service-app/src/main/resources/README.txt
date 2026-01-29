@@ -6,6 +6,16 @@
 
 3. docker-compose up -d
 
+## External dependency
+
+1. Build jar in separate module payment-service-api, install the jar into maven repo:
+   mvn install:install-file -Dfile=C://Temp//payment-service-api-0.0.1-SNAPSHOT.jar -DgroupId=com.iprody -DartifactId=payment-service-api -Dversion=0.0.1-SNAPSHOT -Dpackaging=jar
+2. Set the dependency in the pom.xml:
+        <dependency>
+            <groupId>com.iprody</groupId>
+            <artifactId>payment-service-api</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 
 # PgAdmin in container
 
@@ -182,3 +192,53 @@ curl -X GET "${PAYMENT_SERVICE_URL}/search" \
 # # Использование токена
 # curl -X GET "${PAYMENT_SERVICE_URL}/search" \
 #   -H "Authorization: Bearer ${ADMIN_TOKEN}"
+
+# Request Message listener example
+
+    package com.iprody.async.kafka;
+
+    import com.iprody.api.AsyncListener;
+    import com.iprody.api.dto.XPaymentAdapterRequestMessage;
+    import com.iprody.async.handler.MessageHandler;
+    import lombok.RequiredArgsConstructor;
+    import lombok.extern.slf4j.Slf4j;
+    import org.apache.kafka.clients.consumer.ConsumerRecord;
+    import org.springframework.kafka.annotation.KafkaListener;
+    import org.springframework.kafka.support.Acknowledgment;
+    import org.springframework.stereotype.Service;
+
+
+    @Slf4j
+    @Service
+    @RequiredArgsConstructor
+    public class KafkaXPaymentAdapterRequestMessageListener
+            implements AsyncListener<XPaymentAdapterRequestMessage> {
+
+        //private final MessageHandler<XPaymentAdapterRequestMessage> handler;
+
+        @Override
+        public void onMessage(XPaymentAdapterRequestMessage message) {
+            log.info("In request onMessage");
+            //handler.handle(message);
+        }
+
+        @KafkaListener(
+                topics = "${spring.app.kafka.topics.xpayment-adapter.request-topic}",
+                groupId = "${spring.kafka.consumer.group-id}")
+        public void consume(XPaymentAdapterRequestMessage message,
+                            ConsumerRecord<String, XPaymentAdapterRequestMessage> record,
+                            Acknowledgment acknowledgment) {
+            try {
+                log.info("Received XPayment Adapter request: paymentGuid = {}, partition = {}, offset = {}",
+                        message.getPaymentGuid(),
+                        record.partition(),
+                        record.offset());
+                onMessage(message);
+                acknowledgment.acknowledge();
+            } catch (Exception e) {
+                log.error("Error handling XPayment Adapter request for paymentGuid = {}",
+                        message.getPaymentGuid(), e);
+                throw e;
+            }
+        }
+    }

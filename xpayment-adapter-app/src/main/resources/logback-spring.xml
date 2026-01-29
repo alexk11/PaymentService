@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- STDOUT (консольный апендер) -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight(%-5level) [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <!-- FILE с ежедневной ротацией -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>logs/payment-app.log</file>
+
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Архив с указанием даты -->
+            <fileNamePattern>logs/payment-app-%d{yyyy-MM-dd}.log</fileNamePattern>
+            <!-- Сколько файлов хранить -->
+            <maxHistory>10</maxHistory>
+            <!-- Максимальный размер хранилища всех логов (необязательно) -->
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level --- [%thread] %-40.40logger{50} : %msg%n</pattern>
+        </encoder>
+    </appender>
+    <!-- Корневой логгер (root) -->
+    <root level="info">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="FILE" />
+    </root>
+</configuration>

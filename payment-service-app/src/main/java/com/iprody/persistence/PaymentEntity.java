@@ -1,5 +1,6 @@
 package com.iprody.persistence;
 
+import com.iprody.api.PaymentStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
