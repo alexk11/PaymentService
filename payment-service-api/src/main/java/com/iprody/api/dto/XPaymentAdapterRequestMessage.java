@@ -3,6 +3,7 @@ package com.iprody.api.dto;
 import com.iprody.api.Message;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;
@@ -20,6 +21,7 @@ import java.util.UUID;
  */
 @Getter
 @Setter
+@ToString
 public class XPaymentAdapterRequestMessage implements Message {
 
     /**
@@ -45,15 +47,6 @@ public class XPaymentAdapterRequestMessage implements Message {
     @Override
     public UUID getMessageId() {
         return paymentGuid;
-    }
-
-    @Override
-    public String toString() {
-        return "XPaymentAdapterRequestMessage { " +
-                "paymentGuid: " + paymentGuid + ", " +
-                "amount: " + amount + ", " +
-                "currency: " + currency + ", " +
-                "occurredAt: " + occurredAt.format(DateTimeFormatter.ISO_OFFSET_DATE_TIME) + " }";
     }
 
 }
