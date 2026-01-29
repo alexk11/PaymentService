@@ -25,9 +25,9 @@ public class KafkaXPaymentAdapterRequestMessageListener
         //handler.handle(message);
     }
 
-    @KafkaListener(
-            topics = "${spring.app.kafka.topics.xpayment-adapter.request-topic}",
-            groupId = "${spring.kafka.consumer.group-id}")
+    //@KafkaListener(
+    //        topics = "${spring.app.kafka.topics.xpayment-adapter.request-topic}",
+    //        groupId = "${spring.kafka.consumer.group-id}")
     public void consume(XPaymentAdapterRequestMessage message,
                         ConsumerRecord<String, XPaymentAdapterRequestMessage> record,
                         Acknowledgment acknowledgment) {
