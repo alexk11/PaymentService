@@ -21,7 +21,6 @@ spring:
       properties:
         spring.json.use.type.headers: false
         spring.json.trusted.packages: "*"
-        #spring.json.value.default.type: "com.iprody.api.dto.XPaymentAdapterRequestMessage"
         spring.json.value.default.type: "com.iprody.api.dto.XPaymentAdapterResponseMessage"
     listener:
       ack-mode: manual
