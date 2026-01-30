@@ -1,0 +1,14 @@
+spring:
+
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+
+  app:
+    rabbitmq:
+      exchange-name: payment-state-check-exchange
+      queue-name: payment-state-check-queue
+      max-retries: 60
+      interval-ms: 60000
