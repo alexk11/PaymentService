@@ -1,13 +1,15 @@
 package com.iprody.adapter.async.handler;
 
-import com.iprody.adapter.api.XPaymentProviderGateway;
+import com.iprody.adapter.dto.CreateChargeRequestDto;
+import com.iprody.adapter.dto.CreateChargeResponseDto;
+import com.iprody.adapter.mapper.XPaymentMapper;
 import com.iprody.api.AsyncSender;
 import com.iprody.api.XPaymentAdapterStatus;
 import com.iprody.api.dto.XPaymentAdapterRequestMessage;
 import com.iprody.api.dto.XPaymentAdapterResponseMessage;
+import com.iprody.adapter.api.XPaymentProviderGateway;
+import com.iprody.adapter.checkstate.PaymentStateCheckRegistrar;
 
-import com.iprody.xpayment.app.api.model.ChargeResponse;
-import com.iprody.xpayment.app.api.model.CreateChargeRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -16,39 +18,46 @@ import org.springframework.web.client.RestClientException;
 import java.time.OffsetDateTime;
 
 
-@Slf4j
 @Component
-public class RequestMessageHandler implements MessageHandler<XPaymentAdapterRequestMessage> {
+@Slf4j
+public class RequestMessageHandler implements
+        MessageHandler<XPaymentAdapterRequestMessage> {
 
     private final XPaymentProviderGateway xPaymentProviderGateway;
     private final AsyncSender<XPaymentAdapterResponseMessage> asyncSender;
+    private final PaymentStateCheckRegistrar paymentStateCheckRegistrar;
+    private final XPaymentMapper mapper;
 
     @Autowired
     public RequestMessageHandler(
             XPaymentProviderGateway xPaymentProviderGateway,
-            AsyncSender<XPaymentAdapterResponseMessage> asyncSender) {
+            AsyncSender<XPaymentAdapterResponseMessage> asyncSender,
+            PaymentStateCheckRegistrar paymentStateCheckRegistrar,
+            XPaymentMapper mapper) {
         this.xPaymentProviderGateway = xPaymentProviderGateway;
         this.asyncSender = asyncSender;
+        this.paymentStateCheckRegistrar = paymentStateCheckRegistrar;
+        this.mapper = mapper;
     }
 
     @Override
     public void handle(XPaymentAdapterRequestMessage message) {
-
         log.info("Payment request received paymentGuid - {}, amount - {}, currency - {}",
+                message.getPaymentGuid(),
+                message.getAmount(),
+                message.getCurrency());
 
-        message.getPaymentGuid(), message.getAmount(), message.getCurrency());
-
-        CreateChargeRequest createChargeRequest = new CreateChargeRequest();
-        createChargeRequest.setAmount(message.getAmount());
-        createChargeRequest.setCurrency(message.getCurrency());
-        createChargeRequest.setOrder(message.getPaymentGuid());
+        CreateChargeRequestDto dto = new CreateChargeRequestDto();
+        dto.setAmount(message.getAmount());
+        dto.setCurrency(message.getCurrency());
+        dto.setOrder(message.getPaymentGuid());
 
         try {
-            ChargeResponse chargeResponse =
-                    xPaymentProviderGateway.createCharge(createChargeRequest);
+            CreateChargeResponseDto chargeResponse =
+                    xPaymentProviderGateway.createCharge(dto);
 
             log.info("Payment request with paymentGuid - {} is sent for payment processing. " +
-                            "Current status - ", chargeResponse.getStatus());
+                    "Current status - ", chargeResponse.getStatus());
 
             XPaymentAdapterResponseMessage responseMessage = new XPaymentAdapterResponseMessage();
             responseMessage.setPaymentGuid(chargeResponse.getOrder());
@@ -56,15 +65,18 @@ public class RequestMessageHandler implements MessageHandler<XPaymentAdapterRequ
             responseMessage.setAmount(chargeResponse.getAmount());
             responseMessage.setCurrency(chargeResponse.getCurrency());
             responseMessage.setStatus(XPaymentAdapterStatus.valueOf(chargeResponse.getStatus()));
-
             responseMessage.setOccurredAt(OffsetDateTime.now());
+
             asyncSender.send(responseMessage);
-
+            paymentStateCheckRegistrar.register(
+                    chargeResponse.getId(),
+                    chargeResponse.getOrder(),
+                    chargeResponse.getAmount(),
+                    chargeResponse.getCurrency()
+            );
         } catch (RestClientException ex) {
-
             log.error("Error in time of sending payment request with paymentGuid - {}",
                     message.getPaymentGuid(), ex);
-
             XPaymentAdapterResponseMessage responseMessage = new XPaymentAdapterResponseMessage();
             responseMessage.setPaymentGuid(message.getPaymentGuid());
             responseMessage.setAmount(message.getAmount());

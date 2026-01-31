@@ -99,7 +99,7 @@ services:
       - kafka
 
   rabbitmq:
-    image: rabbitmq:4.1.4-management
+    image: rabbitmq:4.2.3-management-alpine
     container_name: rabbitmq
     ports:
      - "5672:5672" # для подключения клиентов к брокеру
