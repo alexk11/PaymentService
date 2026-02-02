@@ -13,17 +13,9 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface XPaymentMapper {
 
-//    CreateChargeRequestDto toChargeRequestDto(CreateChargeRequest chargeRequest);
-//
     CreateChargeResponseDto toCreateChargeResponseDto(ChargeResponse chargeResponse);
-//
+
     CreateChargeRequest toCreateChargeRequest(CreateChargeRequestDto dto);
-//
-//    ChargeResponse toChargeResponse(CreateChargeResponseDto dto);
-
-//    CreateChargeRequest requestDtoToRequest(CreateChargeRequestDto request);
-
-//    CreateChargeResponseDto responseToResponseDto(ChargeResponse response);
 
     @Mapping(target = "paymentGuid", source = "order")
     @Mapping(target = "transactionRefId", source = "id")

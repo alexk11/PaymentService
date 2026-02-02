@@ -18,14 +18,11 @@ import java.util.UUID;
 class XPaymentProviderGatewayImpl implements XPaymentProviderGateway {
 
     private final DefaultApi defaultApi;
-    private final XPaymentMapper mapper;
     private final XPaymentConverter converter;
 
     public XPaymentProviderGatewayImpl(DefaultApi defaultApi,
-                                       XPaymentMapper mapper,
                                        XPaymentConverter converter) {
         this.defaultApi = defaultApi;
-        this.mapper = mapper;
         this.converter = converter;
     }
 
@@ -33,10 +30,8 @@ class XPaymentProviderGatewayImpl implements XPaymentProviderGateway {
     public CreateChargeResponseDto createCharge(CreateChargeRequestDto dto)
             throws RestClientException {
         try {
-            //CreateChargeRequest chargeRequest = mapper.toCreateChargeRequest(dto);
             CreateChargeRequest chargeRequest = converter.toCreateChargeRequest(dto);
             ChargeResponse response = defaultApi.createCharge(chargeRequest);
-            //return mapper.toCreateChargeResponseDto(response);
             return converter.toCreateChargeResponseDto(response);
         } catch (Exception e) {
             throw toRestClientException("POST /charges failed", e);
@@ -46,7 +41,6 @@ class XPaymentProviderGatewayImpl implements XPaymentProviderGateway {
     @Override
     public CreateChargeResponseDto retrieveCharge(UUID id) throws RestClientException {
         try {
-            //return mapper.toCreateChargeResponseDto(defaultApi.retrieveCharge(id));
             return converter.toCreateChargeResponseDto(defaultApi.retrieveCharge(id));
         } catch (Exception e) {
             throw toRestClientException("GET /charges/{id} failed (id=" + id + ")", e);
