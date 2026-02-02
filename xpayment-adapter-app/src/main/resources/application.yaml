@@ -41,3 +41,10 @@ spring:
     endpoint:
       health:
         show-details: always
+
+xpayment-api:
+  client:
+    url: http://localhost:9999
+    username: paymentAgentIprody
+    password: iprodyTestPassword0123
+    account: paymentAgentIprodyApiToken

@@ -9,6 +9,9 @@ spring:
   app:
     rabbitmq:
       exchange-name: payment-state-check-exchange
+      delayed-exchange-name: payment-state-check-exchange
+      dlx-exchange-name: payment.dlx
+      dlx-routing-key: payment.dead
       queue-name: payment-state-check-queue
       max-retries: 60
       interval-ms: 60000

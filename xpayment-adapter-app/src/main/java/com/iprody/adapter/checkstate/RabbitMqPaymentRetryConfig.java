@@ -1,5 +1,7 @@
 package com.iprody.adapter.checkstate;
 
+import org.springframework.amqp.support.converter.Jackson2JsonMessageConverter;
+import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,10 +17,10 @@ import java.util.Map;
 @Configuration
 public class RabbitMqPaymentRetryConfig {
 
-    @Value("${app.rabbitmq.queue-name}")
+    @Value("${spring.app.rabbitmq.queue-name}")
     private String queueName;
 
-    @Value("${app.rabbitmq.exchange-name}")
+    @Value("${spring.app.rabbitmq.exchange-name}")
     private String delayedExchangeName;
 
     @Bean
@@ -42,6 +44,11 @@ public class RabbitMqPaymentRetryConfig {
     @Bean
     public Binding queueBinding(Queue xpaymentQueue, CustomExchange delayedExchange) {
         return BindingBuilder.bind(xpaymentQueue).to(delayedExchange).with(queueName).noargs();
+    }
+
+    @Bean
+    public MessageConverter messageConverter() {
+        return new Jackson2JsonMessageConverter();
     }
 
 }

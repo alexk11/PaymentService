@@ -57,7 +57,7 @@ public class RequestMessageHandler implements
                     xPaymentProviderGateway.createCharge(dto);
 
             log.info("Payment request with paymentGuid - {} is sent for payment processing. " +
-                    "Current status - ", chargeResponse.getStatus());
+                    "Current status {}", message.getPaymentGuid(), chargeResponse.getStatus());
 
             XPaymentAdapterResponseMessage responseMessage = new XPaymentAdapterResponseMessage();
             responseMessage.setPaymentGuid(chargeResponse.getOrder());

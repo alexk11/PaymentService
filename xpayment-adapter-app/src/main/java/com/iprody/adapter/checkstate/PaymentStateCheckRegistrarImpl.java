@@ -1,5 +1,6 @@
 package com.iprody.adapter.checkstate;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,23 +10,24 @@ import java.util.UUID;
 
 
 @Service
+@Slf4j
 public class PaymentStateCheckRegistrarImpl implements PaymentStateCheckRegistrar {
 
     private final RabbitTemplate rabbitTemplate;
     private final String exchangeName;
     private final String routingKey;
 
-    @Value("${app.rabbitmq.max-retries:60}")
+    @Value("${spring.app.rabbitmq.max-retries:60}")
     private int maxRetries;
 
-    @Value("${app.rabbitmq.interval-ms:60000}")
+    @Value("${spring.app.rabbitmq.interval-ms:60000}")
     private long intervalMs;
 
     @Autowired
     public PaymentStateCheckRegistrarImpl(
             RabbitTemplate rabbitTemplate,
-            @Value("${app.rabbitmq.delayed-exchange-name}") String exchangeName,
-            @Value("${app.rabbitmq.queue-name}") String routingKey) {
+            @Value("${spring.app.rabbitmq.delayed-exchange-name}") String exchangeName,
+            @Value("${spring.app.rabbitmq.queue-name}") String routingKey) {
         this.rabbitTemplate = rabbitTemplate;
         this.exchangeName = exchangeName;
         this.routingKey = routingKey;
@@ -37,6 +39,8 @@ public class PaymentStateCheckRegistrarImpl implements PaymentStateCheckRegistra
             UUID paymentGuid,
             BigDecimal amount,
             String currency) {
+
+        log.info("Registering message with RabbitMQ, id={}", paymentGuid);
 
         PaymentCheckStateMessage message = new PaymentCheckStateMessage(
                 chargeGuid,

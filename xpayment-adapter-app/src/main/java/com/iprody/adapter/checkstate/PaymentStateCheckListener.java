@@ -20,19 +20,19 @@ public class PaymentStateCheckListener {
     private final String dlxRoutingKey;
     private final PaymentStatusCheckHandler paymentStatusCheckHandler;
 
-    @Value("${app.rabbitmq.max-retries:60}")
+    @Value("${spring.app.rabbitmq.max-retries:60}")
     private int maxRetries;
 
-    @Value("${app.rabbitmq.interval-ms:60000}")
+    @Value("${spring.app.rabbitmq.interval-ms:60000}")
     private long intervalMs;
 
     @Autowired
     public PaymentStateCheckListener(
             RabbitTemplate rabbitTemplate,
-            @Value("${app.rabbitmq.delayed-exchange-name}") String exchangeName,
-            @Value("${app.rabbitmq.queue-name}") String routingKey,
-            @Value("${app.rabbitmq.dlx-exchange-name}") String dlxExchangeName,
-            @Value("${app.rabbitmq.dlx-routing-key}") String dlxRoutingKey,
+            @Value("${spring.app.rabbitmq.delayed-exchange-name}") String exchangeName,
+            @Value("${spring.app.rabbitmq.queue-name}") String routingKey,
+            @Value("${spring.app.rabbitmq.dlx-exchange-name}") String dlxExchangeName,
+            @Value("${spring.app.rabbitmq.dlx-routing-key}") String dlxRoutingKey,
             PaymentStatusCheckHandler paymentStatusCheckHandler) {
         this.rabbitTemplate = rabbitTemplate;
         this.exchangeName = exchangeName;
@@ -42,7 +42,7 @@ public class PaymentStateCheckListener {
         this.paymentStatusCheckHandler = paymentStatusCheckHandler;
     }
 
-    @RabbitListener(queues = "${app.rabbitmq.queue-name}")
+    @RabbitListener(queues = "${spring.app.rabbitmq.queue-name}")
     public void handle(PaymentCheckStateMessage message, Message raw) {
         MessageProperties props = raw.getMessageProperties();
         int retryCount = (int)props.getHeaders().getOrDefault("x-retry-count", 0);
