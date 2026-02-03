@@ -46,7 +46,7 @@ spring:
 
 xpayment-api:
   client:
-    url: http://localhost:9999
+    url: http://xpayment-api.xpayment-api-1:9999
     username: paymentAgentIprody
     password: iprodyTestPassword0123
     account: paymentAgentIprodyApiToken
