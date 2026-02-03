@@ -32,4 +32,3 @@ spring:
         xpayment-adapter:
           request-topic: xpayment-adapter.requests
           response-topic: xpayment-adapter.responses
-

@@ -1,12 +1,14 @@
 server:
   port: 8088
+  error:
+    include-message: always
 
 spring:
 
   application:
     name: xpayment-adapter-app
   profiles:
-    active: kafka, rabbitmq
+    active: kafka,rabbitmq
   security:
     oauth2:
       resourceserver:
