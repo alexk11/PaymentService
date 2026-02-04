@@ -1,12 +1,14 @@
 server:
   port: 8088
+  error:
+    include-message: always
 
 spring:
 
   application:
     name: xpayment-adapter-app
   profiles:
-    active: kafka
+    active: kafka,rabbitmq
   security:
     oauth2:
       resourceserver:
@@ -41,3 +43,10 @@ spring:
     endpoint:
       health:
         show-details: always
+
+xpayment-api:
+  client:
+    url: http://xpayment-api.xpayment-api-1:9999
+    username: paymentAgentIprody
+    password: iprodyTestPassword0123
+    account: paymentAgentIprodyApiToken

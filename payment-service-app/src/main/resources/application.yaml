@@ -1,5 +1,7 @@
 server:
   port: 8082
+  error:
+    include-message: always
 
 spring:
 
@@ -13,14 +15,14 @@ spring:
         jwt:
           issuer-uri: http://localhost:8085/realms/iprody-lms
 
-#  logging:
-#    level:
-#      root: INFO
-#      org.hibernate: ERROR
-#      # com.iprody.payment: ERROR
-#      org.springframework.web: WARN
-#      org.springframework.data: WARN
-#      org.springframework.security: WARN
+  logging:
+    level:
+      root: INFO
+      org.hibernate: ERROR
+      com.iprody: INFO
+      org.springframework.web: WARN
+      org.springframework.data: WARN
+      org.springframework.security: WARN
 
   management:
     endpoints:

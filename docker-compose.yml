@@ -3,8 +3,8 @@ services:
   payment-service-app:
     image: payment-service-app
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: payment-service-app
+      dockerfile: payment-service-app/Dockerfile
     ports:
       - "8082:8082"
     depends_on:
@@ -15,6 +15,18 @@ services:
       SPRING_DATASOURCE_USERNAME: user
       SPRING_DATASOURCE_PASSWORD: secret
       KEYCLOAK_HOST: keycloak:8080
+    restart: unless-stopped
+
+  xpayment-adapter-app:
+    image: xpayment-adapter-app
+    build:
+      context: xpayment-adapter-app
+      dockerfile: xpayment-adapter-app/Dockerfile
+    ports:
+      - "8088:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
     restart: unless-stopped
 
   postgres:
@@ -57,11 +69,11 @@ services:
       - --import-realm
     environment:
       KEYCLOAK_ADMIN: admin
-      KEYCLOAK_ADMIN_PASSWORD: admin
+      KEYCLOAK_ADMIN_PASSWORD: password
     ports:
       - "8085:8080"
     volumes:
-      - ./src/main/resources/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
+      - ./payment-service-app/src/main/resources/keycloak/realm-export.json:/opt/keycloak/data/import/realm-export.json
     restart: unless-stopped
 
   kafka:
@@ -98,6 +110,25 @@ services:
     depends_on:
       - kafka
 
+  rabbitmq:
+    image: rabbitmq:4.2.3-management-alpine
+    container_name: rabbitmq
+    ports:
+     - "5672:5672" # для подключения клиентов к брокеру
+     - "15672:15672" # для доступа к админке
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+      # делаем доступным в контейнере файл плагина
+      - ./rabbitmq_delayed_message_exchange-4.2.0.ez:/opt/rabbitmq/plugins/rabbitmq_delayed_message_exchange-4.2.0.ez
+    command: >
+      bash -c "rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange && rabbitmq-server"
+    restart: unless-stopped
+
 volumes:
+  postgres_data:
   pgdata:
   kafka_data:
+  rabbitmq_data:

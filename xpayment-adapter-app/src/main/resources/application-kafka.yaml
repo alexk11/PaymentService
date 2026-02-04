@@ -1,7 +1,7 @@
 spring:
 
   kafka:
-    bootstrap-servers: localhost:9093
+    bootstrap-servers: kafka:9092
     producer:
       # Acknowledgment level:
       # "0": Producer does not wait for any acknowledgment from the broker (highest throughput, lowest durability).
@@ -32,10 +32,3 @@ spring:
         xpayment-adapter:
           request-topic: xpayment-adapter.requests
           response-topic: xpayment-adapter.responses
-
-  xpayment-api:
-    client:
-      url: http://localhost:9999
-      username: paymentAgentIprody
-      password: iprodyTestPassword0123
-      account: paymentAgentIprodyApiToken
