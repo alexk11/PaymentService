@@ -13,9 +13,9 @@ class XPaymentRestClientConfig {
 
     @Bean
     RestTemplate xpaymentRestTemplate(
-            @Value("${spring.app.xpayment-api.client.username}") String username,
-            @Value("${spring.app.xpayment-api.client.password}") String password,
-            @Value("${spring.app.xpayment-api.client.account}") String xPayAccount) {
+            @Value("${xpayment-api.client.username}") String username,
+            @Value("${xpayment-api.client.password}") String password,
+            @Value("${xpayment-api.client.account}") String xPayAccount) {
 
         RestTemplate rt = new RestTemplate();
 
@@ -29,7 +29,7 @@ class XPaymentRestClientConfig {
 
     @Bean
     ApiClient xpaymentApiClient(
-            @Value("app.xpayment.client.url") String xPaymentUrl,
+            @Value("${xpayment-api.client.url}") String xPaymentUrl,
             RestTemplate xpaymentRestTemplate) {
 
         ApiClient apiClient = new ApiClient(xpaymentRestTemplate);

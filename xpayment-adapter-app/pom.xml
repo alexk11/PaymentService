@@ -4,15 +4,17 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.iprody</groupId>
-        <artifactId>PaymentService</artifactId>
+        <artifactId>Payment-Service-Main</artifactId>
         <version>1.0-SNAPSHOT</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>xpayment-service-adapter-app</artifactId>
+    <artifactId>xpayment-adapter-app</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>payment-service-adapter-app</name>
-    <description>xpayment-adapter-app</description>
+    <name>payment-adapter-app</name>
+    <description>XPayment Service Adapter App</description>
+
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -45,6 +47,11 @@
             <artifactId>spring-kafka</artifactId>
         </dependency>
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>3.5.8</version>
+        </dependency>
+        <dependency>
             <groupId>com.iprody</groupId>
             <artifactId>payment-service-api</artifactId>
             <version>${payment-service-api.version}</version>
@@ -54,6 +61,12 @@
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
             <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.21.0</version>
+            <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>org.openapitools</groupId>
@@ -70,6 +83,26 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>${mapstruct.version}</version>
             <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
         </dependency>
     </dependencies>
 
@@ -95,6 +128,20 @@
                 </configuration>
             </plugin>
             <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>com.iprody.adapter.XPaymentAdapterAppApplication</mainClass>
+                        </manifest>
+                    </archive>
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
+                    <appendAssemblyId>false</appendAssemblyId>
+                </configuration>
+            </plugin>
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
@@ -106,6 +153,13 @@
                         </exclude>
                     </excludes>
                 </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>repackage</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.openapitools</groupId>
