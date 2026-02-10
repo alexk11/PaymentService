@@ -4,7 +4,7 @@ services:
     image: payment-service-app
     build:
       context: payment-service-app
-      dockerfile: payment-service-app/Dockerfile
+      dockerfile: Dockerfile
     ports:
       - "8082:8082"
     depends_on:
