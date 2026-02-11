@@ -6,6 +6,7 @@ import com.iprody.adapter.mapper.XPaymentMapper;
 import com.iprody.api.AsyncSender;
 import com.iprody.api.dto.XPaymentAdapterResponseMessage;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -14,6 +15,7 @@ import static com.iprody.api.XPaymentAdapterStatus.CANCELED;
 import static com.iprody.api.XPaymentAdapterStatus.SUCCEEDED;
 
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class PaymentStatusCheckerHandlerImpl implements PaymentStatusCheckHandler {
@@ -24,6 +26,8 @@ public class PaymentStatusCheckerHandlerImpl implements PaymentStatusCheckHandle
 
     @Override
     public boolean handle(UUID id) {
+
+        log.info("In status check handler for the payment '{}'", id);
         CreateChargeResponseDto dto = gateway.retrieveCharge(id);
 
         if (dto != null && (dto.getStatus().equals(SUCCEEDED.name()) || dto.getStatus().equals(CANCELED.name()))) {
