@@ -4,12 +4,14 @@ services:
     image: payment-service-app
     build:
       context: payment-service-app
-      dockerfile: Dockerfile
+      dockerfile: payment-service-app/Dockerfile
     ports:
       - "8082:8082"
     depends_on:
       postgres:
         condition: service_healthy
+      xpayment-api:
+        condition: service_started
     environment:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres-db:5432/payment-db
       SPRING_DATASOURCE_USERNAME: user
@@ -27,7 +29,28 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      xpayment-api:
+        condition: service_started
     restart: unless-stopped
+
+  xpayment-api:
+    image: xpayment-api
+    build: .
+    ports:
+      - "9999:8080"
+    hostname: xpayment-api
+    environment:
+      SPRING_APPLICATION_NAME: xpayment-api
+      SPRING_SERVER_PORT: 8080
+      SPRING_DATASOURCE_URL: jdbc:h2:mem:testdb
+      SPRING_DATASOURCE_DRIVERCLASSNAME: org.h2.Driver
+      SPRING_DATASOURCE_USERNAME: sa
+      SPRING_DATASOURCE_PASSWORD: password
+      SPRING_JPA_DATABASE_PLATFORM: org.hibernate.dialect.H2Dialect
+      LOGGING_LEVEL_ROOT: INFO
+      LOGGING_LEVEL_ORG_SPRINGFRAMEWORK: INFO
+      LOGGING_LEVEL_COM_IPRODY: DEBUG
+      XPAYMENT_PROCESSING_DELAY_MS: 60000
 
   postgres:
     image: postgres:16
@@ -126,6 +149,17 @@ services:
     command: >
       bash -c "rabbitmq-plugins enable --offline rabbitmq_delayed_message_exchange && rabbitmq-server"
     restart: unless-stopped
+
+  zipkin:
+    # Use the official openzipkin image
+    image: openzipkin/zipkin:latest
+    container_name: zipkin
+    ports:
+      # Map port 9411 on the host to port 9411 in the container
+      - "9411:9411"
+    # Optional: Configure storage type (default is 'mem' - in-memory)
+    environment:
+      - STORAGE_TYPE=mem
 
 volumes:
   postgres_data:

@@ -43,10 +43,19 @@ spring:
     endpoint:
       health:
         show-details: always
+    tracing:
+      sampling:
+        probability: 1.0 # 100% для отладки; в продакшн должен быть меньше
+      propagation:
+        type: w3c,b3 # чтобы понимать и traceparent, и b3
+    zipkin:
+      tracing:
+        endpoint: http://zipkin:9411/api/v2/spans
 
 xpayment-api:
   client:
-    url: http://host.docker.internal:9999
+    #url: http://host.docker.internal:9999
+    url: http://xpayment-api:9999
     username: paymentAgentIprody
     password: iprodyTestPassword0123
     account: paymentAgentIprodyApiToken
