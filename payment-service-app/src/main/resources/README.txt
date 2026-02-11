@@ -6,6 +6,9 @@
 
 3. docker-compose up -d
 
+Build xpayment-api:
+docker build --build-arg JAR_FILE=.//build//libs//xpayment-api-0.0.1-SNAPSHOT.jar -t xpayment-api .
+
 ## External dependency
 
 1. Build jar in separate module payment-service-api, install the jar into maven repo:
