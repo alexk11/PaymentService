@@ -5,6 +5,11 @@ spring:
     port: 5672
     username: admin
     password: admin
+    listener:
+      simple:
+        observation-enabled: true
+      template:
+        observation-enabled: true
 
   app:
     rabbitmq:
