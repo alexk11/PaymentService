@@ -12,7 +12,7 @@
     </parent>
 
     <groupId>com.iprody</groupId>
-    <artifactId>PaymentService</artifactId>
+    <artifactId>Payment-Service-Main</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>pom</packaging>
 
@@ -36,6 +36,7 @@
         <checkstyle.version>3.6.0</checkstyle.version>
         <mapstruct.version>1.6.3</mapstruct.version>
         <test-containers.version>1.21.4</test-containers.version>
+        <amqp.version>3.5.8</amqp.version>
         <payment-service-api.version>0.0.1-SNAPSHOT</payment-service-api.version>
     </properties>
 

@@ -1,12 +1,14 @@
 server:
   port: 8088
+  error:
+    include-message: always
 
 spring:
 
   application:
     name: xpayment-adapter-app
   profiles:
-    active: kafka
+    active: kafka,rabbitmq
   security:
     oauth2:
       resourceserver:
@@ -24,11 +26,11 @@ spring:
       org.springframework.data: WARN
       org.springframework.security: WARN
     pattern:
-      console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} [%thread] %-5level %logger{36} - %msg%n"
-      file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - %msg%n"
+      console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} [%thread] %-5level %logger{36} - [%X{traceId}:%X{spanId}] %msg%n"
+      file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{traceId}:%X{spanId}] %msg%n"
       logback:
         rollingpolicy:
-          file-name-pattern: "${LOG_FILE}.%d{yyyy-MM-dd}.%i.gz"
+          file-name-pattern: "xpayment-adapter-app.%d{yyyy-MM-dd}.%i.gz"
           max-file-size: 500MB
           max-history: 20
           clean-history-on-start: false
@@ -41,3 +43,20 @@ spring:
     endpoint:
       health:
         show-details: always
+    tracing:
+      sampling:
+        probability: 1.0 # 100% для отладки; в продакшн должен быть меньше
+      propagation:
+        type: w3c,b3 # чтобы понимать и traceparent, и b3
+    zipkin:
+      tracing:
+        endpoint: http://zipkin:9411/api/v2/spans
+
+xpayment-api:
+  client:
+    #url: http://host.docker.internal:9999
+    #url: http://xpayment-api:9999
+    url: http://localhost:9999
+    username: paymentAgentIprody
+    password: iprodyTestPassword0123
+    account: paymentAgentIprodyApiToken

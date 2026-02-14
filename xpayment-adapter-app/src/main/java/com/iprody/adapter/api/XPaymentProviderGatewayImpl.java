@@ -2,33 +2,41 @@ package com.iprody.adapter.api;
 
 import com.iprody.adapter.dto.CreateChargeRequestDto;
 import com.iprody.adapter.dto.CreateChargeResponseDto;
-import com.iprody.adapter.mapper.XPaymentMapper;
+import com.iprody.adapter.mapper.XPaymentConverter;
 import com.iprody.xpayment.app.api.client.DefaultApi;
+import com.iprody.xpayment.app.api.model.ChargeResponse;
 import com.iprody.xpayment.app.api.model.CreateChargeRequest;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 
 import java.util.UUID;
 
 
+@Slf4j
 @Service
 class XPaymentProviderGatewayImpl implements XPaymentProviderGateway {
 
     private final DefaultApi defaultApi;
-    private final XPaymentMapper mapper;
+    private final XPaymentConverter converter;
 
-    public XPaymentProviderGatewayImpl(DefaultApi defaultApi, XPaymentMapper mapper) {
+    public XPaymentProviderGatewayImpl(DefaultApi defaultApi,
+                                       XPaymentConverter converter) {
         this.defaultApi = defaultApi;
-        this.mapper = mapper;
+        this.converter = converter;
     }
 
     @Override
     public CreateChargeResponseDto createCharge(CreateChargeRequestDto dto)
             throws RestClientException {
         try {
-            CreateChargeRequest chargeRequest = mapper.toCreateChargeRequest(dto);
-            return mapper.toCreateChargeResponseDto(defaultApi.createCharge(chargeRequest));
+            log.info("Creating charge for payment '{}'", dto.getOrder());
+            CreateChargeRequest chargeRequest = converter.toCreateChargeRequest(dto);
+            ChargeResponse response = defaultApi.createCharge(chargeRequest);
+            log.info("Got charge response for payment '{}', the status is {}",
+                    response.getId(), response.getStatus());
+            return converter.toCreateChargeResponseDto(response);
         } catch (Exception e) {
             throw toRestClientException("POST /charges failed", e);
         }
@@ -37,7 +45,9 @@ class XPaymentProviderGatewayImpl implements XPaymentProviderGateway {
     @Override
     public CreateChargeResponseDto retrieveCharge(UUID id) throws RestClientException {
         try {
-            return mapper.toCreateChargeResponseDto(defaultApi.retrieveCharge(id));
+            ChargeResponse response = defaultApi.retrieveCharge(id);
+            log.info("Retrieved charge for id = {} in status {} ", id, response.getStatus());
+            return converter.toCreateChargeResponseDto(response);
         } catch (Exception e) {
             throw toRestClientException("GET /charges/{id} failed (id=" + id + ")", e);
         }

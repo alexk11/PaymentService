@@ -1,7 +1,8 @@
 spring:
 
   kafka:
-    bootstrap-servers: localhost:9093
+    bootstrap-servers: kafka:9092
+    #bootstrap-servers: localhost:9093
     producer:
       # Acknowledgment level:
       # "0": Producer does not wait for any acknowledgment from the broker (highest throughput, lowest durability).
@@ -25,6 +26,9 @@ spring:
     listener:
       ack-mode: manual
       concurrency: 1
+      observation-enabled: true
+    template:
+      observation-enabled: true
 
   app:
     kafka:

@@ -1,8 +1,8 @@
 spring:
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/payment-db # URL подключения к БД
-    #url: jdbc:postgresql://postgres-db:5432/payment-db
+    #url: jdbc:postgresql://localhost:5432/payment-db # URL подключения к БД
+    url: jdbc:postgresql://postgres-db:5432/payment-db
     username: user # Имя пользователя
     password: secret # Пароль
     driver-class-name: org.postgresql.Driver # класс jdbc драйвера

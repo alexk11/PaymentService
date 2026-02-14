@@ -1,5 +1,7 @@
 server:
   port: 8082
+  error:
+    include-message: always
 
 spring:
 
@@ -13,17 +15,37 @@ spring:
         jwt:
           issuer-uri: http://localhost:8085/realms/iprody-lms
 
-#  logging:
-#    level:
-#      root: INFO
-#      org.hibernate: ERROR
-#      # com.iprody.payment: ERROR
-#      org.springframework.web: WARN
-#      org.springframework.data: WARN
-#      org.springframework.security: WARN
+  logging:
+    level:
+      root: INFO
+      org.hibernate: ERROR
+      com.iprody: INFO
+      org.springframework.web: WARN
+      org.springframework.data: WARN
+      org.springframework.security: WARN
+  pattern:
+    console: "%clr(%d{yyyy-MM-dd HH:mm:ss.SSS}){green} [%thread] %-5level %logger{36} - [%X{traceId}:%X{spanId}] %msg%n"
+    file: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{36} - [%X{traceId}:%X{spanId}] %msg%n"
+  logback:
+    rollingpolicy:
+      file-name-pattern: "payment-service-app.%d{yyyy-MM-dd}.%i.gz"
+      max-file-size: 500MB
+      max-history: 20
+      clean-history-on-start: false
 
   management:
     endpoints:
       web:
         exposure:
           include: health,info,liquibase,beans,metrics,env,loggers
+    tracing:
+      sampling:
+        probability: 1.0 # 100% для отладки; в продакшн должен быть меньше
+      propagation:
+        type: w3c,b3 # чтобы понимать и traceparent, и b3
+    endpoint:
+      health:
+        show-details: always
+    zipkin:
+      tracing:
+        endpoint: http://zipkin:9411/api/v2/spans
