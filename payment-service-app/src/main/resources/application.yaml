@@ -2,9 +2,16 @@ server:
   port: 8082
   error:
     include-message: always
+  endpoints:
+    web:
+      exposure:
+        include: health # делаем health доступным через HTTP
+  endpoint:
+    health:
+      probes:
+        enabled: true # активируем разделение на liveness и readiness
 
 spring:
-
   application:
     name: payment-service-app
   profiles:
@@ -46,6 +53,8 @@ spring:
     endpoint:
       health:
         show-details: always
+        probes:
+          enabled: true
     zipkin:
       tracing:
         endpoint: http://zipkin:9411/api/v2/spans
